@@ -14,8 +14,8 @@
 					<div class="card-body">
 							<input type="hidden" name="id">
 							<div class="form-group">
-								<label class="control-label">Plan (months)</label>
-								<input type="number" name="months" id="" class="form-control text-right">
+								<label class="control-label">Plan (loans)</label>
+								<input type="text" name="loan_plan" id="" class="form-control text-right">
 							</div>
 							<div class="form-group">
 								<label class="control-label">Interest</label>
@@ -33,6 +33,12 @@
 								  <div class="input-group-append">
 								    <span class="input-group-text">%</span>
 								  </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Description</label>
+								<div class="input-group">
+									<textarea rows="8" name="description" class="form-control text-left"></textarea>
 								</div>
 							</div>
 							
@@ -70,27 +76,17 @@
 								$i = 1;
 								$plan = $conn->query("SELECT * FROM loan_plan order by id asc");
 								while($row=$plan->fetch_assoc()):
-									$months = $row['months'];
-									$months = $months / 12;
-									if($months < 1){
-										$months = $row['months']. " months";
-									}else{
-										$m = explode(".", $months);
-										$months = $m[0] . " yrs.";
-										if(isset($m[1])){
-											$months .= " and ".number_format(12 * ($m[1] /100 ),0)."month/s";
-										}
-									}
 								?>
 								<tr>
 									<td class="text-center"><?php echo $i++ ?></td>
 									<td class="">
-										 <p>Years/Month: <b><?php echo $months ?></b></p>
+										 <p>Loan Plan: <b><?php echo $row['loan_plan'] ?></b></p>
 										 <p><small>Interest: <b><?php echo $row['interest_percentage']."%" ?></b></small></p>
 										 <p><small>Over dure Penalty: <b><?php echo $row['penalty_rate']."%" ?></b></small></p>
+										 <p><small>Description: <b><?php echo $row['description']?></b></small></p>
 									</td>
 									<td class="text-center">
-										<button class="btn btn-sm btn-primary edit_plan" type="button" data-id="<?php echo $row['id'] ?>" data-months="<?php echo $row['months'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" >Edit</button>
+										<button class="btn btn-sm btn-primary edit_plan" type="button" data-id="<?php echo $row['id'] ?>" data-plan="<?php echo $row['loan_plan'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" data-penalty_rate="<?php echo $row['penalty_rate'] ?>" data-description="<?php echo $row['description'] ?>" >Edit</button>
 										<button class="btn btn-sm btn-danger delete_plan" type="button" data-id="<?php echo $row['id'] ?>">Delete</button>
 									</td>
 								</tr>
@@ -159,9 +155,10 @@
 		var plan = $('#manage-plan')
 		plan.get(0).reset()
 		plan.find("[name='id']").val($(this).attr('data-id'))
-		plan.find("[name='months']").val($(this).attr('data-months'))
+		plan.find("[name='loan_plan']").val($(this).attr('data-plan'))
 		plan.find("[name='interest_percentage']").val($(this).attr('data-interest_percentage'))
-		plan.find("[name='penalty_reate']").val($(this).attr('data-penalty_reate'))
+		plan.find("[name='penalty_rate']").val($(this).attr('data-penalty_rate'))
+		plan.find("[name='description']").val($(this).attr('data-description'))
 		end_load()
 	})
 	$('.delete_plan').click(function(){

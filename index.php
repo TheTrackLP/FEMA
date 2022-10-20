@@ -6,18 +6,19 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>Admin | Loan Management System</title>
- 	
+  
 
 <?php
-	session_start();
+  session_start();
   if(!isset($_SESSION['login_id']))
     header('location:login.php');
- include('./header.php');
+ include('./header.php'); 
+ // include('./auth.php'); 
  ?>
 
 </head>
 <style>
-	body{
+  body{
         background: #80808045;
   }
   .modal-dialog.large {
@@ -31,16 +32,16 @@
 </style>
 
 <body>
-	<?php include 'topbar.php' ?>
-	<?php include 'navbar.php' ?>
+  <?php include 'topbar.php' ?>
+  <?php include 'navbar.php' ?>
   <div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-body text-white">
     </div>
   </div>
   <main id="view-panel" >
       <?php $page = isset($_GET['page']) ? $_GET['page'] :'home'; ?>
-  	<?php include $page.'.php' ?>
-  	
+    <?php include $page.'.php' ?>
+    
 
   </main>
 
@@ -73,14 +74,14 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id='submit' onclick="$('#uni_modal form').submit()">Save</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
       </div>
       </div>
     </div>
   </div>
 </body>
 <script>
-	 window.start_load = function(){
+   window.start_load = function(){
     $('body').prepend('<di id="preloader2"></di>')
   }
   window.end_load = function(){
@@ -147,5 +148,5 @@ window._conf = function($msg='',$func='',$params = []){
     placeholder:"Please select here",
     width: "100%"
   })
-</script>	
+</script> 
 </html>

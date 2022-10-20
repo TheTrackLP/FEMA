@@ -32,11 +32,7 @@
 					</thead>
 					<tbody>
 						<?php
-							
-        $total = "SELECT ROUND(SUM(amount), 2) as total FROM payments";
-        $result = mysqli_query($conn,$total);
-        $values= mysqli_fetch_assoc($result);
-        $num_rows = $values['total'];
+
 							$i=1;
 							
 							$qry = $conn->query("SELECT p.*,l.ref_no,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no, b.address from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id asc");
@@ -70,13 +66,6 @@
 
 						<?php endwhile; ?>
 					</tbody>
-					<tfoot>
-						<tr>
-							<th><th>
-			                <th></th>
-			                <th><?php echo $num_rows ?></th>
-			            </tr>
-			        </tfoot>
 				</table>
 			</div>
 		</div>

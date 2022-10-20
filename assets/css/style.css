@@ -1622,7 +1622,7 @@ nav#sidebar {
     z-index: 99;
     left: 0;
     width: 250px;
-    background-color: yellow;
+    background-color: white;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -1630,17 +1630,19 @@ a.nav-item {
     position: relative;
     display: block;
     padding: .75rem 1.25rem;
-    margin-bottom: -1px;
-    border: 1px solid rgba(0,0,0,.125);
-    background-color: #000000c4;
     color: black;
     background-color: whitesmoke;
     font-weight: 600;
+    background-color: white;
+    border-radius: 50px;
+    margin: 5px;
+    transform: translateY(-6px);
 }
 a.nav-item:hover, .nav-item.active {
-    background-color: black;
-    color: whitesmoke;
+    background-color: yellow;
+    color: black;
 }
+
 
 main#view-panel{
   margin-left: 250px; 

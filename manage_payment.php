@@ -31,6 +31,14 @@ if(isset($_GET['id'])){
 						
 					</div>
 				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="" class="form-control">Loan Type.</label>
+						<?php 
+						
+						?>
+					</div>
+				</div>
 			</div>
 			<div class="row" id="fields">
 				

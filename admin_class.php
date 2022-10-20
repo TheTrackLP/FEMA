@@ -128,30 +128,12 @@ Class Action {
 				}
 	}
 
-	
-	function save_loan_type(){
-		extract($_POST);
-		$data = " type_name = '$type_name' ";
-		$data .= " , description = '$description' ";
-		if(empty($id)){
-			$save = $this->db->query("INSERT INTO loan_types set ".$data);
-		}else{
-			$save = $this->db->query("UPDATE loan_types set ".$data." where id=".$id);
-		}
-		if($save)
-			return 1;
-	}
-	function delete_loan_type(){
-		extract($_POST);
-		$delete = $this->db->query("DELETE FROM loan_types where id = ".$id);
-		if($delete)
-			return 1;
-	}
 	function save_plan(){
 		extract($_POST);
-		$data = " months = '$months' ";
+		$data = " loan_plan = '$loan_plan' ";
 		$data .= ", interest_percentage = '$interest_percentage' ";
 		$data .= ", penalty_rate = '$penalty_rate' ";
+		$data .= ", description = '$description' ";
 		
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO loan_plan set ".$data);
@@ -179,6 +161,7 @@ Class Action {
 		$data .= ", employee_id = '$employee_id' ";
 		$data .= ", date_created = '$date_created' ";
 		$data .= ", department = '$department' ";
+		$data .= ", cv_number = '$cv_number' ";
 		
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO borrowers set ".$data);
@@ -195,17 +178,18 @@ Class Action {
 			return 1;
 	}
 	function save_loan(){
+		$days = 15;
 		extract($_POST);
 			$data = " borrower_id = $borrower_id ";
-			$data .= " , loan_type_id = '$loan_type_id' ";
 			$data .= " , plan_id = '$plan_id' ";
 			$data .= " , amount = '$amount' ";
+			$data .= " , total = '$total' ";
 			$data .= " , purpose = '$purpose' ";
 			if(isset($status)){
 				$data .= " , status = '$status' ";
 				if($status == 2){
 					$plan = $this->db->query("SELECT * FROM loan_plan where id = $plan_id ")->fetch_array();
-					for($i= 1; $i <= $plan['months'];$i++){
+					for($i= 1; $i <= $days;$i++){
 						$date = date("Y-m-d",strtotime(date("Y-m-d")." +".$i." months"));
 					$chk = $this->db->query("SELECT * FROM loan_schedules where loan_id = $id and date(date_due) ='$date'  ");
 					if($chk->num_rows > 0){

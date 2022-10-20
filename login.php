@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -17,9 +17,17 @@ header("location:index.php?page=home");
 
 ?>
 <style>
+	body {
+	background-color: ghostwhite;
+	display: flex;
+  	flex-direction: column;
+  	background-image: url("assets/img/bg_fcu.jpg");
+  	background-repeat: no-repeat;
+  	background-size: cover;
+ } 
 	img{
-		width: 50px;
-		height: 50px;
+		width: 70px;
+		height: 70px;
 		border-radius: 50px;
 	}
 	.header{
@@ -34,6 +42,10 @@ header("location:index.php?page=home");
 		margin: auto;
 		float: none;
 		margin-bottom: 10px;
+		padding: 0px;
+		width: auto;
+		background-color: rgba(0,0,0,.5);
+    color: #fff;
 }
 
 .card-header{
@@ -42,6 +54,8 @@ header("location:index.php?page=home");
 	width: 100%;
 	font-size: 20px;
 	font-weight: bold;
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
 }
 .container-fluid{
 	padding: 100px 100px;
@@ -51,14 +65,14 @@ header("location:index.php?page=home");
 </head>
 <body>
 	<div class="header">
-		<img src="assets/img/filamer.png">
-		<span>FILAMER CHRISTIAN UNIVERSITY</span>
+		<img src="assets/img/fema_logo.png">
+		<span>FCU EMPLOYEE MUTUAL ASSOCIATION</span>
 	</div>
 	<div class="container-fluid">
 		<div class="col-lg-12">
 			<div class="card col-md-5 col-md-offset-7">
 				<div class="card-header">
-					Login
+					LOG IN
 				</div>
 				<div class="card-body">
 					<form id="login-form">

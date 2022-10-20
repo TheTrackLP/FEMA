@@ -12,7 +12,7 @@
   		<div class="col-md-1 float-left" style="display: flex; background-color: #00008B;">
   		</div>
       <div class="col-md-6 float-left text-white">
-        <large><b>FILAMER CHRISTIAN UNIVERSITY | Loan Management System</b></large>
+        <large><b>FCU EMPLOYEE MUTUAL ASSOCIATION | Loan Management System</b></large>
       </div>
     </div>
   </div>

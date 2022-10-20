@@ -30,11 +30,8 @@
 					</thead>
 					<tbody>
 						<?php
+						
 							$i=1;
-							$result = $conn->query("SELECT * FROM loan_types where id in (SELECT loan_type_id from loan_list) ");
-							while($row=$result->fetch_assoc()){
-								$result_arr[$row['id']] = $row['type_name'];
-							}
 
 							$qry = $conn->query("SELECT * FROM borrowers order by id desc");
 							while($row = $qry->fetch_assoc()):
