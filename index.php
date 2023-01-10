@@ -31,7 +31,7 @@
   }
 </style>
 
-<body>
+<body style="background-image: url('assets/img/bg_loan.png')";>
   <?php include 'topbar.php' ?>
   <?php include 'navbar.php' ?>
   <div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -39,7 +39,7 @@
     </div>
   </div>
   <main id="view-panel" >
-      <?php $page = isset($_GET['page']) ? $_GET['page'] :'home'; ?>
+      <?php $page = isset($_GET['page']) ? $_GET['page'] :'borrowers'; ?>
     <?php include $page.'.php' ?>
     
 
@@ -59,7 +59,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id='confirm' onclick="">Continue</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
       </div>
     </div>
@@ -74,7 +74,21 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id='submit' onclick="$('#uni_modal form').submit()">Save</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="view_modal" role='dialog'>
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title"></h5>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
       </div>
     </div>
@@ -108,6 +122,29 @@
                     $('#uni_modal .modal-dialog').removeAttr("class").addClass("modal-dialog modal-md")
                 }
                 $('#uni_modal').modal('show')
+                end_load()
+            }
+        }
+    })
+}
+  window.view_modal = function($title = '' , $url='',$size=""){
+    start_load()
+    $.ajax({
+        url:$url,
+        error:err=>{
+            console.log()
+            alert("An error occured")
+        },
+        success:function(resp){
+            if(resp){
+                $('#view_modal .modal-title').html($title)
+                $('#view_modal .modal-body').html(resp)
+                if($size != ''){
+                    $('#view_modal .modal-dialog').addClass($size)
+                }else{
+                    $('#view_modal .modal-dialog').removeAttr("class").addClass("modal-dialog modal-md")
+                }
+                $('#view_modal').modal('show')
                 end_load()
             }
         }

@@ -15,7 +15,7 @@
 							<input type="hidden" name="id">
 							<div class="form-group">
 								<label class="control-label">Plan (loans)</label>
-								<input type="text" name="loan_plan" id="" class="form-control text-right">
+								<input type="text" name="plan_loan" id="" class="form-control text-right">
 							</div>
 							<div class="form-group">
 								<label class="control-label">Interest</label>
@@ -80,13 +80,13 @@
 								<tr>
 									<td class="text-center"><?php echo $i++ ?></td>
 									<td class="">
-										 <p>Loan Plan: <b><?php echo $row['loan_plan'] ?></b></p>
+										 <p>Loan Plan: <b><?php echo $row['plan_loan'] ?></b></p>
 										 <p><small>Interest: <b><?php echo $row['interest_percentage']."%" ?></b></small></p>
 										 <p><small>Over dure Penalty: <b><?php echo $row['penalty_rate']."%" ?></b></small></p>
 										 <p><small>Description: <b><?php echo $row['description']?></b></small></p>
 									</td>
 									<td class="text-center">
-										<button class="btn btn-sm btn-primary edit_plan" type="button" data-id="<?php echo $row['id'] ?>" data-plan="<?php echo $row['loan_plan'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" data-penalty_rate="<?php echo $row['penalty_rate'] ?>" data-description="<?php echo $row['description'] ?>" >Edit</button>
+										<button class="btn btn-sm btn-primary edit_plan" type="button" data-id="<?php echo $row['id'] ?>" data-plan="<?php echo $row['plan_loan'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" data-penalty_rate="<?php echo $row['penalty_rate'] ?>" data-description="<?php echo $row['description'] ?>" >Edit</button>
 										<button class="btn btn-sm btn-danger delete_plan" type="button" data-id="<?php echo $row['id'] ?>">Delete</button>
 									</td>
 								</tr>
@@ -155,7 +155,7 @@
 		var plan = $('#manage-plan')
 		plan.get(0).reset()
 		plan.find("[name='id']").val($(this).attr('data-id'))
-		plan.find("[name='loan_plan']").val($(this).attr('data-plan'))
+		plan.find("[name='plan_loan']").val($(this).attr('data-plan'))
 		plan.find("[name='interest_percentage']").val($(this).attr('data-interest_percentage'))
 		plan.find("[name='penalty_rate']").val($(this).attr('data-penalty_rate'))
 		plan.find("[name='description']").val($(this).attr('data-description'))

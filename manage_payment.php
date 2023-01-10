@@ -14,12 +14,13 @@ if(isset($_GET['id'])){
 		<form id="manage-payment">
 			<input type="hidden" name="id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="" class="control-label">Loan Reference No.</label>
 						<?php
 						$loan = $conn->query("SELECT * from loan_list where status =2 ");
 						?>
+
 						<select name="loan_id" id="loan_id" class="custom-select browser-default select2">
 							<option value=""></option>
 							<?php 
@@ -29,14 +30,6 @@ if(isset($_GET['id'])){
 							<?php endwhile; ?>
 						</select>
 						
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label for="" class="form-control">Loan Type.</label>
-						<?php 
-						
-						?>
 					</div>
 				</div>
 			</div>

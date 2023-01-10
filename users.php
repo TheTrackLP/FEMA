@@ -14,11 +14,12 @@
 		<div class="card col-lg-12">
 			<div class="card-body">
 				<table class="table-striped table-bordered col-md-12">
-			<thead>
+			<thead class="thead-dark">
 				<tr>
 					<th class="text-center">#</th>
 					<th class="text-center">Name</th>
 					<th class="text-center">Username</th>
+					<th class="text-center">Position</th>
 					<th class="text-center">Action</th>
 				</tr>
 			</thead>
@@ -40,10 +41,13 @@
 				 		<?php echo $row['username'] ?>
 				 	</td>
 				 	<td>
+				 		<?php echo $row['position'] ?>
+				 	</td>
+				 	<td>
 				 		<center>
 								<div class="btn-group">
-								  <button type="button" class="btn btn-primary">Action</button>
-								  <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								  <button type="button" class="btn btn-info">Action</button>
+								  <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								    <span class="sr-only">Toggle Dropdown</span>
 								  </button>
 								  <div class="dropdown-menu">

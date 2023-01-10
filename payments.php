@@ -10,56 +10,81 @@
 				</large>
 				
 			</div>
+			<div class="plan-filter">
+				<form>
+					<div class="col-md-4">
+						<div class="form-group">
+				<?php
+				$plan = $conn->query("SELECT * FROM loan_plan");
+				?>
+				<select id="planFilter" class="form-control">
+					<option value="">Show All Plan</option>
+						<?php while($row = $plan->fetch_assoc()): ?>
+							<option value="<?php echo $row['plan_loan'] ?>"><?php echo $row['plan_loan'] ?></option>
+						<?php endwhile; ?>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
 			<div class="card-body">
 				<table class="table table-bordered" id="loan-list">
 					<colgroup>
-						<col width="10%">
-						<col width="25%">
-						<col width="25%">
-						<col width="20%">
-						<col width="10%">
-						<col width="10%">
+						<col width="5%">
+						<col width="18.5%">
+						<col width="23.5%">
+						<col width="15.5%">
+						<col width="11.5%">
+						<col width="12.5%">
+						<col width="12.5%">
 					</colgroup>
 					<thead class="thead-dark">
 						<tr>
 							<th class="text-center">#</th>
 							<th class="text-center">Loan Reference No</th>
-							<th class="text-center">Borrowers</th>
+							<th class="text-center">Borrowers Details</th>
 							<th class="text-center">Amount</th>
 							<th class="text-center">Penalty</th>
+							<th class="text-center">Date</th>
 							<th class="text-center">Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php
-
+							
 							$i=1;
 							
-							$qry = $conn->query("SELECT p.*,l.ref_no,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no, b.address from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id asc");
+							$qry = $conn->query("SELECT p.*,l.ref_no,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no, b.address from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id desc");
 							while($row = $qry->fetch_assoc()):
-		
+								
 
 						 ?>
 						 <tr>
 						 	
 						 	<td class="text-center"><?php echo $i++ ?></td>
 						 	<td>
-						 		<?php echo $row['ref_no'] ?>
+						 		<p>Loan Ref. #<b><?php echo $row['ref_no'] ?></b></p>
+						 		<p>CV. #<b><?php echo $row['borrower_id'] ?></b></p>
 						 	</td>
 						 	<td>
-						 		<?php echo $row['borrower'] ?>
+						 		Name: <b><?php echo $row['borrower'] ?></b><br>
+						 		Plan: <b><?php echo $row['loan_plan'] ?></b>
 						 		
 						 	</td>
 						 	<td>
-						 		<?php echo number_format($row['amount'],2) ?>
-						 		
+						 		Principal: <b><?php echo number_format($row['amount'],2) ?></b><br>
+						 		Interest: <b><?php echo number_format($row['interest'],2) ?></b>
 						 	</td>
 						 	<td class="text-center">
 						 		<?php echo number_format($row['penalty_amount'],2) ?>
 						 	</td>
+						 	<td>
+						 		<?php echo date("M d, Y", strtotime($row['date_created']))?>
+						 	</td>
 						 	<td class="text-center">
-						 			<button class="btn btn-outline-primary btn-sm edit_payment" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
-						 			<button class="btn btn-outline-danger btn-sm delete_payment" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></button>
+						 		<button class="btn btn-sm btn-outline-success view_payment" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-print"></i></button>	
+						 		<button class="btn btn-outline-primary btn-sm edit_payment" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
+						 		<button class="btn btn-outline-danger btn-sm delete_payment" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></button>
 						 	</td>
 
 						 </tr>
@@ -84,9 +109,54 @@
 	}
 </style>	
 <script>
-	$('#loan-list').dataTable()
+    $("document").ready(function () {
+
+      $("#loan-list").dataTable({
+        "searching": true
+      });
+
+      //Get a reference to the new datatable
+      var table = $('#loan-list').DataTable();
+
+      //Take the category filter drop down and append it to the datatables_filter div. 
+      //You can use this same idea to move the filter anywhere withing the datatable that you want.
+      $("#loan-list_filter.dataTables_filter").append($("#planFilter"));
+      
+      //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
+      //This tells datatables what column to filter on when a user selects a value from the dropdown.
+      //It's important that the text used here (Category) is the same for used in the header of the column to filter
+      var planIndex = 0;
+      $("#loan-list th").each(function (i) {
+        if ($($(this)).html() == "Borrowers Details") {
+          planIndex = i; return false;
+        }
+      });
+
+      //Use the built in datatables API to filter the existing rows by the Category column
+      $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+          var selectedItem = $('#planFilter').val()
+          var plan = data[planIndex];
+          if (selectedItem === "" || plan.includes(selectedItem)) {
+            return true;
+          }
+          return false;
+        }
+      );
+
+      //Set the change event for the Category Filter dropdown to redraw the datatable each time
+      //a user selects a new filter.
+      $("#planFilter").change(function (e) {
+        table.draw();
+      });
+
+      table.draw();
+    })
 	$('#new_payments').click(function(){
 		uni_modal("New Payment","manage_payment.php",'mid-large')
+	})
+	$('.view_payment').click(function(){
+		uni_modal("Payment Details","view_payment.php?loan_id="+$(this).attr('data-loan_id')+"&id="+$(this).attr('data-id'),"mid-large")
 	})
 	$('.edit_payment').click(function(){
 		uni_modal("Edit Payment","manage_payment.php?id="+$(this).attr('data-id'),'mid-large')

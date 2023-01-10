@@ -31,12 +31,12 @@ foreach($qry->fetch_array() as $k => $v){
 			<div class="col-md-6">
 				<label class="control-label">Loan Plan</label>
 				<?php
-				$plan = $conn->query("SELECT * FROM loan_plan order by `loan_plan` desc ");
+				$plan = $conn->query("SELECT * FROM loan_plan order by `plan_loan` desc ");
 				?>
 				<select name="plan_id" id="plan_id" class="custom-select browser-default select2">
 					<option value=""></option>
 						<?php while($row = $plan->fetch_assoc()): ?>
-							<option value="<?php echo $row['id'] ?>" <?php echo isset($plan_id) && $plan_id == $row['id'] ? "selected" : '' ?> data-loan_plan="<?php echo $row['loan_plan'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" data-penalty_rate="<?php echo $row['penalty_rate'] ?>"><?php echo $row['loan_plan'] . ' month/s [ '.$row['interest_percentage'].'%, '.$row['penalty_rate'].'% ]' ?></option>
+							<option value="<?php echo $row['id'] ?>" <?php echo isset($plan_id) && $plan_id == $row['id'] ? "selected" : '' ?> data-plan_loan="<?php echo $row['plan_loan'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" data-penalty_rate="<?php echo $row['penalty_rate'] ?>"><?php echo $row['plan_loan'] . ' [ '.$row['interest_percentage'].'%, '.$row['penalty_rate'].'% ]' ?></option>
 						<?php endwhile; ?>
 				</select>
 				<small>Plan [ interest%,penalty% ]</small>
@@ -105,7 +105,7 @@ foreach($qry->fetch_array() as $k => $v){
 
 	function calculate(){
 		start_load()
-		if($('#loan_plan_id').val() == '' && $('[name="amount"]').val() == ''){
+		if($('#plan_loan_id').val() == '' && $('[name="amount"]').val() == ''){
 			alert_toast("Select plan and enter amount first.","warning");
 			return false;
 		}
@@ -113,7 +113,7 @@ foreach($qry->fetch_array() as $k => $v){
 		$.ajax({
 			url:"calculation_table.php",
 			method:"POST",
-			data:{amount:$('[name="amount"]').val(),months:plan.attr('data-loan_plan'),interest:plan.attr('data-interest_percentage'),penalty:plan.attr('data-penalty_rate')},
+			data:{amount:$('[name="amount"]').val(),months:plan.attr('data-plan_loan'),interest:plan.attr('data-interest_percentage'),penalty:plan.attr('data-penalty_rate')},
 			success:function(resp){
 				if(resp){
 					

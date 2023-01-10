@@ -8,6 +8,156 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+/*--------------------------------------------------------------
+# Log In design 
+--------------------------------------------------------------*/
+.login_main{
+  width: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.5)50%, rgba(0,0,0,0.5)50%), url(../img/bg_fcu.jpg);
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+}
+
+.login_navbar{
+  width: 1200px;
+  height: 75px;
+  padding-left: 20px;
+  margin: auto;
+  float: left;
+}
+
+.login_icon{
+  width: 700px;
+  height: 20vh;
+  display: flex;
+  align-items: center;
+  float: left;
+  margin-left: 50px;
+}
+
+.li_fema{
+  color: #fff;
+  font-size: 50px;
+  font-family: Times New Roman, bold;
+  float: left;
+}
+
+.li_logo{
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin: 20px;
+}
+
+.login_content{
+  width: 100%;
+  height: auto;
+  margin: auto;
+  color: #fff;
+  position: relative;
+  float: left;
+}
+
+.login_content .par{
+  margin-left: 50px;
+  padding-left: 20px;
+  padding-bottom: 25px;
+  font-family: Arial;
+  letter-spacing: 1.2px;
+  line-height: 30px;
+}
+
+.login_content span{
+  color: #0000ff;
+  font-size: 60px;
+  font-weight: 50px;
+}
+
+.login_content h1{
+  font-family: 'Times New Roman';
+  font-size: 50px;
+  padding-left: 20px;
+  margin-top: 9%;
+  letter-spacing: 2px;
+  margin-left: 50px;
+}
+
+.login_form{
+  width: 270px;
+  height: 380px;
+  background: linear-gradient(to top, rgba(0,0,0,0.8)50%, rgba(0,0,0,0.8)50%);
+  position: absolute;
+  top: -10px;
+  left: 870px;
+  border-radius: 10px;
+  padding: 25px;
+  float: right;
+  justify-content: center;
+  margin-top: 150px;
+  margin-left: 100px;
+}
+
+.login_form h2{
+  width: 220px;
+  font-family: sans-serif;
+  text-align: center;
+  color: black;
+  font-size: 17px;
+  background-color: white;
+  border-radius: 10px;
+  margin: 20px 2px 2px 2px;
+  padding: 8px;
+}
+
+.login_form input{
+  width: 220px;
+  height: 35px;
+  background: transparent;
+  border-bottom: 1px solid #66ccff;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  color: #fff;
+  font-size: 15px;
+  letter-spacing: 1px;
+  margin-top: 30px;
+  font-family: sans-serif;
+}
+
+.login_form input:focus{
+  outline: none;
+}
+
+::placeholder{
+  color: #fff;
+  font-family: Arial;
+}
+
+.btn_login{
+  width: 220px;
+  height: 40px;
+  background: #66ccff;
+  border: none;
+  margin-top: 30px;
+  font-size: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.btn_login a{
+  color: black;
+}
+
+.btn_login:hover{
+  background: #fff;
+  color: #fff720;
+}
+/*--------------------------------------------------------------
+# Log In design
+--------------------------------------------------------------*/
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
@@ -1635,14 +1785,13 @@ a.nav-item {
     font-weight: 600;
     background-color: white;
     border-radius: 50px;
-    margin: 5px;
+    margin: 10px;
     transform: translateY(-6px);
 }
 a.nav-item:hover, .nav-item.active {
     background-color: yellow;
     color: black;
 }
-
 
 main#view-panel{
   margin-left: 250px; 

@@ -130,7 +130,7 @@ Class Action {
 
 	function save_plan(){
 		extract($_POST);
-		$data = " loan_plan = '$loan_plan' ";
+		$data = " plan_loan = '$plan_loan' ";
 		$data .= ", interest_percentage = '$interest_percentage' ";
 		$data .= ", penalty_rate = '$penalty_rate' ";
 		$data .= ", description = '$description' ";
@@ -161,7 +161,6 @@ Class Action {
 		$data .= ", employee_id = '$employee_id' ";
 		$data .= ", date_created = '$date_created' ";
 		$data .= ", department = '$department' ";
-		$data .= ", cv_number = '$cv_number' ";
 		
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO borrowers set ".$data);
@@ -178,18 +177,19 @@ Class Action {
 			return 1;
 	}
 	function save_loan(){
-		$days = 15;
 		extract($_POST);
 			$data = " borrower_id = $borrower_id ";
 			$data .= " , plan_id = '$plan_id' ";
 			$data .= " , amount = '$amount' ";
 			$data .= " , total = '$total' ";
 			$data .= " , purpose = '$purpose' ";
+			$minimum = 1000;
 			if(isset($status)){
 				$data .= " , status = '$status' ";
 				if($status == 2){
-					$plan = $this->db->query("SELECT * FROM loan_plan where id = $plan_id ")->fetch_array();
-					for($i= 1; $i <= $days;$i++){
+					$amount = $this->db->query("SELECT * FROM loan_list where total = $total")->fetch_array();
+					$roundoff = $amount['total'] / $minimum;
+					for($i= 1; $i <= $roundoff;$i++){
 						$date = date("Y-m-d",strtotime(date("Y-m-d")." +".$i." months"));
 					$chk = $this->db->query("SELECT * FROM loan_schedules where loan_id = $id and date(date_due) ='$date'  ");
 					if($chk->num_rows > 0){
@@ -243,18 +243,50 @@ Class Action {
 	function save_payment(){
 		extract($_POST);
 			$data = " loan_id = $loan_id ";
+			$data .= " , borrower_id = '$borrower_id' ";
 			$data .= " , borrower = '$borrower' ";
+			$data .= " , loan_plan = '$loan_plan' ";
 			$data .= " , amount = '$amount' ";
+			$data .= " , interest = '$interest' ";
 			$data .= " , penalty_amount = '$penalty_amount' ";
 			$data .= " , overdue = '$overdue' ";
+
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO payments set ".$data);
 		}else{
 			$save = $this->db->query("UPDATE payments set ".$data." where id = ".$id);
 
+			//$url_id = mysql_real_escape_string($_GET['id']);
+//$sql = "SELECT id FROM loan_list WHERE id='$url_id'";
+//$result = mysql_query($sql);
+
+//if(mysql_num_rows($result) >0){
+
+//			$total = $this->db->query("SELECT * FROM loan_list where total = $total");
+//			$pay = $this->db->query("SELECT * FROM payments where amount = $amount");
+//			$total_loan = $total['amount'] - $pay['amount'];
+//
+//			$save_total = $this->db->query("UPDATE loan_list set total = ".$total_loan." where loan_list, id =" .$id);
+
+		//			if($total->num_rows > 0){
+				
+		//	$total = $this->db->query("SELECT * FROM loan_list where total = $total");
+		//	$pay = $this->db->query("SELECT * FROM payments where amount = $amount")->fetch_array();
+			//	$total_loan = $total['amount'] - $pay['amount'];
+			//	$ls_id = $chk->fetch_array()['id'];
+			//	$this->db->query("UPDATE loan_list set total = $total_loan where id = $ls_id");
+			//}
 		}
 		if($save)
 			return 1;
+
+//		$total = $this->db->query("SELECT * FROM loan_list where amount = $amount")->fetch_array();
+//		$pay = $this->db->query("SELECT * FROM payments where amount = $amount")->fetch_array();
+//		$amount_loan = $total['amount'] - $pay['amount'];
+//		$save_total = $this->db->query("UPDATE loan_list set amount = ".$amount_loan." where id =" .$id);
+
+		//if($save_total)
+		//	return 1;	
 
 	}
 	function delete_payment(){

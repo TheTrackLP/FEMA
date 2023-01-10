@@ -44,16 +44,6 @@ if($action == "save_settings"){
 	if($save)
 		echo $save;
 }
-if($action == "save_loan_type"){
-	$save = $crud->save_loan_type();
-	if($save)
-		echo $save;
-}
-if($action == "delete_loan_type"){
-	$save = $crud->delete_loan_type();
-	if($save)
-		echo $save;
-}
 if($action == "save_plan"){
 	$save = $crud->save_plan();
 	if($save)

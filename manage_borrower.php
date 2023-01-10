@@ -8,10 +8,6 @@ if(isset($_GET['id'])){
 	}
 }
 
-function getSequence($num= 1) {
-  return sprintf("%'.01d", $num);
-}
-
 ?>
 <div class="container-fluid">
 	<div class="col-lg-12">
@@ -86,11 +82,6 @@ function getSequence($num= 1) {
 						<option><?php echo isset($_POST['department']) ? $_POST['department'] : ''?>College of Computer Studies</option>
 						<option><?php echo isset($_POST['department']) ? $_POST['department'] : ''?>College of Engineering</option>
 					</select>
-				</div>
-				<div class="col-md-6">
-					<label for="">CV #</label><br>
-					<input type="text" class="form-control" name="cv_number" value="<?php echo getSequence() ?>">
-					
 				</div>
 			</div>
 		</form>

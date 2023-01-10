@@ -16,16 +16,30 @@ foreach($user->fetch_array() as $k =>$v){
 			<input type="text" name="name" id="name" class="form-control" value="<?php echo isset($meta['name']) ? $meta['name']: '' ?>" required>
 		</div>
 		<div class="form-group">
+			<label for="position">Position</label>
+			<input type="text" name="position" id="position" class="form-control" value="<?php echo isset($meta['position']) ? $meta['position']: '' ?>" required>
+		</div>
+		<div class="form-group">
 			<label for="username">Username</label>
 			<input type="text" name="username" id="username" class="form-control" value="<?php echo isset($meta['username']) ? $meta['username']: '' ?>" required>
 		</div>
 		<div class="form-group">
 			<label for="password">Password</label>
 			<input type="password" name="password" id="password" class="form-control" value="<?php echo isset($meta['password']) ? $meta['password']: '' ?>" required>
+			<input type="checkbox" onclick="myFunction()">Show Password
 		</div>
 	</form>
 </div>
 <script>
+	function myFunction() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
 	$('#manage-user').submit(function(e){
 		e.preventDefault();
 		start_load()

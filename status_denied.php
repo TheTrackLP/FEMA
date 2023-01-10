@@ -57,7 +57,7 @@
 							while($row=$plan->fetch_assoc()){
 								$plan_arr[$row['id']] = $row;
 							}
-							$qry = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no, b.address from loan_list l inner join borrowers b on b.id = l.borrower_id  order by id desc");
+							$qry = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no, b.address from loan_list l inner join borrowers b on b.id = l.borrower_id where l.status = 4");
 							while($row = $qry->fetch_assoc()):
 								$monthly = ($row['amount'] + ($row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100)));
 								$penalty = $monthly * ($plan_arr[$row['plan_id']]['penalty_rate']/100);
