@@ -39,7 +39,7 @@
     </div>
   </div>
   <main id="view-panel" >
-      <?php $page = isset($_GET['page']) ? $_GET['page'] :'borrowers'; ?>
+      <?php $page = isset($_GET['page']) ? $_GET['page'] :'home'; ?>
     <?php include $page.'.php' ?>
     
 

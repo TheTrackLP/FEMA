@@ -71,6 +71,8 @@ a.nav-denied:hover{
 				<a href="index.php?page=plan" class="nav-item nav-plan"><span class='icon-field'><i class="fa fa-list-alt"></i></span> Loan Plans</a>
 				<a href="index.php?page=reports" class="nav-item nav-reports"><span class="icon-field"><i class="fa fa-list-ul"></i></span> Reports </a>
 				<a href="index.php?page=users" class="nav-item nav-users"><span class='icon-field'><i class="fa fa-users"></i></span> Users</a>
+				<a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
+
 
 			<?php } elseif($_SESSION['login_position'] == "Cashier"){ ?>
 				<div class="dropdown show">
