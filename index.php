@@ -19,7 +19,10 @@
 </head>
 <style>
   body{
-        background: #80808045;
+    background-image: linear-gradient(to bottom right, #00AFB9, #FED9B7);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
   .modal-dialog.large {
     width: 80% !important;
@@ -31,7 +34,7 @@
   }
 </style>
 
-<body style="background-image: url('assets/img/bg_loan.png')";>
+<body>
   <?php include 'topbar.php' ?>
   <?php include 'navbar.php' ?>
   <div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true">
