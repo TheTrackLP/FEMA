@@ -17,7 +17,7 @@ Class Action {
 
 	function login(){
 		extract($_POST);
-		$qry = $this->db->query("SELECT * FROM users where username = '".$username."' and password = '".$password."' ");
+		$qry = $this->db->query("SELECT * FROM users where username = '".$username."' and password = '".MD5($password)."' ");
 		if($qry->num_rows > 0){
 			foreach ($qry->fetch_array() as $key => $value) {
 				if($key != 'passwors' && !is_numeric($key))
@@ -30,7 +30,7 @@ Class Action {
 	}
 	function user_login(){
 		extract($_POST);
-		$qry = $this->db->query("SELECT * FROM borrowers where email = '".$username."' and password = '".$password."' ");
+		$qry = $this->db->query("SELECT * FROM borrowers where email = '".$username."' and password = '".MD5($password)."' ");
 		if($qry->num_rows > 0){
 			foreach ($qry->fetch_array() as $key => $value) {
 				if($key != 'passwors' && !is_numeric($key))
@@ -60,7 +60,7 @@ Class Action {
 		extract($_POST);
 		$data = " name = '$name' ";
 		$data .= ", username = '$username' ";
-		$data .= ", password = '".md5($password, 'key')."' ";
+		$data .= ", password = '".md5($password)."' ";
 		$data .= ", position = '$position' ";
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO users set ".$data);
@@ -75,7 +75,7 @@ Class Action {
 	function save_member(){
 		extract($_POST);
 		$data = " email = '$email' ";
-		$data .= ", password = '$password' ";
+		$data .= ", password = '".MD5($password)."' ";
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO borrowers set ".$data);
 		}else{
