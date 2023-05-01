@@ -212,11 +212,13 @@ if(isset($_GET['id'])){
             $result = mysqli_fetch_array($qry);
             if($result>0){
                 echo "<script>alert('This email or Contact Number already associated with another account!.');</script>";
+                echo "<script>location.href = 'registration.php'</script>";
             }
             else{
                 $query=mysqli_query($conn, "INSERT INTO `borrowers` (`firstname`, `middlename`, `lastname`, `contact_no`, `year_service`, `barangay`, `street`, `city`, `province`, `zip`, `email`, `password`, `employee_id`, `date_birth`, `date_created`, `department`, `stat`) VALUES ('$firstname', '$middlename', '$lastname', '$contact_no', '$year_service', '$barangay', '$street', '$city', '$province', '$zip', '$email', '".md5($password)."', '$employee_id', '$date_birth', '$date_created', '$department', '$stat')");
             if ($query) {
-                echo `<script>alert('You have successfully registered.')`;
+                echo "<script>alert('You have successfully registered.')</script>";
+                echo "<script>location.href = 'login_member.php'</script>";
             }else{
                 echo "<script>alert('Something Went Wrong. Please try again.');</script>";
                 }
