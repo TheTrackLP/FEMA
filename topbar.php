@@ -7,7 +7,7 @@
 }
 
 .navbar{
-  background-image: url(assets/img/bg_top.jpg);
+  background-color: #0081A7;
   background-repeat: no-repeat;
   background-size: auto;
 }
