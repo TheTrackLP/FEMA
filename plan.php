@@ -50,7 +50,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<button class="btn btn-sm btn-primary col-sm-3 offset-md-3"> Save</button>
-								<button class="btn btn-sm btn-default col-sm-3" type="button" onclick="_reset()"> Cancel</button>
+								<button class="btn btn-sm btn-danger col-sm-3" type="button" onclick="_reset()"> Cancel</button>
 							</div>
 						</div>
 					</div>
@@ -116,7 +116,6 @@
 </style>
 <script>
 	function _reset(){
-		$('#cimg').attr('src','');
 		$('[name="id"]').val('');
 		$('#manage-plan').get(0).reset();
 	}
@@ -164,16 +163,6 @@
 	$('.delete_plan').click(function(){
 		_conf("Are you sure to delete this Plan?","delete_plan",[$(this).attr('data-id')])
 	})
-	function displayImg(input,_this) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-        	$('#cimg').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
 	function delete_plan($id){
 		start_load()
 		$.ajax({

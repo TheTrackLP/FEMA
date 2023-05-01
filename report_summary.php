@@ -66,7 +66,9 @@ while($row=$plan->fetch_assoc()){
 		<?php if($_GET['id'] > 0): ?>
 		<div class="w-50">
 			<p>Payment Date: <b><?php echo isset($pay_arr[$_GET['id']]) ? date("M d,Y",strtotime($pay_arr[$_GET['id']]['date_created'])) : '' ?></b></p>
+			<p>Paid Amount: <b><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['paid'],2): '' ?></b></p>
 			<p>Plan: <b><?php echo isset($pay_arr[$_GET['id']]) ? $pay_arr[$_GET['id']]['loan_plan']: '' ?></b></p>
+
 		</div>
 		<?php endif; ?>
 	</div>
@@ -75,25 +77,76 @@ while($row=$plan->fetch_assoc()){
 	<hr>
 	<br>
 	<table width="100%" class="wborder">
+		<p><b>Payment Details</b></p>
 		<tr>
 			<td width="25%" class="text-center">Principal</td>
 			<td width="25%" class='text-center'>Interest</td>
-			<td width="25%" class="text-center">Shared Capital</td>
-			<td width="25%" class="text-center">Penalty</td>
+			<td width="25%" class="text-center">Plan</td>
+			<td width="25%" class="text-center">Date</td>
 		</tr>
-		<td class="text-center">
-			<p><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['paid'],2): ''?></p>
-		</td>
-		<td class="text-center">
-			<p><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['interest'],2): ''?></p>
-		</td>
-		<td class="text-center">
-			<p><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['capital'],2): ''?></p>
-		</td>
-		<td class="text-center">
-			<p><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['penalty_amount'],2): ''?></p>
-		</td>
-					
+		<?php 
+		$payment_total = 0;
+		foreach ($pay_arr as $row) {
+			if($row["id"] <= $_GET['id'] || $_GET['id'] == 0){
+				$payment_total += $row['paid'];
+				$payment_total += $row['interest'];
+				?>
+				<tr>
+					<td><b><?php echo $row['paid'] ?></b></td>
+					<td><b><?php echo $row['interest'] ?></b></td>
+					<td><b><small><?php echo $row['loan_plan'] ?></b></small></td>
+					<td><b><?php echo date('Y-M-d', strtotime($row['date_created'])) ?></b></td>
+				</tr>
+				<?php
+				}
+				}
+				?>
+				<table class="wborder">
+					<tr>
+						<td width="50%">
+							<p><b>Loan Details</b></p>
+							<hr>
+							<table width="100%">
+								<tr>
+									<td width="75%">Loan Type</td>
+									<td width="25%" class='text-right'>Amount</td>
+								</tr>
+								<tr>
+									<?php 
+									$loan = $conn->query("SELECT * FROM loan_list where borrower_id = $borrower_id");
+									$total_loan = 0;
+									while($row=$loan->fetch_array()){
+									$total_loan += $row['amount'];						
+									?>
+								<td><small><b><?php echo $plan_arr[$row['plan_id']]['plan'] ?></b></small></td>
+								<td class='text-right'><small><b><?php echo number_format($row['amount']) ?></b></small></td>
+							</tr>
+							<?php
+							}
+							?>
+							<tr>
+								<th>Total</th>
+								<th class='text-right'><b><?php echo number_format($total_loan) ?></b></th>
+							</tr>
+						</table>
+					</td>			
+					<td width="50%">
+						<table width="100%">
+							<tr>
+								<td>Total Loan Amount</td>
+								<td class='text-right'><b><?php echo number_format($total_loan) ?></b></td>
+							</tr>
+							<tr>
+								<td>Total Paid</td>
+								<td class='text-right'><b><?php echo number_format($payment_total) ?></b></td>
+							</tr>
+							<tr>
+								<td>Balance</td>
+								<td class='text-right'><b><?php echo number_format($payment_total - $total_loan) ?></b></td>
+							</tr>
+						</table>
+					</td>		
+				</tr>
 			</table>
 			<br><br>
 	<p><?php echo $_SESSION['login_name'] ?></p>

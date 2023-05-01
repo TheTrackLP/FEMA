@@ -9,8 +9,8 @@ if($action == 'login'){
 	if($login)
 		echo $login;
 }
-if($action == 'login2'){
-	$login = $crud->login2();
+if($action == 'user_login'){
+	$login = $crud->user_login();
 	if($login)
 		echo $login;
 }
@@ -29,18 +29,13 @@ if($action == 'save_user'){
 	if($save)
 		echo $save;
 }
+if($action == 'save_member'){
+	$save = $crud->save_member();
+	if($save)
+		echo $save;
+}
 if($action == 'delete_user'){
 	$save = $crud->delete_user();
-	if($save)
-		echo $save;
-}
-if($action == 'signup'){
-	$save = $crud->signup();
-	if($save)
-		echo $save;
-}
-if($action == "save_settings"){
-	$save = $crud->save_settings();
 	if($save)
 		echo $save;
 }
@@ -82,6 +77,16 @@ if($action == "save_payment"){
 }
 if($action == "delete_payment"){
 	$save = $crud->delete_payment();
+	if($save)
+		echo $save;
+}
+if($action == "save_department"){
+	$save = $crud->save_department();
+	if($save)
+		echo $save;
+}
+if($action == "delete_department"){
+	$save = $crud->delete_department();
 	if($save)
 		echo $save;
 }

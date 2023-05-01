@@ -7,24 +7,86 @@ foreach($qry->fetch_array() as $k => $v){
 }
 }
 ?>
+<style>
+	.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+</style>
 <div class="container-fluid">
 	<div class="col-lg-12">
 	<form action="" id="loan-application">
 		<input type="hidden" name="id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-10">
 				<label class="control-label">Borrower</label>
 				<?php
-				$borrower = $conn->query("SELECT *,concat(lastname,', ',firstname,' ',middlename) as name FROM borrowers order by concat(lastname,', ',firstname,' ',middlename) asc ");
+				$borrower = $conn->query("SELECT *,concat(lastname,', ',firstname,' ',middlename) as name FROM borrowers WHERE stat = 'Existing' order by name asc ");
 				?>
-				<select name="borrower_id" id="borrower_id" class="custom-select browser-default select2">
+				<select name="borrower_id" id="borrower_id" class="custom-select browser-default select2" disabled>
 					<option value=""></option>
 						<?php while($row = $borrower->fetch_assoc()): ?>
-							<option value="<?php echo $row['id'] ?>" <?php echo isset($borrower_id) && $borrower_id == $row['id'] ? "selected" : '' ?>><?php echo $row['name'] . ' | Employee ID:'.$row['employee_id'] ?></option>
+							<option value="<?php echo $row['id'] ?>" <?php echo isset($borrower_id) && $borrower_id == $row['id'] ? "selected" : '' ?>><?php echo $row['name'] . " |Shared Capital ".$row['shared_capital'] ?></option>
 						<?php endwhile; ?>
 				</select>
+			</div>		
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<label>Shared Capital</label>
+				<input type="number" name="shared_cap" placeholder="Enter Borrowers Capital" class="form-control" value="<?php echo isset($shared_cap) ? $shared_cap : ''?>" disabled>
 			</div>
-			
 		</div>
 
 		<div class="row">
@@ -33,7 +95,7 @@ foreach($qry->fetch_array() as $k => $v){
 				<?php
 				$plan = $conn->query("SELECT * FROM loan_plan order by `plan_loan` desc ");
 				?>
-				<select name="plan_id" id="plan_id" class="custom-select browser-default select2">
+				<select name="plan_id" id="plan_id" class="custom-select browser-default select2" disabled>
 					<option value=""></option>
 						<?php while($row = $plan->fetch_assoc()): ?>
 							<option value="<?php echo $row['id'] ?>" <?php echo isset($plan_id) && $plan_id == $row['id'] ? "selected" : '' ?> data-plan_loan="<?php echo $row['plan_loan'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" data-penalty_rate="<?php echo $row['penalty_rate'] ?>"><?php echo $row['plan_loan'] . ' [ '.$row['interest_percentage'].'%, '.$row['penalty_rate'].'% ]' ?></option>
@@ -43,41 +105,55 @@ foreach($qry->fetch_array() as $k => $v){
 			</div>
 		<div class="form-group col-md-6">
 			<label class="control-label">Loan Amount</label>
-			<input type="number" name="amount" class="form-control text-right" step="any" id="" value="<?php echo isset($amount) ? $amount : '' ?>">
+			<input type="number" name="amount" class="form-control text-right" step="any" id="" value="<?php echo isset($amount) ? $amount : '' ?>" disabled>
 		</div>
 		</div>
 		<div class="row">
 			<div class="form-group col-md-6">
 			<label class="control-label">Purpose</label>
-			<textarea name="purpose" id="" cols="30" rows="2" class="form-control"><?php echo isset($purpose) ? $purpose : '' ?></textarea>
+			<textarea name="purpose" id="purpose" cols="30" rows="2" class="form-control" disabled><?php echo isset($purpose) ? $purpose : '' ?></textarea>
 		</div>
 		
 		<div class="form-group col-md-2 offset-md-2 .justify-content-center">
 			<label class="control-label">&nbsp;</label>
-			<button class="btn btn-primary btn-sm btn-block align-self-end" type="button" id="calculate">Calculate</button>
+			<button class="btn btn-primary btn-sm btn-block align-self-end" type="button" id="calculate" disabled>Calculate</button>
 		</div>
 		</div>
 		<div id="calculation_table">
 			
 		</div>
 		<?php if(isset($status)): ?>
+			<?php if($status == 0 || $status == 1 || $status == 3 || $status == 4): ?>
 		<div class="row">
-			<div class="form-group col-md-6">
-				<label class="control-label">&nbsp;</label>
-				<select class="custom-select browser-default" name="status">
-					<option value="0" <?php echo $status == 0 ? "selected" : '' ?>>For Approval</option>
-					<option value="1" <?php echo $status == 1 ? "selected" : '' ?>>Approved</option>
-					<?php if($status !='4' ): ?>
-					<option value="2" <?php echo $status == 2 ? "selected" : '' ?>>Released</option>
-					<?php endif ?>
-					<?php if($status =='2' ): ?>
-					<option value="3" <?php echo $status == 3 ? "selected" : '' ?>>Complete</option>
-					<?php endif ?>
-					<?php if($status !='2' ): ?>
-					<option value="4" <?php echo $status == 4 ? "selected" : '' ?>>Denied</option>
-					<?php endif ?>
-				</select>
+			<div class="form-group col-md-9">
+				<!--<label class="control-label">&nbsp;</label>
+				<select class="custom-select browser-default" name="status" disabled>
+					<option value="0" selected disabled <?php //echo $status == 0 ? "selected" : '' ?>>For Approval</option>
+					<option value="1" <?php //echo $status == 1 ? "selected" : '' ?>>Approved</option>
+					<?php //if($status !='4' ): ?>
+					<option value="2" <?php //echo $status == 2 ? "selected" : '' ?>>Released</option>
+					<?php //endif ?>
+					<?php //if($status =='2' ): ?>
+					<option value="3" <?php //echo $status == 3 ? "selected" : '' ?>>Complete</option>
+					<?php //endif ?>
+					<?php //if($status !='2' ): ?>
+					<option value="4" <?php //echo $status == 4 ? "selected" : '' ?>>Denied</option>
+					<?php //endif ?>
+				</select>-->
+				<label class="container">
+					<input type="radio" name="status" value="1">Approved
+					<span class="checkmark"></span>
+				</label>
+				<label class="container">
+					<input type="radio" name="status" value="2">Released	
+					<span class="checkmark"></span>
+				</label>
+				<label class="container">
+					<input type="radio" name="status" value="4">Denied		
+					<span class="checkmark"></span>
+				</label>
 			</div>
+		<?php endif ?>
 		</div>
 		<hr>
 	<?php endif ?>
@@ -86,6 +162,7 @@ foreach($qry->fetch_array() as $k => $v){
 				<div class="col-md-12 text-center">
 					<button class="btn btn-primary btn-sm " >Save</button>
 					<button class="btn btn-danger btn-sm" type="button" data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary btn-sm" href="javascript:toggleFormElements(false);">Edit</a>
 				</div>
 			</div>
 		</div>
@@ -146,6 +223,29 @@ foreach($qry->fetch_array() as $k => $v){
 		if('<?php echo isset($_GET['id']) ?>' == 1)
 			calculate()
 	})
+
+	function toggleFormElements(bDisabled) {
+		var textarea = document.getElementsByTagName("textarea");
+		for (var i = 0; i < textarea.length; i++) {
+			textarea[i].disabled = bDisabled; 
+		}
+		var select = document.getElementsByTagName("select");
+		for (var i = 0; i < select.length; i ++){
+			select[i].disabled = bDisabled;
+		}
+		var input = document.getElementsByTagName("input");
+		for (var i = 0; i < input.length; i ++){
+			input[i].disabled = bDisabled;
+		}
+		var button = document.getElementsByTagName("button");
+		for (var i = 0; i < button.length; i ++){
+			button[i].disabled = bDisabled;
+		}
+		var select = document.getElementsByTagName("select");
+		for (var i = 0; i = select.length; i ++){
+			select[i].disabled = bDisabled;
+		}
+	}
 </script>
 <style>
 	#uni_modal .modal-footer{

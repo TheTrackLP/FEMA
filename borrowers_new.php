@@ -6,6 +6,7 @@
 			<div class="card-header">
 				<large class="card-title">
 					<b>New/Existing Borrower List</b>
+					<button class="btn btn-primary btn-block col-md-2 float-right" type="button" id="new_borrower"><i class="fa fa-plus"></i> New Borrower</button>
 				</large>
 			</div>
 			<div class="plan-filter">
@@ -55,7 +56,7 @@
 						
 							$i=1;
 
-							$qry = $conn->query("SELECT * FROM borrowers order by id desc");
+							$qry = $conn->query("SELECT * FROM borrowers where stat = 'New' order by id desc");
 							while($row = $qry->fetch_assoc()):
 						 ?>
 						 <tr>
