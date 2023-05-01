@@ -44,7 +44,6 @@ a.dropdown-item:hover{
 				<a href="ajax.php?action=logout" class="btn-out py-1 bg-transparent button-hover"><?php echo $_SESSION['login_name'] ?> <div class="badge badge-danger"><i class="fa fa-power-off"></i></div></a>
 				<hr>
 				<?php if($_SESSION['login_position'] == "Admin"){ ?>
-					<a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
 				<div class="dropdown show">
 					<a href="index.php?page=home" class="nav-item nav-home button-hover"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
 					<a class="nav-item dropdown-toggle button-hover" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class='icon-field'><i class="fa fa-bars"></i></span> Borrowers</a>
@@ -60,6 +59,8 @@ a.dropdown-item:hover{
 				<a href="index.php?page=reports" class="nav-item nav-reports button-hover"><span class="icon-field"><i class="fa fa-list-ul"></i></span> Reports </a>
 				<a href="index.php?page=staffs_members" class="nav-item nav-users button-hover"><span class='icon-field'><i class="fa fa-users"></i></span> Staffs/Members</a>
 				<a href="index.php?page=department" class="nav-item nav-department button-hover"><span class='icon-field'><i class="fa fa-building"></i></span> Departments</a>
+
+
 
 			<?php } elseif($_SESSION['login_position'] == "Cashier"){ ?>
 				<a href="index.php?page=loans" class="nav-item nav-loans"><span class='icon-field'><i class="fa fa-file-invoice-dollar"></i></span> Loan</a>

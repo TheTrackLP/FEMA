@@ -73,12 +73,14 @@ $plus = $amount_borrowed + 1000;
 					<p><strong><?php echo $name?></strong></p><br>
 				</div>
 				<div class="col-md-6">
+				<p>First 15 days Amount: <b><?php echo number_format($amount * $interest_percentage/100 + $five,2) ?></b></p>
+				<p>Second 15 days Amount: <b><?php echo number_format($five,2) ?></b></p>
 				<p>Interest this month: <b><?php echo number_format($this_month,2) ?></b></p>
-				<p>Overdue Payable Amount: <b><?php echo number_format($penalty,2) ?></b></p>
 			</div>
 				<div class="col-md-6">
 				<p>Amount Borrowed:<b><?php echo number_format($amount_borrowed, 2)?></b></p>
 				<p>Amount Remaining:<b><?php echo number_format($amount,2) ?></b></p>
+				<p>Overdue Payable Amount: <b><?php echo number_format($penalty,2) ?></b></p>
 			</div>
 		</div>
 	</div>
@@ -102,7 +104,7 @@ $plus = $amount_borrowed + 1000;
 					<strong><?php
 					$date1 = new DateTime(date("F d, Y" ,strtotime($row['date_due'])));
 					$fifth = $date1->format('d');
-					if($fifth > 16){
+					if($fifth > 15){
 						//echo "&#8369; ".number_format($amount * $interest_percentage/100 + $five,2);
 						$plus -= 1000;
 						$with_total = $wtih_interest * $plus;

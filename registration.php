@@ -168,14 +168,15 @@ if(isset($_GET['id'])){
                             <label>Password</label>
                             <input type="password" name="confirm_password" placeholder="Confirm Password" name="city" required>
                         </div>
-                    </div>
+                        <div></div>
+
                     <div class="buttons">
                         <div class="backBtn">
                             <i class="uil uil-navigator"></i>
                             <span class="btnText">Back</span>
                         </div>
                         
-                        <button class="sumbit"  name="submit" id="submit">
+                        <button class="sumbit" onclick="location.href='login_member.php'">
                             <span class="btnText">Submit</span>
                             <i class="uil uil-navigator"></i>
                         </button>
@@ -208,16 +209,17 @@ if(isset($_GET['id'])){
         $confirm_pass = $_POST['confirm_password'];
 
         if($password === $confirm_pass){
-            $qry = mysqli_query($conn, "SELECT email,contact_no FROM borrowers WHERE email = '$email' OR contact_no = '$contact_no'");
+            $qry = mysqli_query($conn, "SELECT email FROM borrowers WHERE email = '$email' OR contact_no = '$contact_no'");
             $result = mysqli_fetch_array($qry);
             if($result>0){
                 echo "<script>alert('This email or Contact Number already associated with another account!.');</script>";
             }
             else{
-                $query=mysqli_query($conn, "INSERT INTO `borrowers` (`firstname`, `middlename`, `lastname`, `contact_no`, `year_service`, `barangay`, `street`, `city`, `province`, `zip`, `email`, `password`, `employee_id`, `date_birth`, `date_created`, `department`, `stat`) VALUES ('$firstname', '$middlename', '$lastname', '$contact_no', '$year_service', '$barangay', '$street', '$city', '$province', '$zip', '$email', '".md5($password)."', '$employee_id', '$date_birth', '$date_created', '$department', '$stat')");
+                $query=mysqli_query($conn, "insert into borrowers(firstname, middlename, lastname, contact_no, year_service, barangay, street, city, province, zip, email, employee_id, date_birth, date_created, department, stat) values('$firstname', '$middlename','$lastname', '$contact_no', '$year_service', '$barangay','$street', '$city', '$province', '$zip', '$email','$employee_id', '$date_birth', '$date_created', '$department', '$stat')");
             if ($query) {
-                echo `<script>alert('You have successfully registered.')`;
-            }else{
+                echo "<script>alert('You have successfully registered.');</script>";
+                header("location:login.php");            }
+            else{
                 echo "<script>alert('Something Went Wrong. Please try again.');</script>";
                 }
             }
