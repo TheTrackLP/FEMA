@@ -1,11 +1,11 @@
-<?php include 'db_connect.php' ?>
+	<?php include 'db_connect.php' ?>
 
 <div class="container-fluid">
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-header">
 				<large class="card-title">
-					<b>Payment List</b>
+					<b>Payment History</b>
 					<button class="btn btn-primary btn-sm btn-block col-md-2 float-right" type="button" id="new_payments"><i class="fa fa-plus"></i> New Payment</button>
 				</large>
 				
@@ -17,6 +17,7 @@
 				<?php
 				$plan = $conn->query("SELECT * FROM loan_plan");
 				?>
+				<p><b>Plan:</b></p>
 				<select id="planFilter" class="form-control">
 					<option value="">Show All Plan</option>
 						<?php while($row = $plan->fetch_assoc()): ?>
@@ -32,16 +33,16 @@
 					<colgroup>
 						<col width="5%">
 						<col width="18.5%">
-						<col width="23.5%">
-						<col width="15.5%">
-						<col width="11.5%">
+						<col width="26.5%">
+						<col width="19.5%">
+						<col width="8.5%">
 						<col width="12.5%">
-						<col width="12.5%">
+						<col width="8.5%">
 					</colgroup>
 					<thead class="thead-dark">
 						<tr>
 							<th class="text-center">#</th>
-							<th class="text-center">Loan Reference No</th>
+							<th class="text-center">Reference and CV #</th>
 							<th class="text-center">Borrowers Details</th>
 							<th class="text-center">Amount</th>
 							<th class="text-center">Penalty</th>
@@ -53,11 +54,9 @@
 						<?php
 							
 							$i=1;
-							
-							$qry = $conn->query("SELECT p.*,l.ref_no,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no, b.address from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id desc");
+							$qry = $conn->query("SELECT p.*,l.ref_no,l.amount,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id desc");
 							while($row = $qry->fetch_assoc()):
 								
-
 						 ?>
 						 <tr>
 						 	
@@ -67,12 +66,13 @@
 						 		<p>CV. #<b><?php echo $row['borrower_id'] ?></b></p>
 						 	</td>
 						 	<td>
-						 		Name: <b><?php echo $row['borrower'] ?></b><br>
-						 		Plan: <b><?php echo $row['loan_plan'] ?></b>
+						 		Name: <b><?php echo $row['name'] ?></b><br>
+						 		Plan: <b><?php echo $row['loan_plan']  ?></b>
 						 		
 						 	</td>
 						 	<td>
-						 		Principal: <b><?php echo number_format($row['amount'],2) ?></b><br>
+						 		Balance: <b><?php echo number_format($row['amount'],2) ?></b><br>
+						 		Principal: <b><?php echo number_format($row['paid'],2) ?></b><br>
 						 		Interest: <b><?php echo number_format($row['interest'],2) ?></b>
 						 	</td>
 						 	<td class="text-center">
@@ -83,12 +83,9 @@
 						 	</td>
 						 	<td class="text-center">
 						 		<button class="btn btn-sm btn-outline-success view_payment" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-print"></i></button>	
-						 		<button class="btn btn-outline-primary btn-sm edit_payment" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
-						 		<button class="btn btn-outline-danger btn-sm delete_payment" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></button>
+						 		<button class="btn btn-sm btn-outline-success view_summary" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-file"></i></button>	
 						 	</td>
-
 						 </tr>
-
 						<?php endwhile; ?>
 					</tbody>
 				</table>
@@ -120,7 +117,6 @@
 
       //Take the category filter drop down and append it to the datatables_filter div. 
       //You can use this same idea to move the filter anywhere withing the datatable that you want.
-      $("#loan-list_filter.dataTables_filter").append($("#planFilter"));
       
       //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
       //This tells datatables what column to filter on when a user selects a value from the dropdown.
@@ -157,6 +153,9 @@
 	})
 	$('.view_payment').click(function(){
 		uni_modal("Payment Details","view_payment.php?loan_id="+$(this).attr('data-loan_id')+"&id="+$(this).attr('data-id'),"mid-large")
+	})
+	$('.view_summary').click(function(){
+		uni_modal("Payment Details","view_summary.php?loan_id="+$(this).attr('data-loan_id')+"&id="+$(this).attr('data-id'),"mid-large")
 	})
 	$('.edit_payment').click(function(){
 		uni_modal("Edit Payment","manage_payment.php?id="+$(this).attr('data-id'),'mid-large')

@@ -17,12 +17,25 @@
 				<?php
 				$plan = $conn->query("SELECT * FROM loan_plan");
 				?>
-				<p><b>Plan:</b></p>
+				<p><b>Type of Loan</b></p>
 				<select id="planFilter" class="form-control">
 					<option value="">Show All Plan</option>
 						<?php while($row = $plan->fetch_assoc()): ?>
 							<option value="<?php echo $row['plan_loan'] ?>"><?php echo $row['plan_loan'] ?></option>
 						<?php endwhile; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<p><b>Status</b></p>
+					<select id="statusFilter" class="form-control">
+						<option value="">Show all Status</option>
+						<option>For Approval</option>
+						<option>Approved</option>
+						<option>Released</option>
+						<option>Complete</option>
+						<option>Denied</option>
 					</select>
 				</div>
 			</div>
@@ -32,17 +45,19 @@
 				<table class="table table-bordered" id="filterTable">
 					<colgroup>
 						<col width="5%">
-						<col width="28%">
+						<col width="7%">
+						<col width="20.2%">
 						<col width="25%">
-						<col width="20%">
-						<col width="10%">
+						<col width="15%">
+						<col width="8%">
 						<col width="12%">
 					</colgroup>
-					<thead class="thead-dark">
+					<thead class="table-info">
 						<tr>
 							<th scope="col" class="text-center">#</th>
-							<th scope="col" class="text-center">Borrower</th>
-							<th scope="col" class="text-center">Loan Details</th>
+							<th scope="col" class="text-center">CV#</th>
+							<th scope="col" class="text-center">Name</th>
+							<th scope="col" class="text-center">Type of Loan</th>
 							<th scope="col" class="text-center">Next Payment Details</th>
 							<th scope="col" class="text-center">Status</th>
 							<th scope="col" class="text-center">Action</th>
@@ -53,13 +68,14 @@
 							
 							$i=1;
 							$five = 500;
-							$plan = $conn->query("SELECT *,concat(plan_loan,' [ ',interest_percentage,'%, ',penalty_rate,' ]') as plan FROM loan_plan where id in (SELECT plan_id from loan_list) ");
+							$plan = $conn->query("SELECT *,concat(plan_loan) as plan FROM loan_plan where id in (SELECT plan_id from loan_list) ");
 							while($row=$plan->fetch_assoc()){
 								$plan_arr[$row['id']] = $row;
 							}
-							$qry = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no, b.address from loan_list l inner join borrowers b on b.id = l.borrower_id  order by id desc");
+							$qry = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.shared_capital from loan_list l inner join borrowers b on b.id = l.borrower_id  order by id desc");
 							while($row = $qry->fetch_assoc()):
 								$monthly = ($row['amount'] + ($row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100)));
+								$this_month = ($row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100));
 								$penalty = $monthly * ($plan_arr[$row['plan_id']]['penalty_rate']/100);
 								$payments = $conn->query("SELECT * from payments where loan_id =".$row['id']);
 								$paid = $payments->num_rows;
@@ -69,39 +85,29 @@
 								endif;
 								$sum_paid = 0;
 								while($p = $payments->fetch_assoc()){
-									$sum_paid += ($p['amount'] - $p['penalty_amount']);
+									$sum_paid += ($p['paid'] - $p['penalty_amount']);
 								}
 						 ?>
 						 <tr>
 						 	
 						 	<td class="text-center"><?php echo $i++ ?></td>
+						 	<td class="text-center">
+						 		<p><?php echo "CV#-"."<b>".$row['borrower_id']."</b>" ?></p>
 						 	<td>
-						 		<p><large>CV # :<b><?php echo "CV-", $row['borrower_id'] ?></large></b></p>
-						 		<p>Name :<b><?php echo $row['name'] ?></b></p>
-						 		<p><small>Contact # :<b><?php echo $row['contact_no'] ?></small></b></p>
-						 		<p><small>Address :<b><?php echo $row['address'] ?></small></b></p>
+						 		<p><b><?php echo $row['name'] ?></b></p>
 						 	</td>
 						 	<td>
-						 		<p>Reference :<b><?php echo $row['ref_no'] ?></b></p>
-						 		<p><small>Plan: <b><?php echo $plan_arr[$row['plan_id']]['plan'] ?></small></b></p>
-						 		<p><small>Amount borrowed :<b><?php echo number_format($row['amount'],2) ?></small></b></p>
-						 		<p><small>Total Payable Amount :<b><?php echo number_format($monthly,2) ?></small></b></p>
-						 		<p><small>Remaining Payable Amount :<b><?php echo number_format($row['total'] - $sum_paid,2) ?></small></b></p>
-						 		<p><small>Overdue Payable Amount: <b><?php echo number_format($penalty,2) ?></small></b></p>
-						 		<?php if($row['status'] == 2 || $row['status'] == 3): ?>
-						 		<p><small>Date Released: <b><?php echo date("M d, Y",strtotime($row['date_released'])) ?></small></b></p>
-						 		<?php endif; ?>
+						 		<p><b><?php echo $plan_arr[$row['plan_id']]['plan'] ?></b></p>
 						 	</td>
 						 	<td>
 						 		<?php if($row['status'] == 2 ): ?>
-						 		<p>Date: <b>
-						 		<?php echo date('M d, Y',strtotime($next)); ?>
-						 		</b></p>
-						 		<p><small>First 15 days Amount:<b><?php echo number_format($row['amount'] * $plan_arr[$row['plan_id']]['interest_percentage']/100 + $five,2) ?></b></small></p>
+						 		<p><small><b><?php echo date('M d, Y',strtotime($next)); ?></b></small></p>
 						 		<p><small>Penalty :<b><?php echo $add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; ?></b></small></p>
-						 		<p><small>Second 15 days Amount :<b><?php echo number_format($five + $add,2) ?></b></small></p>
-						 		<?php else: ?>
-					 				N/a
+								<button class="btn btn-sm btn-primary view_schedule" data-id="<?php echo $row['id']?>">View Schedule</button>
+						 		<?php elseif($row['status'] == 3): ?>
+						 			<b>Loan Fully Paid</b>
+					 			<?php else: ?>
+					 				N/A
 						 		<?php endif; ?>
 						 	</td>
 						 	<td class="text-center">
@@ -119,8 +125,10 @@
 						 	</td>
 						 	<td class="text-center">
 									<button class="btn btn-outline-success btn-sm view_payment" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-print"></i></button>
-						 			<button class="btn btn-outline-primary btn-sm edit_loan" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
-						 			<button class="btn btn-outline-danger btn-sm delete_loan" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></button>
+									<?php if($row['status'] == 0 || $row['status'] == 1 || $row['status'] == 2 || $row['status'] == 4): ?>
+						 			<button class="btn btn-outline-primary btn-sm edit_loan" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-eye"></i></button>
+						 		<?php endif; ?>						 			
+						 		<button class="btn btn-outline-danger btn-sm delete_loan" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></button>
 						 	</td>
 
 						 </tr>
@@ -180,9 +188,32 @@
         }
       );
 
+
+      var statusIndex = 0;
+      $("#filterTable th").each(function (i) {
+        if ($($(this)).html() == "Status") {
+          planIndex = i; return false;
+        }
+      });
+
+      //Use the built in datatables API to filter the existing rows by the Category column
+      $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+          var selectedItem = $('#statusFilter').val()
+          var status = data[planIndex];
+          if (selectedItem === "" || status.includes(selectedItem)) {
+            return true;
+          }
+          return false;
+        }
+      );
+
       //Set the change event for the Category Filter dropdown to redraw the datatable each time
       //a user selects a new filter.
       $("#planFilter").change(function (e) {
+        table.draw();
+      });
+      $("#statusFilter").change(function (e) {
         table.draw();
       });
 
@@ -192,11 +223,14 @@
 	$('#new_application').click(function(){
 		uni_modal("New Loan Application","manage_loan.php",'mid-large')
 	})
-	$('#add_application').click(function(){
-		uni_modal("New Loan Application","manage_addloan.php",'mid-large')
-	})
 	$('.view_payment').click(function(){
 		uni_modal("Payment Details","view_payment.php?loan_id="+$(this).attr('data-id')+"&id=0","mid-large")
+	})
+	$('.view_schedule').click(function(){
+		view_modal("View Payment Schedule","view_schedule.php?loan_id="+$(this).attr('data-id')+"&id=0","mid-large")
+	})
+	$('.view_loan').click(function(){
+		view_modal("View Loan","manage_loan.php?id="+$(this).attr('data-id'),'mid-large')
 	})
 	$('.edit_loan').click(function(){
 		uni_modal("Edit Loan","manage_loan.php?id="+$(this).attr('data-id'),'mid-large')

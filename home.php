@@ -24,41 +24,40 @@
 				</div>
 				<hr>
 				<div class="row ml-2 mr-2">
-				<div class="col-md-6">
-                        <div class="card bg-danger text-white mb-3">
+                <div class="col-md-6">
+                        <div class="card bg-success text-white mb-3">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="mr-3">
-                                        <div class="text-white-75 small">Payments Today</div>
+                                        <div class="text-white-75 small">New Pending Borrowers</div>
                                         <div class="text-lg font-weight-bold">
                                         	<?php 
-                                        	$payments = $conn->query("SELECT sum(amount) as total FROM payments where date(date_created) = '".date("Y-m-d")."'");
-                                        	echo $payments->num_rows > 0 ? number_format($payments->fetch_array()['total'],2) : "0.00";
+                                        	$borrowers = $conn->query("SELECT * FROM borrowers WHERE stat = 'New'");
+                                        	echo $borrowers->num_rows > 0 ? $borrowers->num_rows : "0";
                                         	 ?>
                                         		
                                     	</div>
                                     </div>
-                                    <i class="fa fa-calendar"></i>
+                                    <i class="fa fa-users"></i>
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                             </div>
                         </div>
                     </div>
-
-                <div class="col-md-6">
-                        <div class="card bg-success text-white mb-3">
+                    <div class="col-md-6">
+                        <div class="card bg-info text-white mb-3">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="mr-3">
-                                        <div class="text-white-75 small">Borrowers</div>
+                                        <div class="text-white-75 small">Existing Borrowers</div>
                                         <div class="text-lg font-weight-bold">
-                                        	<?php 
-                                        	$borrowers = $conn->query("SELECT * FROM borrowers");
-                                        	echo $borrowers->num_rows > 0 ? $borrowers->num_rows : "0";
-                                        	 ?>
-                                        		
-                                    	</div>
+                                            <?php 
+                                            $borrowers = $conn->query("SELECT * FROM borrowers WHERE stat = 'Existing'");
+                                            echo $borrowers->num_rows > 0 ? $borrowers->num_rows : "0";
+                                             ?>
+                                                
+                                        </div>
                                     </div>
                                     <i class="fa fa-users"></i>
                                 </div>
@@ -89,48 +88,21 @@
                             </div>
                         </div>
                     </div>
-                     <div class="col-md-6">
-                        <div class="card bg-info text-white mb-3">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="mr-3">
-                                        <div class="text-white-75 small">Total Receivable</div>
-                                        <div class="text-lg font-weight-bold">
-                                        	<?php 
-                                        	$payments = $conn->query("SELECT sum(amount - penalty_amount) as total FROM payments where date(date_created) = '".date("Y-m-d")."'");
-                                        	$loans = $conn->query("SELECT sum(l.amount + (l.amount * (p.interest_percentage/100))) as total FROM loan_list l inner join loan_plan p on p.id = l.plan_id where l.status = 2");
-                                        	$loans =  $loans->num_rows > 0 ? $loans->fetch_array()['total'] : "0";
-                                        	$payments =  $payments->num_rows > 0 ? $payments->fetch_array()['total'] : "0";
-                                        	echo number_format($loans - $payments,2);
-                                        	 ?>
-                                        		
-                                    	</div>
-                                    </div>
-                                    <i class="fa fa-credit-card"></i>
-                                </div>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-md-6">
-                        <div class="card bg-info text-white mb-3">
+                        <div class="card bg-danger text-white mb-3">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="mr-3">
-                                        <div class="text-white-75 small">Cash Available</div>
+                                        <div class="text-white-75 small">Payments Today</div>
                                         <div class="text-lg font-weight-bold">
                                             <?php 
-                                            $payments = $conn->query("SELECT sum(amount - penalty_amount) as total FROM payments where date(date_created) = '".date("Y-m-d")."'");
-                                            $loans = $conn->query("SELECT sum(l.amount + (l.amount * (p.interest_percentage/100))) as total FROM loan_list l inner join loan_plan p on p.id = l.plan_id where l.status = 2");
-                                            $loans =  $loans->num_rows > 0 ? $loans->fetch_array()['total'] : "0";
-                                            $payments =  $payments->num_rows > 0 ? $payments->fetch_array()['total'] : "0";
-                                            echo number_format($loans - $payments,2);
+                                            $payments = $conn->query("SELECT sum(paid) as total FROM payments where date(date_created) = '".date("Y-m-d")."'");
+                                            echo $payments->num_rows > 0 ? number_format($payments->fetch_array()['total'],2) : "0.00";
                                              ?>
                                                 
                                         </div>
                                     </div>
-                                    <i class="fa fa-credit-card"></i>
+                                    <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -139,10 +111,9 @@
                     </div>
 				</div>
 			</div>
-			
-		</div>
 		</div>
 	</div>
+</div>
 
 </div>
 <script>
