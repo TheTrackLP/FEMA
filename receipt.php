@@ -6,14 +6,10 @@ $fees = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middle
 foreach($fees->fetch_array() as $k => $v){
 	$$k= $v;
 }
-$payments = $conn->query("SELECT * FROM payments where borrower_id = $borrower_id ");
+$payments = $conn->query("SELECT * FROM payments where loan_id = $id ");
 $pay_arr = array();
 while($row=$payments->fetch_array()){
 	$pay_arr[$row['id']] = $row;
-}
-$plan = $conn->query("SELECT *,concat(plan_loan) as plan FROM loan_plan where id in (SELECT plan_id from loan_list) ");
-while($row=$plan->fetch_assoc()){
-	$plan_arr[$row['id']] = $row;
 }
 	?>
 <style>

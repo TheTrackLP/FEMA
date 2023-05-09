@@ -124,7 +124,7 @@
 						 		<?php endif; ?>
 						 	</td>
 						 	<td class="text-center">
-									<button class="btn btn-outline-success btn-sm view_payment" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-print"></i></button>
+									<button class="btn btn-outline-success btn-sm view_summary" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-print"></i></button>
 									<?php if($row['status'] == 0 || $row['status'] == 1 || $row['status'] == 2 || $row['status'] == 4): ?>
 						 			<button class="btn btn-outline-primary btn-sm edit_loan" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-eye"></i></button>
 						 		<?php endif; ?>						 			
@@ -223,8 +223,8 @@
 	$('#new_application').click(function(){
 		uni_modal("New Loan Application","manage_loan.php",'mid-large')
 	})
-	$('.view_payment').click(function(){
-		uni_modal("Payment Details","view_payment.php?loan_id="+$(this).attr('data-id')+"&id=0","mid-large")
+	$('.view_summary').click(function(){
+		uni_modal("Payment Details","view_summary.php?loan_id="+$(this).attr('data-id')+"&id=0","mid-large")
 	})
 	$('.view_schedule').click(function(){
 		view_modal("View Payment Schedule","view_schedule.php?loan_id="+$(this).attr('data-id')+"&id=0","mid-large")

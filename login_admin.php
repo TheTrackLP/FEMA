@@ -110,7 +110,7 @@ if(isset($_SESSION['login_id'])){
             },
             success:function(resp){
                 if(resp == 1){
-                    alert("SuccessFfully Log In!...");
+                    alert("Successfully Log In!...");
                     location.href ='index.php?page=home';
                 }else{
                     $('#login-form').prepend('<div class="alert alert-danger">Username or password is incorrect.</div>')

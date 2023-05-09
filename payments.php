@@ -73,7 +73,8 @@
 						 	<td>
 						 		Balance: <b><?php echo number_format($row['amount'],2) ?></b><br>
 						 		Principal: <b><?php echo number_format($row['paid'],2) ?></b><br>
-						 		Interest: <b><?php echo number_format($row['interest'],2) ?></b>
+						 		Interest: <b><?php echo number_format($row['interest'],2) ?></b><br>
+								Capital: <b><?php echo number_format($row['capital'],2) ?></b>
 						 	</td>
 						 	<td class="text-center">
 						 		<?php echo number_format($row['penalty_amount'],2) ?>
@@ -163,21 +164,21 @@
 	$('.delete_payment').click(function(){
 		_conf("Are you sure to delete this data?","delete_payment",[$(this).attr('data-id')])
 	})
-function delete_payment($id){
-		start_load()
-		$.ajax({
-			url:'ajax.php?action=delete_payment',
-			method:'POST',
-			data:{id:$id},
-			success:function(resp){
-				if(resp==1){
-					alert_toast("Payment successfully deleted",'success')
-					setTimeout(function(){
-						location.reload()
-					},1500)
+	function delete_payment($id){
+			start_load()
+			$.ajax({
+				url:'ajax.php?action=delete_payment',
+				method:'POST',
+				data:{id:$id},
+				success:function(resp){
+					if(resp==1){
+						alert_toast("Payment successfully deleted",'success')
+						setTimeout(function(){
+							location.reload()
+						},1500)
 
+					}
 				}
-			}
-		})
-	}
+			})
+		}
 </script>

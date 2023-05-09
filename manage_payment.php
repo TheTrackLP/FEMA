@@ -67,22 +67,22 @@ if(isset($_GET['id'])){
 			}
 		})
 	}
-	 $('#manage-payment').submit(function(e){
-	 	e.preventDefault()
-	 	start_load()
-	 	$.ajax({
-	 		url:'ajax.php?action=save_payment',
-	 		method:'POST',
-	 		data:$(this).serialize(),
-	 		success:function(resp){
-	 			if(resp == 1){
-	 				alert_toast("Payment data successfully saved.","success");
-	 				setTimeout(function(e){
-	 					location.reload()
-	 				},1500)
-	 			}
-	 		}
-	 	})
+	$('#manage-payment').submit(function(e){
+	  	e.preventDefault()
+	  	start_load()
+	  	$.ajax({
+	  		url:'ajax.php?action=save_payment',
+	  		method:'POST',
+	  		data:$(this).serialize(),
+	  		success:function(resp){
+	  			if(resp == 1){
+	  				alert_toast("Payment data successfully saved.","success");
+	  				setTimeout(function(e){
+	  					location.reload()
+	  				},1500)
+	  			}
+	  		}
+	  	})
 	 })
 	 $(document).ready(function(){
 	 	if('<?php echo isset($_GET['id']) ?>' == 1)

@@ -19,7 +19,8 @@ a.btn-out{
  font-size: 20px;
 }
 .dropdown-menu{
-	color: white;
+	color: black;
+	background-color: white;
 	border: none;
 	width: 230px;
 }
@@ -48,9 +49,9 @@ a.dropdown-item:hover{
 					<a href="index.php?page=home" class="nav-item nav-home button-hover"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
 					<a class="nav-item dropdown-toggle button-hover" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class='icon-field'><i class="fa fa-bars"></i></span> Borrowers</a>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-						<a href="index.php?page=borrowers" class="nav-item nav-borrowers"><span class='icon-field'><i class="fa fa-bars"></i></span>New/Exist</a>
-						<a class="dropdown-item nav-item nav-for" href="index.php?page=borrowers_new"><span><span class='icon-field'><i class="fa fa-plus"></i></span>New</a>
-						<a class="dropdown-item nav-item nav-for" href="index.php?page=borrowers_exist"><span><span class='icon-field'><i class="fa fa-globe"></i></span>Existing</a>
+						<a href="index.php?page=borrowers" class="dropdown-item nav-item nav-for"><span class='icon-field'><i class="fa fa-bars"></i></span>New/Exist</a>
+						<a href="index.php?page=borrowers_new" class="dropdown-item nav-item nav-for"><span><span class='icon-field'><i class="fa fa-plus"></i></span>New</a>
+						<a href="index.php?page=borrowers_exist" class="dropdown-item nav-item nav-for"><span><span class='icon-field'><i class="fa fa-globe"></i></span>Existing</a>
 					</div>
 				</div>
 				<a href="index.php?page=loans" class="nav-item nav-loans button-hover"><span class='icon-field'><i class="fa fa-file-invoice-dollar"></i></span> Loan</a>
@@ -68,11 +69,11 @@ a.dropdown-item:hover{
 				<a href="index.php?page=payments" class="nav-item nav-payments"><span class='icon-field'><i class="fa fa-money-bill"></i></span> Payments</a>
 				
 			<?php } elseif($_SESSION['login_position'] == "Bookkeeper"){ ?>
+				<a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
 				<a href="index.php?page=loans" class="nav-item nav-loans"><span class='icon-field'><i class="fa fa-file-invoice-dollar"></i></span> Loan</a>
 				<a href="index.php?page=payments" class="nav-item nav-payments"><span class='icon-field'><i class="fa fa-money-bill"></i></span> Payments</a>
 				<a href="index.php?page=plan" class="nav-item nav-plan"><span class='icon-field'><i class="fa fa-list-alt"></i></span> Loan Plans</a>
 				<a href="index.php?page=reports" class="nav-item nav-reports"><span class="icon-field"><i class="fa fa-list-ul"></i></span> Reports </a>
-				<a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
 			<?php } else{ ?>
 			<?php }?>
 		</div>

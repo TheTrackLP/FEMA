@@ -250,11 +250,6 @@ Class Action {
 				$fully = 3;
 				$save = $this->db->query("UPDATE loan_list set status = ".$fully." where id = ".$loan_id);
 			}
-			$thisWeek = $this->db->query("SELECT id, paid_month FROM loan_schedules where id = $loan_id")->fetch_array();
-			if(empty($thisWeek['paid_month'])){
-				$done = 1;
-				$save = $this->db->query("UPDATE loan_schedules set paid_month = ".$done." where id = ".$loan_id);
-			}
 
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO payments set ".$data);

@@ -111,7 +111,6 @@ while($row=$plan->fetch_assoc()){
 									<td width="75%">Loan Type</td>
 									<td width="25%" class='text-right'>Amount</td>
 								</tr>
-								<tr>
 									<?php 
 									$loan = $conn->query("SELECT * FROM loan_list where borrower_id = $borrower_id");
 									$total_loan = 0;
