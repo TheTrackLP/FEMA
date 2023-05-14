@@ -23,11 +23,18 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
     <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js" rel="stylesheet"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
 </head>
-<body style="background-image: url('assets/img/user_bg.png'); margin: auto;">
+<body>
 
     <style>
         p{
             margin: 1;
+        }
+
+        body {
+            background-image: linear-gradient(to bottom right, #00AFB9, #FED9B7);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
     </style>
     

@@ -39,8 +39,8 @@ a.dropdown-item:hover{
 
 
 </style>
-<nav id="sidebar" class='mx-lt-5' >	
-		<div class="sidebar-list" style="background-image: linear-gradient(to bottom right, #00AFB9, #FED9B7)">
+<nav id="sidebar" class='mx-lt-5'  style="background-image: linear-gradient(to bottom right, #00AFB9, #FED9B7)">	
+		<div class="sidebar-list">
 				<img class="rounded-circle py-1 mb-3" src="assets/img/filamer.png">
 				<a href="ajax.php?action=logout" class="btn-out py-1 bg-transparent button-hover"><?php echo $_SESSION['login_name'] ?> <div class="badge badge-danger"><i class="fa fa-power-off"></i></div></a>
 				<hr>
