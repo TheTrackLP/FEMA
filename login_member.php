@@ -26,7 +26,10 @@ if(isset($_SESSION['user_id'])){
         box-sizing: border-box;
     }
     body {
-        background: rgb(219, 226, 226);
+        background-image: linear-gradient(to bottom right, #00AFB9, #FED9B7);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }
     .row {
         background: white;
@@ -63,7 +66,7 @@ if(isset($_SESSION['user_id'])){
         <div class="container" style="height: 100%">
             <div class="row g-0">
                 <div class="col-lg-7">
-                    <img class="img-fluid" src="assets/img/bg-login.jpg" alt="">
+                    <img class="img-fluid" src="assets/img/bg_fcu.jpg" alt="" style="height:100%">
                 </div>
                 <div class="col-lg-5 px-5 pt-5 text-center">
                     <h1 class="fw-bold py-3 mt-5 text-start">FEMA</h1>

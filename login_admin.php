@@ -26,7 +26,10 @@ if(isset($_SESSION['login_id'])){
         box-sizing: border-box;
     }
     body {
-        background: rgb(219, 226, 226);
+        background-image: linear-gradient(to bottom right, #00AFB9, #FED9B7);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }
     .row {
         background: white;
