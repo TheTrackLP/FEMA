@@ -78,4 +78,11 @@ $offset = $ppaid > 0 ? " offset $ppaid ": "";
 			<input type="hidden" name="overdue" value="<?php echo $add > 0 ? 1 : 0 ?>">
 		</div>
 	</div>
+	<div class="col-md-5">
+		<div class="form-group">
+		<label for="">Amount to be Paid</label>
+		<label for=""></label>
+
+		</div>
+	</div>
 </div>
