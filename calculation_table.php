@@ -11,18 +11,13 @@ $penalty = $total * ($penalty/100);
 <div class="container-fluid">
 	<div class="col-lg-12">
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<label class="text-center">Borrowed Amount</label>
 				<input type="number" name="amount_borrowed" value="<?php echo $total, isset($_POST['amount_borrowed']) ? $_POST['amount_borrowed'] : ''?>" readonly>
 			</div>
-			<div class="col-md-4">
-				<label class="text-center">Total Payable amount</label>
-				<input type="number" name="total" value="<?php echo $monthly, isset($_POST['total']) ? $_POST['total'] : ''?>" readonly>
-			</div>
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<label class="text-center">Penalty Amount</label>
 				<input type="number" name="penaly" value="<?php echo number_format($penalty,2)?>" readonly>
-				
 			</div>
 		</div>
 	</div>
