@@ -102,6 +102,7 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
                                         while($p = $payments->fetch_assoc()){
                                             $sum_paid += ($p['paid'] - $p['penalty_amount']);
                                         }
+                                        $add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0;
                                     ?>
                                     <tr>
                                         <td class="text-center">
@@ -122,10 +123,18 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
                                             $fifth = $date1->format('d');
                                             if($fifth > 16){
                                                 echo "<p>Amount: <b>", number_format($row['amount'] * $plan_arr[$row['plan_id']]['interest_percentage']/100 + $five,2), "</b></p>";
-                                                echo "<p>Penalty: <span style='color: red;'><b>",$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; "</b></span></p>";
+                                                if($add){
+                                                    echo "<p>Penalty: <span style='color: red;'><b>",$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; "</b></span></p>";
+                                                }
+                                                else{
+                                                    $penalty = 0;
+                                                }
                                             }else{
-                                                
-                                                echo "<p>Penalty: <span style='color: red;'><b>",$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; "</b></span></p>";
+                                                if($add){
+                                                    echo "<p>Penalty: <span style='color: red;'><b>",$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; "</b></span></p>";
+                                                }else{
+                                                    $penalty = 0;
+                                                }
                                                 echo "<p>Amount: <b>",number_format($five + $add,2),"</b></p>";
                                             }
                                             ?>
