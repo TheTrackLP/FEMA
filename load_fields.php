@@ -24,11 +24,14 @@ while($row=$planloan->fetch_assoc()){
 
 $plan_arr = $conn->query("SELECT *,concat(plan_loan,'[ ',interest_percentage,'%, ',penalty_rate,' ]') as plan FROM loan_plan where id  = '".$meta['plan_id']."' ")->fetch_array();
 $monthly = ($meta['amount'] + ($meta['amount'] * ($plan_arr['interest_percentage']/100)));
+$with_interest = ($meta['amount'] * ($plan_arr['interest_percentage']/100));
 $penalty = $monthly * ($plan_arr['penalty_rate']/100);
 $payments = $conn->query("SELECT * from payments where loan_id =".$_POST['loan_id']);
-
+$five = 500;
 $ppaid = $payments->num_rows;
 $offset = $ppaid > 0 ? " offset $ppaid ": "";
+$next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['loan_id']."'  order by date(date_due) asc limit 1 $offset ")->fetch_assoc()['date_due'];
+
 ?>
 
 <div class="col-lg-12">
@@ -65,24 +68,33 @@ $offset = $ppaid > 0 ? " offset $ppaid ": "";
 </div>
 <hr>
 <div class="row">
-	<div class="col-md-5">
+	<div class="col-md-4">
 		<div class="form-group">
 			<label for="">Principal</label>
 			<input type="number" name="paid" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($paid) ? $paid : 0 ?>">
 			<label for="">Interest</label>
 			<input type="number" name="interest" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($interest) ? $interest : 0 ?>">
-			<label for="">Paid-in Capital</label>
-			<input type="number" name="capital" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($interest) ? $interest : 0 ?>">
-			<input type="hidden" name="penalty_amount" value="<?php echo $add ?>">
-			<input type="hidden" name="loan_id" value="<?php echo $_POST['loan_id'] ?>">
-			<input type="hidden" name="overdue" value="<?php echo $add > 0 ? 1 : 0 ?>">
 		</div>
 	</div>
-	<div class="col-md-5">
-		<div class="form-group">
-		<label for="">Amount to be Paid</label>
-		<label for=""></label>
-
-		</div>
+	<div class="cole-md-4">
+		<label for="">Paid-in Capital</label>
+		<input type="number" name="capital" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($capital) ? $capital : 0 ?>">
+		<label for="">Penalty</label>
+		<input type="number" name="penalty_amount" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($penalty_amount) ? $penalty_amount : 0 ?>">
+		<!--<input type="hidden" name="penalty_amount" value="<?php #echo $add ?>">
+		<input type="hidden" name="loan_id" value="<?php #echo $_POST['loan_id'] ?>">
+		<input type="hidden" name="overdue" value="<?php #echo $add > 0 ? 1 : 0 ?>"> -->
+	</div>
+	<div class="col-md-4">
+		<?php 
+		 $date1 = new DateTime(date("F d, Y" ,strtotime($next)));
+		 $fifth = $date1->format('d');
+		 if($fifth > 16){
+			 echo "<p>Amount: <b>", number_format($with_interest + $five,2), "</b></p>";
+		 }else{
+			 echo "<p>Amount: <b>",number_format($five,2),"</b></p>";
+		 }
+		?>
+		<p><small>Penalty :<b><?php echo $add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; ?></b></small></p>
 	</div>
 </div>
