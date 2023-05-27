@@ -13,18 +13,19 @@ $plan = $conn->query("SELECT *,concat(plan_loan,' [ ',interest_percentage,'%, ',
 while($row=$plan->fetch_assoc()){
 	$plan_arr[$row['id']] = $row;
 }
+$five = 500;
 $monthly_paid = $amount_borrowed / $total;
 $wtih_interest = $interest_percentage/100;
 $plus = $amount_borrowed + 1000;
-	?>
+?>
 <style>
-    .container-fluid {
-        padding-right: 0;
+	.container-fluid {
+		padding-right: 0;
         padding-left: 0;
         margin-right: auto;
         margin-left: auto
     }
- 
+	
 	.flex{
 		display: inline-flex;
 		width: 100%;
@@ -48,7 +49,7 @@ $plus = $amount_borrowed + 1000;
 	p{
 		margin:unset;
 	}
-
+	
 </style>
 <div class="container-fluid">
 	<div class="card">
@@ -56,10 +57,10 @@ $plus = $amount_borrowed + 1000;
 			<?php  
 			$five = 500;
 			$monthly = ($amount + ($amount * ($interest_percentage/100)));
-
+			
 			$this_month = ($amount * ($interest_percentage/100));	
 			$penalty = $monthly * ($penalty_rate/100);
-
+			
 			?>
 		</div>
 		<div class="card-body">
@@ -73,11 +74,20 @@ $plus = $amount_borrowed + 1000;
 					<p><strong><?php echo $name?></strong></p><br>
 				</div>
 				<div class="col-md-6">
-				<p>Interest this month: <b><?php echo number_format($this_month,2) ?></b></p>
+					<?php 
+					$date2 = new DateTime(date("F d, Y"));
+					$bimonthly = $date2->format('d');
+					if($bimonthly <= 16){
+						echo "<p>Interest this Bimonthly: <b>", number_format($five,2), "</b></p>";
+					}else{
+						echo "<p>Interest this Bimonthly: <b>", number_format($this_month,2), "</b></p>";
+					}
+					
+					?>
 				<p>Overdue Payable Amount: <b><?php echo number_format($penalty,2) ?></b></p>
 			</div>
-				<div class="col-md-6">
-				<p>Amount Borrowed:<b><?php echo number_format($amount_borrowed, 2)?></b></p>
+			<div class="col-md-6">
+					<p>Amount Borrowed:<b><?php echo number_format($amount_borrowed, 2)?></b></p>
 				<p>Amount Remaining:<b><?php echo number_format($amount,2) ?></b></p>
 			</div>
 		</div>
@@ -102,7 +112,7 @@ $plus = $amount_borrowed + 1000;
 					<strong><?php
 					$date1 = new DateTime(date("F d, Y" ,strtotime($row['date_due'])));
 					$fifth = $date1->format('d');
-					if($fifth > 16){
+					if($fifth <= 16){
 						//echo "&#8369; ".number_format($amount * $interest_percentage/100 + $five,2);
 						$plus -= 1000;
 						$with_total = $wtih_interest * $plus;
@@ -113,13 +123,13 @@ $plus = $amount_borrowed + 1000;
 					?></strong>
 				</div>
 				<!--<div class="col-sm-4 text-center" style="border-left: 1px solid black; border-bottom: 1px solid black;">
-				<?php #if($row['paid_month'] == 0): ?>
-					<span class="badge badge-danger"><?php #echo "&#x2716;" ?></span>
-				<?php #elseif($row['paid_month'] == 1): ?>
-					<span class="badge badge-success"><?php #echo "&#x2714;" ?></span>
-			<?php #endif; ?>
-		</div>	--->
-			</div>
+					<?php #if($row['paid_month'] == 0): ?>
+						<span class="badge badge-danger"><?php #echo "&#x2716;" ?></span>
+						<?php #elseif($row['paid_month'] == 1): ?>
+							<span class="badge badge-success"><?php #echo "&#x2714;" ?></span>
+							<?php #endif; ?>
+						</div>	--->
+					</div>
 			<?php 
 		}
 			?>

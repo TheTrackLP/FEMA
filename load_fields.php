@@ -80,16 +80,16 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 		<label for="">Paid-in Capital</label>
 		<input type="number" name="capital" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($capital) ? $capital : 0 ?>">
 		<label for="">Penalty</label>
-		<input type="number" name="penalty_amount" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($penalty_amount) ? $penalty_amount : 0 ?>">
-		<!--<input type="hidden" name="penalty_amount" value="<?php #echo $add ?>">
-		<input type="hidden" name="loan_id" value="<?php #echo $_POST['loan_id'] ?>">
-		<input type="hidden" name="overdue" value="<?php #echo $add > 0 ? 1 : 0 ?>"> -->
+		<input type="number" name="sampleInterest" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($sampleInterest) ? $sampleInterest : 0 ?>">
+		<input type="hidden" name="loan_id" value="<?php echo $_POST['loan_id'] ?>">
+		<input type="hidden" name="penalty_amount" value="<?php echo $add ?>">
+		<input type="hidden" name="overdue" value="<?php echo $add > 0 ? 1 : 0 ?>">
 	</div>
 	<div class="col-md-4">
 		<?php 
 		 $date1 = new DateTime(date("F d, Y" ,strtotime($next)));
 		 $fifth = $date1->format('d');
-		 if($fifth > 16){
+		 if($fifth <= 16){
 			 echo "<p>Amount: <b>", number_format($with_interest + $five,2), "</b></p>";
 		 }else{
 			 echo "<p>Amount: <b>",number_format($five,2),"</b></p>";
