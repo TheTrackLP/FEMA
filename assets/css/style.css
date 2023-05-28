@@ -281,10 +281,6 @@ a.nav-item {
     margin: 10px;
     transform: translateY(-6px);
 }
-a.nav-item:hover, .nav-item.active {
-    background-color: yellow;
-    color: black;
-}
 
 main#view-panel{
   margin-left: 250px; 
