@@ -24,11 +24,11 @@
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<p><b>Filter by:</b></p>
-							<select id="planFilter" class="form-control">
+							<p><b>Status:</b></p>
+							<select id="statFilter" class="form-control">
 								<option value="">New / Existing</option>
-									<option value="">New</option>
-									<option value="">Existing</option>
+									<option>New</option>
+									<option>Existing</option>
 							</select>
 						</div>
 					</div>
@@ -46,7 +46,7 @@
 						<col width="10.5%">
 						<col width="8%">
 					</colgroup>
-					<thead class="thead-dark">
+					<thead class="table-info">
 						<tr>
 							<th class="text-center">#</th>
 							<th class="text-center">CV#</th>
@@ -141,6 +141,13 @@
         }
       });
 
+	  var planIndex = 0;
+      $("#borrower-list th").each(function (i) {
+        if ($($(this)).html() == "Status") {
+          planIndex = i; return false;
+        }
+      });
+
       //Use the built in datatables API to filter the existing rows by the Category column
       $.fn.dataTable.ext.search.push(
         function (settings, data, dataIndex) {
@@ -153,9 +160,23 @@
         }
       );
 
+	  $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+          var selectedItem = $('#statFilter').val()
+          var plan = data[planIndex];
+          if (selectedItem === "" || plan.includes(selectedItem)) {
+            return true;
+          }
+          return false;
+        }
+      );
       //Set the change event for the Category Filter dropdown to redraw the datatable each time
       //a user selects a new filter.
       $("#planFilter").change(function (e) {
+        table.draw();
+      });
+
+	  $("#statFilter").change(function (e) {
         table.draw();
       });
 
