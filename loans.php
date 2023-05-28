@@ -11,7 +11,7 @@
 				
 			</div>
 			<div class="plan-filter">
-				<form class="d-flex flex-row">
+				<form>
 					<div class="col-md-4">
 						<div class="form-group">
 				<?php
