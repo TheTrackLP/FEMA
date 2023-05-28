@@ -2,8 +2,8 @@
 <style>
 img {
   display: block;
-  max-width:200px;
-  max-height:150px;
+  max-width:100px;
+  max-height: :150px;
   width: auto;
   height: auto;
   margin-left: auto;
@@ -45,15 +45,8 @@ a.dropdown-item:hover{
 				<a href="ajax.php?action=logout" class="btn-out py-1 bg-transparent button-hover"><?php echo $_SESSION['login_name'] ?> <div class="badge badge-danger"><i class="fa fa-power-off"></i></div></a>
 				<hr>
 				<?php if($_SESSION['login_position'] == "Admin"){ ?>
-				<div class="dropdown show">
-					<a href="index.php?page=home" class="nav-item nav-home button-hover"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
-					<a class="nav-item dropdown-toggle button-hover" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class='icon-field'><i class="fa fa-bars"></i></span> Borrowers</a>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-						<a href="index.php?page=borrowers" class="dropdown-item nav-item nav-for"><span class='icon-field'><i class="fa fa-bars"></i></span>New/Exist</a>
-						<a href="index.php?page=borrowers_new" class="dropdown-item nav-item nav-for"><span><span class='icon-field'><i class="fa fa-plus"></i></span>New</a>
-						<a href="index.php?page=borrowers_exist" class="dropdown-item nav-item nav-for"><span><span class='icon-field'><i class="fa fa-globe"></i></span>Existing</a>
-					</div>
-				</div>
+				<a href="index.php?page=home" class="nav-item nav-home button-hover"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
+				<a href="index.php?page=borrowers" class="nav-item nav-home button-hover"><span class='icon-field'><i class="fa fa-bars"></i></span> Borrowers</a>
 				<a href="index.php?page=loans" class="nav-item nav-loans button-hover"><span class='icon-field'><i class="fa fa-file-invoice-dollar"></i></span> Loan</a>
 				<a href="index.php?page=payments" class="nav-item nav-payments button-hover"><span class='icon-field'><i class="fa fa-money-bill"></i></span> Payments</a>
 				<a href="index.php?page=plan" class="nav-item nav-plan button-hover"><span class='icon-field'><i class="fa fa-list-alt"></i></span> Loan Plans</a>

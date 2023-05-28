@@ -9,18 +9,26 @@
 				</large>
 			</div>
 			<div class="plan-filter">
-				<form>
+				<form class="d-flex flex-row">
 					<div class="col-md-4">
 						<div class="form-group">
 							<p><b>Office/Department:</b></p>
-							<?php
-              $department = $conn->query("SELECT * from departments");
-              ?>
+							<?php $department = $conn->query("SELECT * from departments");?>
 							<select id="planFilter" class="form-control">
 								<option value="">Show All Office Department</option>
 								<?php while($row = $department->fetch_assoc()): ?>
 									<option value="<?php echo $row['department'] ?>"><?php echo $row['department'] ?></option>
 								<?php endwhile; ?>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<p><b>Filter by:</b></p>
+							<select id="planFilter" class="form-control">
+								<option value="">New / Existing</option>
+									<option value="">New</option>
+									<option value="">Existing</option>
 							</select>
 						</div>
 					</div>
