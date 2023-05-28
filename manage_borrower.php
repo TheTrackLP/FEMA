@@ -2,7 +2,7 @@
 <?php 
 
 if(isset($_GET['id'])){
-	$qry = $conn->query("SELECT * FROM borrowers where id=".$_GET['id']);
+	$qry = $conn->query("SELECT *,concat('Brgy. ' ,barangay, ' ',street,' ', city, ' ', province) as address FROM borrowers where id=".$_GET['id']);
 	foreach($qry->fetch_array() as $k => $val){
 		$$k = $val;
 	}
@@ -58,8 +58,14 @@ if(isset($_GET['id'])){
 				</div>
 			</div>
 				<div class="row">
+					<div class="form-group col-md-12">
+						<label>Address</label>
+						<input type="text" name="address" class="form-control" value="<?php echo isset($address) ? $address : ''?>" disabled>
+                    </div>
+                </div>
+				<div class="row">
 					<div class="form-group col-md-6">
-						<label>Year of Servic</label>
+						<label>Year of Service</label>
 						<select id="" class="form-control" name="year_service" required disabled>
 							<option selected><?php echo isset($year_service) ? $year_service : '' ?></option>
 							<option>1-4 years</option>
