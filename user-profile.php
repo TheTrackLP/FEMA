@@ -41,16 +41,12 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
 
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
-        <div class="col-md-2 border-right">
+        <div class="col-md-2 border-right d-flex align-items-center">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <span class="font-weight-bold"><?php echo $name ?></span>
                 <span class="text-black-50"></span><span><?php echo $email ?></span>
                 <span class="text-black-50"></span><span>Shared Capital: <b><?php echo $shared_capital ?></b></span>
-                <br>
-                <br>
-                <br>
-                <hr>
-                <a href="ajax.php?action=logout2" class="btn btn-danger">LOGOUT <i class="fa fa-power-off"></i></a>
+                <a href="ajax.php?action=logout2" class="btn btn-danger mt-3">LOGOUT <i class="fa fa-power-off"></i></a>
             </div>
         </div>
         <div class="col-md-10 border-right">
