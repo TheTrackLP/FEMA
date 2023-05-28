@@ -79,9 +79,8 @@ include 'db_connect.php';
 				<table class="table-striped table table-bordered col-md-12" id="filterMember">
 					<colgroup>
 						<col width="10%">
-						<col width="22%">
-						<col width="24%">
-						<col width="22%">
+						<col width="40%">
+						<col width="28%">
 						<col width="22%">
 					</colgroup>
 					<thead class="thead-dark">
@@ -89,7 +88,6 @@ include 'db_connect.php';
 							<th class="text-center">#</th>
 							<th class="text-center">Name</th>
 							<th class="text-center">Email</th>
-							<th class="text-center">Password</th>
 							<th class="text-center">Action</th>
 						</tr>
 					</thead>
@@ -108,9 +106,6 @@ include 'db_connect.php';
 					 	</td>
 					 	<td>
 					 		<?php echo $row['email'] ?>
-					 	</td>
-					 	<td class="text-center">
-					 		<?php echo $row['password'] ?>
 					 	</td>
 					 	<td>
 					 		<center>
