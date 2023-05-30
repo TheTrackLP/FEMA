@@ -32,27 +32,32 @@
 		</form>
 	</div>
            <div class="card-body">
-				<table class="table table-bordered" id="report-list">
-					<colgroup>
-						<col width="4%">
-						<col width="7.5%">
-						<col width="22%">
-						<col width="23.5%">
-						<col width="11%">
-						<col width="10%">
-						<col width="10%">
-						<col width="12%">
-					</colgroup>
+				<table class="table table-bordered table-hover" id="report-list">
 					<thead class="thead-dark">
 						<tr>
-							<th class="text-center">#</th>
-							<th class="text-center">CV #</th>
-							<th class="text-center">Name</th>
-							<th class="text-center">Type of Loan</th>
-							<th class="text-center">Principal</th>
-							<th class="text-center">Interest</th>
-							<th class="text-center">Balance</th>
-							<th class="text-center">Release Date</th>
+							<th class="text-center align-middle" rowspan="2">#</th>
+							<th class="text-center align-middle" rowspan="2">CV #</th>							
+							<th class="text-center align-middle" rowspan="2">Name</th>
+							<th class="text-center align-middle" colspan="2">Appliance</th>
+							<th class="text-center align-middle" colspan="2">Long Term</th>
+							<th class="text-center align-middle" colspan="2">Short term</th>
+							<th class="text-center align-middle" colspan="2">Emergency Loan</th>
+							<th class="text-center align-middle" colspan="2">Educational Loan</th>
+							<th class="text-center align-middle" rowspan="2">Paid-In</th>
+							<th class="text-center align-middle" rowspan="2">Other Recievable</th>
+							<th class="text-center align-middle" rowspan="2">Total</th>
+						</tr>
+						<tr>
+							<th class="text-center align-middle">PRIN</th>
+							<th class="text-center align-middle">INT</th>
+							<th class="text-center align-middle">PRIN</th>
+							<th class="text-center align-middle">INT</th>
+							<th class="text-center align-middle">PRIN</th>
+							<th class="text-center align-middle">INT</th>
+							<th class="text-center align-middle">PRIN</th>
+							<th class="text-center align-middle">INT</th>
+							<th class="text-center align-middle">PRIN</th>
+							<th class="text-center align-middle">INT</th>
 						</tr>
 					</thead>
 					<tbody>
