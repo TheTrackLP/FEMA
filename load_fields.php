@@ -9,7 +9,7 @@ if(isset($id)){
 		$$k = $val;
 	}
 }
-$loan = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no from loan_list l inner join borrowers b on b.id = l.borrower_id where l.id = ".$_POST['loan_id']);
+$loan = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no, b.shared_capital from loan_list l inner join borrowers b on b.id = l.borrower_id where l.id = ".$_POST['loan_id']);
 foreach($loan->fetch_array() as $k => $v){
 	$meta[$k] = $v;
 }
@@ -63,7 +63,7 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 	</div>
 	<div class="col-md-4">
 		<label>Capital Share:</label>
-		<input name="capital" class="form-control" required="" value="<?php echo isset($capital) ? $capital : (isset($meta['shared_cap']) ? $meta['shared_cap'] : '') ?>" readonly>
+		<input name="capital" class="form-control" required="" value="<?php echo isset($capital) ? $capital : (isset($meta['shared_capital']) ? $meta['shared_capital'] : '') ?>" readonly>
 	</div>
 </div>
 <hr>

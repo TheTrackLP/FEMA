@@ -144,6 +144,7 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
                                                 <span class="badge bg-info text-dark">Approved</span>
                                             <?php elseif($row['status'] == 2): ?>
                                                 <span class="badge bg-primary">Released</span>
+                                                <p>Date: <b><?php echo date("F j, Y, g:i a", strtotime($row['date_created']))?></b></p>
                                             <?php elseif($row['status'] == 3): ?>
                                                 <span class="badge bg-success">Completed</span>
                                             <?php elseif($row['status'] == 4): ?>
