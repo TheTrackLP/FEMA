@@ -54,7 +54,11 @@
 						<?php
 							
 							$i=1;
-							$qry = $conn->query("SELECT p.*,l.ref_no,l.amount,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id desc");
+							$plan = $conn->query("SELECT *,concat(plan_loan) as plan FROM loan_plan where id in (SELECT plan_id from loan_list) ");
+							while($row=$plan->fetch_assoc()){
+								$plan_arr[$row['id']] = $row;
+							}
+							$qry = $conn->query("SELECT p.*,l.ref_no,l.amount,l.plan_id,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id desc");
 							while($row = $qry->fetch_assoc()):
 								
 						 ?>
@@ -67,7 +71,7 @@
 						 	</td>
 						 	<td>
 						 		Name: <b><?php echo $row['name'] ?></b><br>
-						 		Plan: <b><?php echo $row['loan_plan']  ?></b>
+						 		Plan: <b><?php echo $plan_arr[$row['plan_id']]['plan']  ?></b>
 						 		
 						 	</td>
 						 	<td>
