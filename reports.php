@@ -43,15 +43,16 @@
 							<th class="text-center align-middle" colspan="2">Short term</th>
 							<th class="text-center align-middle" colspan="2">Rice Loan</th>
 							<th class="text-center align-middle" colspan="2">Educational Loan</th>
+							<th class="text-center align-middle" colspan="2">Special Emergency Loan</th>
 							<th class="text-center align-middle" rowspan="2">Paid-In</th>
 							<th class="text-center align-middle" rowspan="2">Other Recievable</th>
 							<th class="text-center align-middle" rowspan="2">Total</th>
 						</tr>
 						<tr>
-							<?php if(isset($row['plan_id']) ? $row['plan_id'] : 1): ?>
 							<th class="text-center align-middle">PRIN</th>
 							<th class="text-center align-middle">INT</th>
-							<?php endif; ?>
+							<th class="text-center align-middle">PRIN</th>
+							<th class="text-center align-middle">INT</th>
 							<th class="text-center align-middle">PRIN</th>
 							<th class="text-center align-middle">INT</th>
 							<th class="text-center align-middle">PRIN</th>
@@ -84,56 +85,15 @@
                         <td>
 						 	<p><small><b><?php echo $row['name'] ?></small></b></p>
                         </td>
-						<?php if($row['plan_id'] == 1): ?>
+						<?php for($j = 1 ; $j <= 6; $j++){
+						?>
                         <td class="text-center">
-							<p>Appliances Principal</p>
-							<?php echo $row['paid'] ?>
+							<?php echo $row['plan_id'] == $j? $row['paid']  : ""?>
 						</td>
                         <td class="text-center">
-							<p>Appliances interest</p>
-							<?php echo $row['interest'] ?>
-							<?php echo $plan_arr[$row['plan_id']]['plan'] ?>
-
+							<?php echo $row['plan_id'] == $j? $row['interest']  : ""?>
 						</td>
-						<?php elseif($row['plan_id'] == 2): ?>
-                        <td class="text-center">
-							<p>Loan Principal</p>
-							<?php echo $row['paid'] ?>
-							<?php echo $plan_arr[$row['plan_id']]['plan'] ?>
-                        </td>
-                        <td class="text-center">
-							<p>Loan interest</p>
-							<?php echo $row['interest'] ?>
-                        </td>
-						<?php elseif($row['plan_id'] == 3): ?>
-                        <td class="text-center">
-							<p>Short Principal</p>
-							<?php echo $row['paid'] ?>
-                        </td>
-						<td class="text-center">
-							<p>Short interest</p>
-							<?php echo $row['interest'] ?>
-							<?php echo $plan_arr[$row['plan_id']]['plan'] ?>
-                        </td>
-						<?php elseif($row['plan_id'] == 4): ?>
-						<td class="text-center">
-							<p>Rice Principal</p>
-							<?php echo $row['paid'] ?>
-                        </td>
-						<td class="text-center">
-							<p>Rice interest</p>
-							<?php echo $row['interest'] ?>
-                        </td>
-						<?php elseif($row['plan_id'] == 5): ?>
-						<td class="text-center">
-							<p>Educational Principal</p>
-							<?php echo $row['paid'] ?>
-                        </td>
-						<td class="text-center">
-							<p>Educational Principal</p>
-							<?php echo $row['interest'] ?>
-                        </td>
-						<?php else: ?>
+						<?php }?>
 						<td class="text-center">
 							<p>Paid in</p>
                         </td>
@@ -143,7 +103,6 @@
 						<td class="text-center">
 							<p>Total</p>
                         </td>
-						<?php endif; ?>
 
                     </tr>
                     <?php 
