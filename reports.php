@@ -36,8 +36,7 @@
 					<thead class="thead-dark">
 						<tr>
 							<th class="text-center align-middle" rowspan="2">#</th>
-							<th class="text-center align-middle" rowspan="2">CV #</th>							
-							<th class="text-center align-middle" rowspan="2">Name</th>
+							<th class="text-center align-middle" rowspan="2"><?php echo date("F Y", strtotime($month))?></th>
 							<th class="text-center align-middle" colspan="2">Appliance</th>
 							<th class="text-center align-middle" colspan="2">Long Term</th>
 							<th class="text-center align-middle" colspan="2">Short term</th>
@@ -45,8 +44,8 @@
 							<th class="text-center align-middle" colspan="2">Educational Loan</th>
 							<th class="text-center align-middle" colspan="2">Special Emergency Loan</th>
 							<th class="text-center align-middle" rowspan="2">Paid-In</th>
-							<th class="text-center align-middle" rowspan="2">Other Recievable</th>
 							<th class="text-center align-middle" rowspan="2">Total</th>
+							<th class="text-center align-middle" rowspan="2">Date</th>
 						</tr>
 						<tr>
 							<th class="text-center align-middle">PRIN</th>
@@ -70,18 +69,12 @@
                       while($row=$plan->fetch_assoc()){
                       	$plan_arr[$row['id']] = $row;
                       }
-                      $qry = $conn->query("SELECT l.*,l.ref_no,l.amount,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, p.paid, p.interest from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id where date_format(l.date_created,'%Y-%m') = '$month' order by unix_timestamp(l.date_created) asc ");
+                      $qry = $conn->query("SELECT p.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name from payments p inner join borrowers b on b.id = p.borrower_id where date_format(p.date_created,'%Y-%m') = '$month' order by unix_timestamp(p.date_created) asc");
                       if($qry->num_rows > 0):
                       	while($row = $qry->fetch_array()):
-                      		$monthly = ($row['amount'] + ($row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100)));
-                      		$interest = $row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100);
-                      		$penalty = $monthly * ($plan_arr[$row['plan_id']]['penalty_rate']/100);
 			         ?>
 			        <tr>
 			        	<td class="text-center"><?php echo $i++ ?></td>
-                        <td class="text-center">
-                        	<p><small><b><?php echo $row['borrower_id'] ?></small></b></p>
-                        </td>
                         <td>
 						 	<p><small><b><?php echo $row['name'] ?></small></b></p>
                         </td>
@@ -98,11 +91,11 @@
 							<p>Paid in</p>
                         </td>
 						<td class="text-center">
-							<p>Other</p>
+							<?php echo $row['paid'] + $row['interest'] ?>
                         </td>
 						<td class="text-center">
-							<p>Total</p>
-                        </td>
+						<p><b><?php echo date("M d, Y", strtotime($row['date_created'])) ?></b></p>
+						</td>
 
                     </tr>
                     <?php 
@@ -129,22 +122,21 @@
 </div>
 <noscript>
 	<style>
-		table#report-list{
-			width:100%;
-			border-collapse:collapse
+		table, th, tr{
+			border-collapse:collapse;
 		}
 		table#report-list td,table#report-list th{
-			border:1px solid
+			border:1px solid;
 		}
         p{
             margin:unset;
             padding: unset;
         }
 		.text-center{
-			text-align:center
+			text-align:center;
 		}
         .text-right{
-            text-align:right
+            text-align:right;
         }
 	</style>
 </noscript>

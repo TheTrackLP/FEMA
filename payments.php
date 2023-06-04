@@ -58,7 +58,7 @@
 							while($row=$plan->fetch_assoc()){
 								$plan_arr[$row['id']] = $row;
 							}
-							$qry = $conn->query("SELECT p.*,l.ref_no,l.amount,l.plan_id,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id desc");
+							$qry = $conn->query("SELECT p.*,l.ref_no,l.amount,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id desc");
 							while($row = $qry->fetch_assoc()):
 								
 						 ?>

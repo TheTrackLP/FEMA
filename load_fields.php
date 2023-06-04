@@ -13,10 +13,6 @@ $loan = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middle
 foreach($loan->fetch_array() as $k => $v){
 	$meta[$k] = $v;
 }
-$plan = $conn->query("SELECT *,concat(plan_loan, '[',interest_percentage,'%, ',penalty_rate,'] ') as plan FROM loan_plan where id in (SELECT plan_id from loan_list) ");
-while($row=$plan->fetch_assoc()){
-	$plan_arr[$row['id']] = $row;
-}
 $planloan = $conn->query("SELECT *,concat(plan_loan) as plan FROM loan_plan where id in (SELECT plan_id from loan_list) ");
 while($row=$planloan->fetch_assoc()){
 	$planloan_arr[$row['id']] = $row;
@@ -46,7 +42,8 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 	<div class="col-md-6">
 		<div class="form-group">
 			<label for="">Loan Plan</label>
-			<input name="loan_plan" class="form-control" required="" value="<?php echo isset($loan_plan) ? $loan_plan : (isset($plan_arr['plan_loan']) ? $plan_arr['plan_loan'] : '') ?>" readonly>
+			<input name="loan_plan" class="form-control" required="" value="<?php echo isset($loan_plan) ? $plan_id : (isset($plan_arr['plan_loan']) ? $plan_arr['plan_loan'] : '') ?>" readonly>
+			<input type="hidden" name="plan_id" value="<?php echo $meta['plan_id'] ?>">
 		</div>
 	</div>
 	<div class="col-md-2">
