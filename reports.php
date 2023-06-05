@@ -1,6 +1,7 @@
 <?php
     include 'db_connect.php';
     $month = isset($_GET['month']) ? $_GET['month'] : date('Y-m');
+	// "2023-06"
 ?>
 <div class="container-fluid">
     <div class="col-lg-12">
@@ -70,28 +71,50 @@
                       while($row=$plan->fetch_assoc()){
                       	$plan_arr[$row['id']] = $row;
                       }
-                      $qry = $conn->query("SELECT l.*,l.ref_no,l.amount,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, p.paid, p.interest from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id where date_format(l.date_created,'%Y-%m') = '$month' order by unix_timestamp(l.date_created) asc ");
-                      if($qry->num_rows > 0):
-                      	while($row = $qry->fetch_array()):
-                      		$monthly = ($row['amount'] + ($row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100)));
-                      		$interest = $row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100);
-                      		$penalty = $monthly * ($plan_arr[$row['plan_id']]['penalty_rate']/100);
-			         ?>
+                      $b_qry = $conn->query("SELECT id, concat(lastname,' ',firstname,' ',middlename) as name from borrowers");
+					  $borrowers = [];
+					  while($b = $b_qry->fetch_array()){
+						array_push($borrowers, $b);
+					  }	
+					$qry = $conn->query("SELECT l.*,l.ref_no,l.amount,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, p.paid, p.interest from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id where date_format(l.date_created,'%Y-%m') = '$month' order by unix_timestamp(l.date_created) asc ");
+					$payments = [];
+					while($payment = $qry->fetch_array()){
+						array_push($payments, $payment);
+					  }	
+					if($qry->num_rows > 0):
+						  foreach($borrowers as $borrower){
+							$borrower['data'] = [1=>array('paid' => 0,'interest'=> 0), 2=>array('paid' => 0,'interest'=> 0), 3=>array('paid' => 0,'interest'=> 0), 4=>array('paid' => 0,'interest'=> 0), 5=>array('paid' => 0,'interest'=> 0), 6=>array('paid' => 0,'interest'=> 0)];
+                      		$borrower['isIncluded'] = false;
+							foreach($payments as $pm){
+								$another = [];
+								$newDate = date("Y-m", strtotime($pm['date_created']));
+								if($borrower['id'] == $pm['borrower_id'] && $newDate == $month){
+									$borrower['isIncluded'] = true;
+									for($t = 1 ; $t <= 6; $t++){
+										if($t == $pm['plan_id']){
+											$borrower['data'][$t]['paid'] += $pm['paid'];
+											$borrower['data'][$t]['interest'] += $pm['interest'];
+										}
+									}
+								}
+							}
+							if($borrower['isIncluded']){
+					 ?>
 			        <tr>
 			        	<td class="text-center"><?php echo $i++ ?></td>
                         <td class="text-center">
-                        	<p><small><b><?php echo $row['borrower_id'] ?></small></b></p>
+                        	<p><small><b><?php echo $borrower['id'] ?></small></b></p>
                         </td>
                         <td>
-						 	<p><small><b><?php echo $row['name'] ?></small></b></p>
+						 	<p><small><b><?php echo $borrower['name'] ?></small></b></p>
                         </td>
 						<?php for($j = 1 ; $j <= 6; $j++){
 						?>
                         <td class="text-center">
-							<?php echo $row['plan_id'] == $j? $row['paid']  : ""?>
+							<?php echo $borrower['data'][$j]['paid'] ==0 ? "" : $borrower['data'][$j]['paid']?>
 						</td>
                         <td class="text-center">
-							<?php echo $row['plan_id'] == $j? $row['interest']  : ""?>
+							<?php echo $borrower['data'][$j]['interest'] == 0 ? "" :$borrower['data'][$j]['interest']?>
 						</td>
 						<?php }?>
 						<td class="text-center">
@@ -103,10 +126,10 @@
 						<td class="text-center">
 							<p>Total</p>
                         </td>
-
                     </tr>
-                    <?php 
-                        endwhile;
+                    <?php
+							} 
+						}
                    		else:
                     ?>
                     <tr>
