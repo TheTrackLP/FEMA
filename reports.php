@@ -14,23 +14,6 @@
         			</div>
         		</div>
 			</div>
-						<div class="plan-filter">
-				<form>
-					<div class="col-md-4">
-						<div class="form-group">
-				<?php
-				$plan = $conn->query("SELECT * FROM loan_plan");
-				?>
-				<select id="planFilter" class="form-control">
-					<option value="">Show All Plan</option>
-						<?php while($row = $plan->fetch_assoc()): ?>
-							<option value="<?php echo $row['plan_loan'] ?>"><?php echo $row['plan_loan'] ?></option>
-						<?php endwhile; ?>
-					</select>
-				</div>
-			</div>
-		</form>
-	</div>
            <div class="card-body">
 				<table class="table table-bordered table-hover" id="report-list">
 					<thead class="thead-dark">
@@ -72,6 +55,7 @@
                       $qry = $conn->query("SELECT p.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name from payments p inner join borrowers b on b.id = p.borrower_id where date_format(p.date_created,'%Y-%m') = '$month' order by unix_timestamp(p.date_created) asc");
                       if($qry->num_rows > 0):
                       	while($row = $qry->fetch_array()):
+							$total =  $row['paid'] + $row['interest'];
 			         ?>
 			        <tr>
 			        	<td class="text-center"><?php echo $i++ ?></td>
@@ -81,17 +65,17 @@
 						<?php for($j = 1 ; $j <= 6; $j++){
 						?>
                         <td class="text-center">
-							<?php echo $row['plan_id'] == $j? $row['paid']  : ""?>
+							<?php echo $row['plan_id'] == $j? number_format($row['paid'], 2)  : ""?>
 						</td>
                         <td class="text-center">
-							<?php echo $row['plan_id'] == $j? $row['interest']  : ""?>
+							<?php echo $row['plan_id'] == $j? number_format($row['interest'], 2)  : ""?>
 						</td>
 						<?php }?>
 						<td class="text-center">
 							<p>Paid in</p>
                         </td>
 						<td class="text-center">
-							<?php echo $row['paid'] + $row['interest'] ?>
+							<?php echo number_format($total, 2) ?>
                         </td>
 						<td class="text-center">
 						<p><b><?php echo date("M d, Y", strtotime($row['date_created'])) ?></b></p>
@@ -122,8 +106,9 @@
 </div>
 <noscript>
 	<style>
-		table, th, tr{
-			border-collapse:collapse;
+		table#report-list{
+			width:100%;
+			border-collapse:collapse
 		}
 		table#report-list td,table#report-list th{
 			border:1px solid;
@@ -144,44 +129,7 @@
     $("document").ready(function () {
 
       $("#report-list").dataTable({
-        "searching": true
       });
-
-      //Get a reference to the new datatable
-      var table = $('#report-list').DataTable();
-
-      //Take the category filter drop down and append it to the datatables_filter div. 
-      //You can use this same idea to move the filter anywhere withing the datatable that you want.
-      
-      //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
-      //This tells datatables what column to filter on when a user selects a value from the dropdown.
-      //It's important that the text used here (Category) is the same for used in the header of the column to filter
-      var planIndex = 0;
-      $("#report-list th").each(function (i) {
-        if ($($(this)).html() == "Loan Plan") {
-          planIndex = i; return false;
-        }
-      });
-
-      //Use the built in datatables API to filter the existing rows by the Category column
-      $.fn.dataTable.ext.search.push(
-        function (settings, data, dataIndex) {
-          var selectedItem = $('#planFilter').val()
-          var plan = data[planIndex];
-          if (selectedItem === "" || plan.includes(selectedItem)) {
-            return true;
-          }
-          return false;
-        }
-      );
-
-      //Set the change event for the Category Filter dropdown to redraw the datatable each time
-      //a user selects a new filter.
-      $("#planFilter").change(function (e) {
-        table.draw();
-      });
-
-      table.draw();
     })
 	$('#month').change(function(){
 		location.replace('index.php?page=reports&month='+$(this).val())
