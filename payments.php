@@ -39,7 +39,7 @@
 						<col width="12.5%">
 						<col width="8.5%">
 					</colgroup>
-					<thead class="thead-dark">
+					<thead class="table-info">
 						<tr>
 							<th class="text-center">#</th>
 							<th class="text-center">Reference and CV #</th>

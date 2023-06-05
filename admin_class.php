@@ -226,6 +226,7 @@ Class Action {
 			$data = " loan_id = $loan_id ";
 			$data .= " , borrower_id = '$borrower_id' ";
 			$data .= " , paid = '$paid' ";
+			$data .= " , plan_id = '$plan_id' ";
 			$data .= " , interest = '$interest' ";
 			$data .= " , capital = '$capital' ";
 			$data .= " , penalty_amount = '$penalty_amount' ";
