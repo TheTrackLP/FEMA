@@ -90,8 +90,9 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 		<?php 
 		 $date1 = new DateTime(date("F d, Y" ,strtotime($next)));
 		 $fifth = $date1->format('d');
-		 if($fifth <= 16){
-			 echo "<p>Amount: <b>", number_format($with_interest + $five,2), "</b></p>";
+		 if($fifth < 17){
+			 echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
+			 echo "<p>Interest: <b>", number_format($with_interest,2), "</b></p>";			 
 		 }else{
 			 echo "<p>Amount: <b>",number_format($five,2),"</b></p>";
 		 }

@@ -139,6 +139,7 @@ Class Action {
 		$data .= ", contact_no = '$contact_no' ";
 		$data .= ", email = '$email' ";
 		$data .= ", shared_capital = '$shared_capital' ";
+		$data .= ", year_service = '$year_service' ";
 		$data .= ", stat = '$stat' ";
 		
 		if(empty($id)){
@@ -160,6 +161,7 @@ Class Action {
 			$data = " borrower_id = $borrower_id ";
 			$data .= " , plan_id = '$plan_id' ";
 			$data .= " , shared_cap = '$shared_cap' ";
+			$data .= " , yservice = '$yservice' ";
 			$data .= " , amount = '$amount' ";
 			$data .= " , amount_borrowed = '$amount_borrowed' ";
 			$data .= " , purpose = '$purpose' ";
@@ -172,6 +174,7 @@ Class Action {
 					$roundoff = $amount['amount_borrowed'] / $minimum;
 					for($i= 1; $i <= $roundoff;$i++){
 						$date = date("Y-m-d",strtotime(date("Y-m-d")." +".$i*$days." days"));
+						//Add one month when for paying 
 						$chk = $this->db->query("SELECT * FROM loan_schedules where loan_id = $id and date(date_due) ='$date'  ");
 						if($chk->num_rows > 0){
 							$ls_id = $chk->fetch_array()['id'];
@@ -217,10 +220,12 @@ Class Action {
 
 	function delete_loan(){
 		extract($_POST);
-		$delete = $this->db->query("DELETE FROM loan_list where id = ".$id);
+		$delete = $this->db->query("DELETE FROM loan_list WHERE id = ".$id);
+		$delete = $this->db->query("DELETE FROM payments WHERE loan_id = ".$id);
 		if($delete)
 			return 1;
 	}
+
 	function save_payment(){
 		extract($_POST);
 			$data = " loan_id = $loan_id ";

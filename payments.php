@@ -6,9 +6,10 @@
 			<div class="card-header">
 				<large class="card-title">
 					<b>Payment History</b>
-					<button class="btn btn-primary btn-sm btn-block col-md-2 float-right" type="button" id="new_payments"><i class="fa fa-plus"></i> New Payment</button>
+					<?php if($_SESSION['login_position'] == "Cashier" || $_SESSION['login_position'] == "Posting_clerk"):?>
+						<button class="btn btn-primary btn-sm btn-block col-md-2 float-right" type="button" id="new_payments"><i class="fa fa-plus"></i> New Payment</button>
+					<?php  endif;?>
 				</large>
-				
 			</div>
 			<div class="plan-filter">
 				<form>

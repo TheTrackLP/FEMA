@@ -14,7 +14,7 @@
 						<div class="form-group">
 							<p><b>Office/Department:</b></p>
 							<?php $department = $conn->query("SELECT * from departments");?>
-							<select id="planFilter" class="form-control">
+							<select id="deptFilter" class="form-control">
 								<option value="">Show All Office Department</option>
 								<?php while($row = $department->fetch_assoc()): ?>
 									<option value="<?php echo $row['department'] ?>"><?php echo $row['department'] ?></option>
@@ -25,7 +25,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<p><b>Status:</b></p>
-							<select id="statFilter" class="form-control">
+							<select id="statusFilter" class="form-control">
 								<option value="">New / Existing</option>
 									<option>New</option>
 									<option>Existing</option>
@@ -76,7 +76,7 @@
 						 		<b><?php echo ucwords($row['lastname'].", ".$row['firstname'].' '.$row['middlename']) ?></b></p>
 						 	</td>
 						 	<td>
-						 		<p class="text-center"><?php echo $row['shared_capital']?></p>							
+						 		<p class="text-center"><?php echo number_format($row['shared_capital'])?></p>							
 							</td>
 						 	<td>
 						 		<p class="text-center"><?php echo $row['department']?></p>							
@@ -89,7 +89,7 @@
 						 	<?php endif; ?>
 						 	</td>
 						 	<td class="text-center">
-						 		<p>Date Created :<b><br><?php echo date("M d, Y", strtotime($row['date_created'])) ?></b></p>
+						 		<b><br><?php echo date("M d, Y", strtotime($row['date_created'])) ?></b>
 						 	</td>
 						 	<td class="text-center">
 						 		<button class="btn btn-outline-primary btn-sm edit_borrower" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-eye"></i></button>
@@ -133,50 +133,54 @@
       
       //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
       //This tells datatables what column to filter on when a user selects a value from the dropdown.
-      //It's important that the text used here (Category) is the same for used in the header of the column to filter
-      var planIndex = 0;
-      $("#borrower-list th").each(function (i) {
-        if ($($(this)).html() == "Department") {
-          planIndex = i; return false;
-        }
-      });
-
-	  var planIndex = 0;
+      //It's important that the text used here (Category) is the same for used in the header of the column to filte
+	  var statusIndex = 0;
       $("#borrower-list th").each(function (i) {
         if ($($(this)).html() == "Status") {
-          planIndex = i; return false;
+			statusIndex = i; return false;
         }
       });
 
       //Use the built in datatables API to filter the existing rows by the Category column
       $.fn.dataTable.ext.search.push(
         function (settings, data, dataIndex) {
-          var selectedItem = $('#planFilter').val()
-          var plan = data[planIndex];
-          if (selectedItem === "" || plan.includes(selectedItem)) {
+          var selectedItem = $('#statusFilter').val()
+          var status = data[statusIndex];
+          if (selectedItem === "" || status.includes(selectedItem)) {
             return true;
           }
           return false;
         }
       );
 
-	  $.fn.dataTable.ext.search.push(
-        function (settings, data, dataIndex) {
-          var selectedItem = $('#statFilter').val()
-          var plan = data[planIndex];
-          if (selectedItem === "" || plan.includes(selectedItem)) {
-            return true;
-          }
-          return false;
-        }
-      );
       //Set the change event for the Category Filter dropdown to redraw the datatable each time
       //a user selects a new filter.
-      $("#planFilter").change(function (e) {
+      $("#statusFilter").change(function (e) {
         table.draw();
       });
 
-	  $("#statFilter").change(function (e) {
+	  var deptIndex = 0;
+      $("#borrower-list th").each(function (i) {
+        if ($($(this)).html() == "Department") {
+			deptIndex = i; return false;
+        }
+      });
+
+      //Use the built in datatables API to filter the existing rows by the Category column
+      $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+          var selectedItem = $('#deptFilter').val()
+          var dept = data[deptIndex];
+          if (selectedItem === "" || dept.includes(selectedItem)) {
+            return true;
+          }
+          return false;
+        }
+      );
+
+      //Set the change event for the Category Filter dropdown to redraw the datatable each time
+      //a user selects a new filter.
+      $("#deptFilter").change(function (e) {
         table.draw();
       });
 

@@ -2,11 +2,13 @@
 session_start();
 
 include 'db_connect.php';
+//SELECT p.*,l.ref_no,l.amount,l.plan_id,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id  order by p.id desc
 $fees = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no from loan_list l inner join borrowers b on b.id = l.borrower_id inner join loan_plan c on c.id = l.plan_id  where l.id = {$_GET['loan_id']}");
 foreach($fees->fetch_array() as $k => $v){
 	$$k= $v;
 }
-$payments = $conn->query("SELECT * FROM payments where borrower_id = $borrower_id ");
+//SELECT p.*,l.ref_no,l.amount,l.plan_id,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.contact_no from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id
+$payments = $conn->query("SELECT p.* from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = $borrower_id ");
 $pay_arr = array();
 while($row=$payments->fetch_array()){
 	$pay_arr[$row['id']] = $row;
@@ -65,9 +67,9 @@ while($row=$plan->fetch_assoc()){
 		</div>
 		<?php if($_GET['id'] > 0): ?>
 		<div class="w-50">
-			<p>Payment Date: <b><?php echo isset($pay_arr[$_GET['id']]) ? date("M d,Y",strtotime($pay_arr[$_GET['id']]['date_created'])) : '' ?></b></p>
-			<p>Paid Amount: <b><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['paid'],2): '' ?></b></p>
-			<p>Plan: <b><?php echo isset($pay_arr[$_GET['id']]) ? $pay_arr[$_GET['id']]['loan_plan']: '' ?></b></p>
+			<!-- <p>Payment Date: <b><?php #echo isset($pay_arr[$_GET['id']]) ? date("M d,Y",strtotime($pay_arr[$_GET['id']]['date_created'])) : '' ?></b></p>
+			<p>Paid Amount: <b><?php # isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['paid'],2): '' ?></b></p>
+			<p>Plan: <b><?php #echo isset($pay_arr[$_GET['id']]) ? $pay_arr[$_GET['id']]['plan_id']: '' ?></b></p> -->
 
 		</div>
 		<?php endif; ?>
@@ -89,12 +91,11 @@ while($row=$plan->fetch_assoc()){
 		foreach ($pay_arr as $row) {
 			if($row["id"] <= $_GET['id'] || $_GET['id'] == 0){
 				$payment_total += $row['paid'];
-				$payment_total += $row['interest'];
 				?>
 				<tr>
 					<td><b><?php echo $row['paid'] ?></b></td>
 					<td><b><?php echo $row['interest'] ?></b></td>
-					<td><b><small><?php echo $row['loan_plan'] ?></b></small></td>
+					<td><b><small><?php echo $plan_arr[$row['plan_id']]['plan'] ?></b></small></td>
 					<td><b><?php echo date('Y-M-d', strtotime($row['date_created'])) ?></b></td>
 				</tr>
 				<?php
@@ -141,7 +142,7 @@ while($row=$plan->fetch_assoc()){
 							</tr>
 							<tr>
 								<td>Balance</td>
-								<td class='text-right'><b><?php echo number_format($payment_total - $total_loan) ?></b></td>
+								<td class='text-right'><b><?php echo number_format($total_loan - $payment_total) ?></b></td>
 							</tr>
 						</table>
 					</td>		

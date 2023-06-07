@@ -37,7 +37,7 @@ include 'db_connect.php';
 	 					while($row= $users->fetch_assoc()):
 					 ?>
 					 <tr>
-					 	<td>
+					 	<td class="text-center">
 				 			<?php echo $i++ ?>
 				 		</td>
 					 	<td>
@@ -93,16 +93,16 @@ include 'db_connect.php';
 					</thead>
 					<tbody>
 					<?php
-					$users = $conn->query("SELECT * FROM borrowers order by id asc");
+					$users = $conn->query("SELECT *,concat(lastname,', ',firstname,' ',middlename)as name FROM borrowers order by id asc");
 					$i = 1;
 					while($row= $users->fetch_assoc()):
 					 ?>
 					 <tr>
-					 	<td>
+					 	<td class="text-center">
 					 		<?php echo $i++ ?>
 					 	</td>
 					 	<td>
-					 		<?php echo $row['firstname'] ?>
+					 		<?php echo $row['name'] ?>
 					 	</td>
 					 	<td>
 					 		<?php echo $row['email'] ?>

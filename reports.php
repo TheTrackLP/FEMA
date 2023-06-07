@@ -68,6 +68,8 @@
 							$borrower['data'] = [1=>array('paid' => 0,'interest'=> 0), 2=>array('paid' => 0,'interest'=> 0), 3=>array('paid' => 0,'interest'=> 0), 4=>array('paid' => 0,'interest'=> 0), 5=>array('paid' => 0,'interest'=> 0), 6=>array('paid' => 0,'interest'=> 0)];
                       		$borrower['isIncluded'] = false;
 							$borrower['total'] = 0;
+							$borrower['Tcapital'] = 0;
+							$borrower['Tpenalty'] = 0;
 							foreach($payments as $pm){
 								$another = [];
 								if($borrower['id'] == $pm['borrower_id']){
@@ -77,6 +79,8 @@
 											$borrower['data'][$t]['paid'] += $pm['paid'];
 											$borrower['data'][$t]['interest'] += $pm['interest'];
 											$borrower['total'] += $pm['paid'] + $pm['interest'];
+											$borrower['Tcapital'] += $pm['capital'];
+											$borrower['Tpenalty'] += $pm['penalty_amount'];
 										}
 									}
 								}
@@ -98,10 +102,10 @@
 						</td>
 						<?php }?>
 						<td class="text-center">
-							<p>Paid in</p>
+							<?php echo number_format($borrower['Tcapital'],2) ?>
                         </td>
 						<td class="text-center">
-							<p>Other</p>
+						<?php echo number_format($borrower['Tpenalty'],2) ?>
                         </td>
 						<td class="text-center">
 							<?php echo number_format($borrower['total'],2) ?>
@@ -153,10 +157,7 @@
 </noscript>
 <script>
     $("document").ready(function () {
-
-      $("#report-list").dataTable({
-        "searching": true
-      });
+      $("#report-list").dataTable();
     })
 	$('#month').change(function(){
 		location.replace('index.php?page=reports&month='+$(this).val())
@@ -166,9 +167,7 @@
 		var ns = $('noscript').clone();
             ns.append(_c)
 		var nw = window.open('','_blank','width=1000,height=600')
-		nw.document.write(`<p class="text-center"><b>Payment Report as of <?php echo date("F, Y",strtotime($month)) ?></b></p>
-			<p class="text-center"><b>Loan <?php  ?></b></p>
-			`)
+		nw.document.write(`<p class="text-center"><b>Payment Report as of <?php echo date("F, Y",strtotime($month)) ?></b></p>`)
 		nw.document.write(ns.html())
 		nw.document.close()
 		nw.print()
