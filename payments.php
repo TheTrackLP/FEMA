@@ -88,9 +88,9 @@
 						 		<?php echo date("M d, Y", strtotime($row['date_created']))?>
 						 	</td>
 						 	<td class="text-center">
-								 <button class="btn btn-sm btn-outline-success view_payment" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-print"></i></button>	
-								 <button class="btn btn-sm btn-outline-success view_summary" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-file"></i></button>	
 								 <?php if($_SESSION['login_position'] == "Cashier" || $_SESSION['login_position'] == "Posting_clerk"):?>
+									<button class="btn btn-sm btn-outline-success view_payment" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-print"></i></button>	
+									<button class="btn btn-sm btn-outline-success view_summary" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-file"></i></button>	
 								<?php endif;?>
 						 	</td>
 						 </tr>
