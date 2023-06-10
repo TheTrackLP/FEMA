@@ -66,12 +66,11 @@ if(isset($_GET['id'])){
 				<div class="row">
 					<div class="form-group col-md-6">
 						<label>Year of Service</label>
-						<select id="" class="form-control" name="year_service" required disabled>
-							<option selected><?php echo isset($year_service) ? $year_service : '' ?></option>
-							<option>1-4 years</option>
-                            <option>5-9 years</option>
-                            <option>10 and above years</option>
-                        </select>
+						<select class="custom-select browser-default" name="year_service" disabled>
+							<option value="1" <?php echo $year_service == 1 ? "selected" : '' ?>>1-4 Years</option>
+							<option value="2" <?php echo $year_service == 2 ? "selected" : '' ?>>5-9 Years</option>
+							<option value="3" <?php echo $year_service == 3 ? "selected" : '' ?>>10 Years & Above</option>
+						</select>
                     </div>
                 </div>
 			<?php if(isset($stat)): ?>

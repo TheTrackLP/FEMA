@@ -1,6 +1,7 @@
 <?php
     include 'db_connect.php';
     $month = isset($_GET['month']) ? $_GET['month'] : date('Y-m');
+	// "2023-06"
 ?>
 <div class="container-fluid">
     <div class="col-lg-12">
@@ -14,30 +15,12 @@
         			</div>
         		</div>
 			</div>
-						<div class="plan-filter">
-				<form>
-					<div class="col-md-4">
-						<div class="form-group">
-				<?php
-				$plan = $conn->query("SELECT * FROM loan_plan");
-				?>
-				<select id="planFilter" class="form-control">
-					<option value="">Show All Plan</option>
-						<?php while($row = $plan->fetch_assoc()): ?>
-							<option value="<?php echo $row['plan_loan'] ?>"><?php echo $row['plan_loan'] ?></option>
-						<?php endwhile; ?>
-					</select>
-				</div>
-			</div>
-		</form>
-	</div>
            <div class="card-body">
 				<table class="table table-bordered table-hover" id="report-list">
-					<thead class="thead-dark">
+					<thead class="table-info">
 						<tr>
 							<th class="text-center align-middle" rowspan="2">#</th>
-							<th class="text-center align-middle" rowspan="2">CV #</th>							
-							<th class="text-center align-middle" rowspan="2">Name</th>
+							<th class="text-center align-middle" rowspan="2"><?php echo date("m Y", strtotime($month)) ?></th>
 							<th class="text-center align-middle" colspan="2">Appliance</th>
 							<th class="text-center align-middle" colspan="2">Long Term</th>
 							<th class="text-center align-middle" colspan="2">Short term</th>
@@ -70,43 +53,67 @@
                       while($row=$plan->fetch_assoc()){
                       	$plan_arr[$row['id']] = $row;
                       }
-                      $qry = $conn->query("SELECT l.*,l.ref_no,l.amount,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, p.paid, p.interest from payments p inner join loan_list l on l.id = p.loan_id inner join borrowers b on b.id = l.borrower_id where date_format(l.date_created,'%Y-%m') = '$month' order by unix_timestamp(l.date_created) asc ");
-                      if($qry->num_rows > 0):
-                      	while($row = $qry->fetch_array()):
-                      		$monthly = ($row['amount'] + ($row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100)));
-                      		$interest = $row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100);
-                      		$penalty = $monthly * ($plan_arr[$row['plan_id']]['penalty_rate']/100);
-			         ?>
+                      $b_qry = $conn->query("SELECT id, concat(lastname,' ',firstname,' ',middlename) as name from borrowers");
+					  $borrowers = [];
+					  while($b = $b_qry->fetch_array()){
+						array_push($borrowers, $b);
+					  }	
+					$qry = $conn->query("SELECT p.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name from payments p inner join borrowers b on b.id = p.borrower_id where date_format(p.date_created,'%Y-%m') = '$month' order by unix_timestamp(p.date_created) asc ");
+					$payments = [];
+					while($payment = $qry->fetch_array()){
+						array_push($payments, $payment);
+					  }	
+					if($qry->num_rows > 0):
+						  foreach($borrowers as $borrower){
+							$borrower['data'] = [1=>array('paid' => 0,'interest'=> 0), 2=>array('paid' => 0,'interest'=> 0), 3=>array('paid' => 0,'interest'=> 0), 4=>array('paid' => 0,'interest'=> 0), 5=>array('paid' => 0,'interest'=> 0), 6=>array('paid' => 0,'interest'=> 0)];
+                      		$borrower['isIncluded'] = false;
+							$borrower['total'] = 0;
+							$borrower['Tcapital'] = 0;
+							$borrower['Tpenalty'] = 0;
+							foreach($payments as $pm){
+								$another = [];
+								if($borrower['id'] == $pm['borrower_id']){
+									$borrower['isIncluded'] = true;
+									for($t = 1 ; $t <= 6; $t++){
+										if($t == $pm['plan_id']){
+											$borrower['data'][$t]['paid'] += $pm['paid'];
+											$borrower['data'][$t]['interest'] += $pm['interest'];
+											$borrower['total'] += $pm['paid'] + $pm['interest'];
+											$borrower['Tcapital'] += $pm['capital'];
+											$borrower['Tpenalty'] += $pm['penalty_amount'];
+										}
+									}
+								}
+							}
+							if($borrower['isIncluded']){
+					 ?>
 			        <tr>
 			        	<td class="text-center"><?php echo $i++ ?></td>
-                        <td class="text-center">
-                        	<p><small><b><?php echo $row['borrower_id'] ?></small></b></p>
-                        </td>
                         <td>
-						 	<p><small><b><?php echo $row['name'] ?></small></b></p>
+						 	<p><small><b><?php echo $borrower['name'] ?></small></b></p>
                         </td>
 						<?php for($j = 1 ; $j <= 6; $j++){
 						?>
                         <td class="text-center">
-							<?php echo $row['plan_id'] == $j? $row['paid']  : ""?>
+							<?php echo $borrower['data'][$j]['paid'] ==0 ? "" : number_format($borrower['data'][$j]['paid'],2)?>
 						</td>
                         <td class="text-center">
-							<?php echo $row['plan_id'] == $j? $row['interest']  : ""?>
+							<?php echo $borrower['data'][$j]['interest'] == 0 ? "" :number_format($borrower['data'][$j]['interest'],2)?>
 						</td>
 						<?php }?>
 						<td class="text-center">
-							<p>Paid in</p>
+							<?php echo number_format($borrower['Tcapital'],2) ?>
                         </td>
 						<td class="text-center">
-							<p>Other</p>
+						<?php echo number_format($borrower['Tpenalty'],2) ?>
                         </td>
 						<td class="text-center">
-							<p>Total</p>
-                        </td>
-
+							<?php echo number_format($borrower['total'],2) ?>
+						</td>
                     </tr>
-                    <?php 
-                        endwhile;
+                    <?php
+							} 
+						}
                    		else:
                     ?>
                     <tr>
@@ -150,46 +157,7 @@
 </noscript>
 <script>
     $("document").ready(function () {
-
-      $("#report-list").dataTable({
-        "searching": true
-      });
-
-      //Get a reference to the new datatable
-      var table = $('#report-list').DataTable();
-
-      //Take the category filter drop down and append it to the datatables_filter div. 
-      //You can use this same idea to move the filter anywhere withing the datatable that you want.
-      
-      //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
-      //This tells datatables what column to filter on when a user selects a value from the dropdown.
-      //It's important that the text used here (Category) is the same for used in the header of the column to filter
-      var planIndex = 0;
-      $("#report-list th").each(function (i) {
-        if ($($(this)).html() == "Loan Plan") {
-          planIndex = i; return false;
-        }
-      });
-
-      //Use the built in datatables API to filter the existing rows by the Category column
-      $.fn.dataTable.ext.search.push(
-        function (settings, data, dataIndex) {
-          var selectedItem = $('#planFilter').val()
-          var plan = data[planIndex];
-          if (selectedItem === "" || plan.includes(selectedItem)) {
-            return true;
-          }
-          return false;
-        }
-      );
-
-      //Set the change event for the Category Filter dropdown to redraw the datatable each time
-      //a user selects a new filter.
-      $("#planFilter").change(function (e) {
-        table.draw();
-      });
-
-      table.draw();
+      $("#report-list").dataTable();
     })
 	$('#month').change(function(){
 		location.replace('index.php?page=reports&month='+$(this).val())
@@ -199,9 +167,7 @@
 		var ns = $('noscript').clone();
             ns.append(_c)
 		var nw = window.open('','_blank','width=1000,height=600')
-		nw.document.write(`<p class="text-center"><b>Payment Report as of <?php echo date("F, Y",strtotime($month)) ?></b></p>
-			<p class="text-center"><b>Loan <?php  ?></b></p>
-			`)
+		nw.document.write(`<p class="text-center"><b>Payment Report as of <?php echo date("F, Y",strtotime($month)) ?></b></p>`)
 		nw.document.write(ns.html())
 		nw.document.close()
 		nw.print()

@@ -12,7 +12,6 @@ include 'db_connect.php';
 <div class="container-fluid">
 	<div class="row">
 	<div class="col-lg-12">
-		<button class="btn btn-primary float-right btn-sm" id="new_user"><i class="fa fa-plus"></i> New user</button>
 	</div>
 </div>
 <br>
@@ -21,7 +20,7 @@ include 'db_connect.php';
 		<div class="card col-lg-12">
 			<div class="card-body">
 				<table class="table-striped table-bordered col-md-12">
-					<thead class="thead-dark">
+				<thead class="table-info">
 						<tr>
 							<th class="text-center">#</th>
 							<th class="text-center">Name</th>
@@ -37,7 +36,7 @@ include 'db_connect.php';
 	 					while($row= $users->fetch_assoc()):
 					 ?>
 					 <tr>
-					 	<td>
+					 	<td class="text-center">
 				 			<?php echo $i++ ?>
 				 		</td>
 					 	<td>
@@ -83,7 +82,7 @@ include 'db_connect.php';
 						<col width="28%">
 						<col width="22%">
 					</colgroup>
-					<thead class="thead-dark">
+					<thead class="table-info">
 						<tr>
 							<th class="text-center">#</th>
 							<th class="text-center">Name</th>
@@ -93,16 +92,16 @@ include 'db_connect.php';
 					</thead>
 					<tbody>
 					<?php
-					$users = $conn->query("SELECT * FROM borrowers order by id asc");
+					$users = $conn->query("SELECT *,concat(lastname,', ',firstname,' ',middlename)as name FROM borrowers order by id asc");
 					$i = 1;
 					while($row= $users->fetch_assoc()):
 					 ?>
 					 <tr>
-					 	<td>
+					 	<td class="text-center">
 					 		<?php echo $i++ ?>
 					 	</td>
 					 	<td>
-					 		<?php echo $row['firstname'] ?>
+					 		<?php echo $row['name'] ?>
 					 	</td>
 					 	<td>
 					 		<?php echo $row['email'] ?>
@@ -110,7 +109,7 @@ include 'db_connect.php';
 					 	<td>
 					 		<center>
 					 			<div class="btn-group">
-								<a class="dropdown-item edit_member" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Edit Account</a>
+								<a class="edit_member" style="color: blue;" href="javascript:void(0)" data-id = '<?php echo $row['id'] ?>'>Edit Account</a>
 							</div>
 						</center>
 					</td>

@@ -97,7 +97,9 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
                                         while($p = $payments->fetch_assoc()){
                                             $sum_paid += ($p['paid'] - $p['penalty_amount']);
                                         }
+                                        if($row['status'] == 2){
                                         $add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0;
+                                        }
                                     ?>
                                     <tr>
                                         <td class="text-center">
@@ -143,7 +145,7 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
                                             <?php elseif($row['status'] == 1): ?>
                                                 <span class="badge bg-info text-dark">Approved</span>
                                             <?php elseif($row['status'] == 2): ?>
-                                                <span class="badge bg-primary">Released</span>
+                                                <span class="badge bg-primary">For Payments</span>
                                                 <p>Date: <b><?php echo date("F j, Y, g:i a", strtotime($row['date_created']))?></b></p>
                                             <?php elseif($row['status'] == 3): ?>
                                                 <span class="badge bg-success">Completed</span>

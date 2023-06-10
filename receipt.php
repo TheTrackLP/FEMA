@@ -11,6 +11,10 @@ $pay_arr = array();
 while($row=$payments->fetch_array()){
 	$pay_arr[$row['id']] = $row;
 }
+$plan = $conn->query("SELECT *,concat(plan_loan) as plan FROM loan_plan where id in (SELECT plan_id from loan_list) ");
+while($row=$plan->fetch_assoc()){
+	$plan_arr[$row['id']] = $row;
+}
 	?>
 <style>
     .container-fluid {
@@ -55,14 +59,14 @@ while($row=$payments->fetch_array()){
 	<hr>
 	<div class="flex">
 		<div class="w-50">
-			<p>CV #: <b><?php echo $borrower_id ?></b></p>
+			<p>OR #: <b><?php echo isset($pay_arr[$_GET['id']]) ? $pay_arr[$_GET['id']]['of_re']: '' ?></b></p>
 			<p>Borrower: <b><?php echo $name ?></b></p>
 			<p>Ref No: <b><?php echo $ref_no ?></b></p>
 		</div>
 		<?php if($_GET['id'] > 0): ?>
 		<div class="w-50">
 			<p>Payment Date: <b><?php echo isset($pay_arr[$_GET['id']]) ? date("M d,Y",strtotime($pay_arr[$_GET['id']]['date_created'])) : '' ?></b></p>
-			<p>Plan: <b><?php echo isset($pay_arr[$_GET['id']]) ? $pay_arr[$_GET['id']]['loan_plan']: '' ?></b></p>
+			<p>Plan: <b><?php echo isset($pay_arr[$_GET['id']]) ? $pay_arr[$_GET['id']]['plan_id']: '' ?></b></p>
 		</div>
 		<?php endif; ?>
 	</div>
@@ -72,10 +76,11 @@ while($row=$payments->fetch_array()){
 	<br>
 	<table width="100%" class="wborder">
 		<tr>
-			<td width="25%" class="text-center">Principal</td>
-			<td width="25%" class='text-center'>Interest</td>
-			<td width="25%" class="text-center">Shared Capital</td>
-			<td width="25%" class="text-center">Penalty</td>
+			<td width="20%" class="text-center">Principal</td>
+			<td width="20%" class='text-center'>Interest</td>
+			<td width="20%" class="text-center">Shared Capital</td>
+			<td width="20%" class="text-center">Penalty</td>
+			<td width="20%" class="text-center">Total</td>
 		</tr>
 		<td class="text-center">
 			<p><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['paid'],2): ''?></p>
@@ -88,6 +93,9 @@ while($row=$payments->fetch_array()){
 		</td>
 		<td class="text-center">
 			<p><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['penalty_amount'],2): ''?></p>
+		</td>
+		<td>
+			
 		</td>
 					
 			</table>

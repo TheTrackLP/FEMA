@@ -46,13 +46,15 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 	<div class="col-md-6">
 		<div class="form-group">
 			<label for="">Loan Plan</label>
+			<input type="hidden" name="plan_id" value="<?php echo $meta['plan_id'] ?>">
 			<input name="loan_plan" class="form-control" required="" value="<?php echo isset($loan_plan) ? $loan_plan : (isset($plan_arr['plan_loan']) ? $plan_arr['plan_loan'] : '') ?>" readonly>
 		</div>
 	</div>
 	<div class="col-md-2">
 		<div class="form-group">
-			<label for="">CV #:</label>
-			<input name="borrower_id" class="form-control" required="" value="<?php echo isset($borrower_id) ? $borrower_id : (isset($meta['borrower_id']) ? $meta['borrower_id'] : '') ?>" readonly>
+			<label for="">OR #:</label>
+			<input name="of_re" class="form-control" required="" value="<?php echo isset($of_re) ? $of_re : '' ?>" >
+			<input type="hidden" name="borrower_id" class="form-control" required="" value="<?php echo isset($borrower_id) ? $borrower_id : (isset($meta['borrower_id']) ? $meta['borrower_id'] : '') ?>" >
 		</div>
 	</div>
 </div>
@@ -71,16 +73,16 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 	<div class="col-md-4">
 		<div class="form-group">
 			<label for="">Principal</label>
-			<input type="number" name="paid" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($paid) ? $paid : 0 ?>">
+			<input type="number" name="paid" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($paid) ? $paid : '' ?>">
 			<label for="">Interest</label>
-			<input type="number" name="interest" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($interest) ? $interest : 0 ?>">
+			<input type="number" name="interest" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($interest) ? $interest : '' ?>">
 		</div>
 	</div>
 	<div class="cole-md-4">
 		<label for="">Paid-in Capital</label>
-		<input type="number" name="capital" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($capital) ? $capital : 0 ?>">
+		<input type="number" name="capital" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($capital) ? $capital : '' ?>">
 		<label for="">Penalty</label>
-		<input type="number" name="sampleInterest" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($sampleInterest) ? $sampleInterest : 0 ?>">
+		<input type="number" name="sampleInterest" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($sampleInterest) ? $sampleInterest : '' ?>">
 		<input type="hidden" name="loan_id" value="<?php echo $_POST['loan_id'] ?>">
 		<input type="hidden" name="penalty_amount" value="<?php echo $add ?>">
 		<input type="hidden" name="overdue" value="<?php echo $add > 0 ? 1 : 0 ?>">
@@ -89,8 +91,9 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 		<?php 
 		 $date1 = new DateTime(date("F d, Y" ,strtotime($next)));
 		 $fifth = $date1->format('d');
-		 if($fifth <= 16){
-			 echo "<p>Amount: <b>", number_format($with_interest + $five,2), "</b></p>";
+		 if($fifth < 17){
+			 echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
+			 echo "<p>Interest: <b>", number_format($with_interest,2), "</b></p>";			 
 		 }else{
 			 echo "<p>Amount: <b>",number_format($five,2),"</b></p>";
 		 }

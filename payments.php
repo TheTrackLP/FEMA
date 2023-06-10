@@ -6,9 +6,10 @@
 			<div class="card-header">
 				<large class="card-title">
 					<b>Payment History</b>
-					<button class="btn btn-primary btn-sm btn-block col-md-2 float-right" type="button" id="new_payments"><i class="fa fa-plus"></i> New Payment</button>
+					<?php if($_SESSION['login_position'] == "Cashier" || $_SESSION['login_position'] == "Posting_clerk"):?>
+						<button class="btn btn-primary btn-sm btn-block col-md-2 float-right" type="button" id="new_payments"><i class="fa fa-plus"></i> New Payment</button>
+					<?php  endif;?>
 				</large>
-				
 			</div>
 			<div class="plan-filter">
 				<form>
@@ -39,7 +40,7 @@
 						<col width="12.5%">
 						<col width="8.5%">
 					</colgroup>
-					<thead class="thead-dark">
+					<thead class="table-info">
 						<tr>
 							<th class="text-center">#</th>
 							<th class="text-center">Reference and CV #</th>
@@ -67,7 +68,7 @@
 						 	<td class="text-center"><?php echo $i++ ?></td>
 						 	<td>
 						 		<p>Loan Ref. #<b><?php echo $row['ref_no'] ?></b></p>
-						 		<p>CV. #<b><?php echo $row['borrower_id'] ?></b></p>
+						 		<p>OR. #<b><?php echo $row['of_re'] ?></b></p>
 						 	</td>
 						 	<td>
 						 		Name: <b><?php echo $row['name'] ?></b><br>
@@ -87,8 +88,10 @@
 						 		<?php echo date("M d, Y", strtotime($row['date_created']))?>
 						 	</td>
 						 	<td class="text-center">
-						 		<button class="btn btn-sm btn-outline-success view_payment" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-print"></i></button>	
-						 		<button class="btn btn-sm btn-outline-success view_summary" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-file"></i></button>	
+								 <button class="btn btn-sm btn-outline-success view_payment" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-print"></i></button>	
+								 <button class="btn btn-sm btn-outline-success view_summary" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-file"></i></button>	
+								 <?php if($_SESSION['login_position'] == "Cashier" || $_SESSION['login_position'] == "Posting_clerk"):?>
+								<?php endif;?>
 						 	</td>
 						 </tr>
 						<?php endwhile; ?>

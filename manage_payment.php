@@ -18,7 +18,7 @@ if(isset($_GET['id'])){
 					<div class="form-group">
 						<label for="" class="control-label">Name. | Plan.</label>
 						<?php
-						$loan = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name from loan_list l inner join borrowers b on b.id = l.borrower_id  WHERE status=2");
+						$loan = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name from loan_list l inner join borrowers b on b.id = l.borrower_id  WHERE status=2 && 3");
 						$plan = $conn->query("SELECT *,concat(plan_loan) as plan FROM loan_plan where id in (SELECT plan_id from loan_list) ");
 						while($row=$plan->fetch_assoc()){
 							$plan_arr[$row['id']] = $row;

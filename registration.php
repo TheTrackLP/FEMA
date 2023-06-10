@@ -97,12 +97,12 @@ if(isset($_GET['id'])){
                         </div>
                         <div class="input-field">
                             <label>Year of Service</label>
-                            <select id="" class="form-control" name="year_service" required>
-                                <option disabled selected>Select Year of Service</option>
-                                <option>1-4 years</option>
-                                <option>5-9 years</option>
-                                <option>10 and above years</option>
-                            </select>
+                            <select class="custom-select browser-default" name="year_service">
+                                <option value="0" selected disabled>Select Year of Service</option>
+                                <option value="1">1-4 Years</option>
+                                <option value="2">5-9 Years</option>
+                                <option value="3">10 Years & Above</option>
+                                </select>
                         </div>
                     </div>
 

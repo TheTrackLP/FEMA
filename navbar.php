@@ -57,6 +57,7 @@ a.btn-out{
 				
 			<?php } elseif($_SESSION['login_position'] == "Bookkeeper"){ ?>
 				<a href="index.php?page=home" class="nav-item nav-home button-hover"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
+				<a href="index.php?page=borrowers" class="nav-item nav-borrowers button-hover"><span class='icon-field'><i class="fa fa-bars"></i></span> Borrowers</a>
 				<a href="index.php?page=loans" class="nav-item nav-loans button-hover"><span class='icon-field'><i class="fa fa-file-invoice-dollar"></i></span> Loan</a>
 				<a href="index.php?page=payments" class="nav-item nav-payments button-hover"><span class='icon-field'><i class="fa fa-money-bill"></i></span> Payments</a>
 				<a href="index.php?page=plan" class="nav-item nav-plan button-hover"><span class='icon-field'><i class="fa fa-list-alt"></i></span> Loan Plans</a>

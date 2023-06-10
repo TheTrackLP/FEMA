@@ -6,9 +6,10 @@
 			<div class="card-header">
 				<div class="card-title">
 					<b>Loan List</b>
-					<button class="btn btn-primary col-md-2 float-right" type="button" id="new_application"><i class="fa fa-plus"></i> Create New Application</button>
+					<?php if($_SESSION['login_position'] == "Admin" || $_SESSION['login_position'] == "Bookkeeper"):?>
+						<button class="btn btn-primary col-md-2 float-right" type="button" id="new_application"><i class="fa fa-plus"></i> Create New Application</button>
+					<?php endif; ?>
 				</div>
-				
 			</div>
 			<div class="plan-filter">
 				<form class="d-flex flex-row">
@@ -33,7 +34,7 @@
 						<option value="">Show all Status</option>
 						<option>For Approval</option>
 						<option>Approved</option>
-						<option>Released</option>
+						<option>For Payment</option>
 						<option>Complete</option>
 						<option>Denied</option>
 					</select>
@@ -46,8 +47,9 @@
 					<colgroup>
 						<col width="5%">
 						<col width="7%">
-						<col width="20.2%">
-						<col width="25%">
+						<col width="18%">
+						<col width="11%">
+						<col width="18%">
 						<col width="15%">
 						<col width="8%">
 						<col width="12%">
@@ -57,7 +59,8 @@
 							<th scope="col" class="text-center">#</th>
 							<th scope="col" class="text-center">CV#</th>
 							<th scope="col" class="text-center">Name</th>
-							<th scope="col" class="text-center">Type of Loan</th>
+							<th scope="col" class="text-center">Years of Service</th>
+							<th scope="col" class="text-center">Plan</th>
 							<th scope="col" class="text-center">Next Payment Details</th>
 							<th scope="col" class="text-center">Status</th>
 							<th scope="col" class="text-center">Action</th>
@@ -72,7 +75,7 @@
 							while($row=$plan->fetch_assoc()){
 								$plan_arr[$row['id']] = $row;
 							}
-							$qry = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name, b.shared_capital from loan_list l inner join borrowers b on b.id = l.borrower_id  order by id desc");
+							$qry = $conn->query("SELECT l.*,concat(b.lastname,', ',b.firstname,' ',b.middlename)as name,b.year_service, b.shared_capital from loan_list l inner join borrowers b on b.id = l.borrower_id  order by id desc");
 							while($row = $qry->fetch_assoc()):
 								$monthly = ($row['amount'] + ($row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100)));
 								$this_month = ($row['amount'] * ($plan_arr[$row['plan_id']]['interest_percentage']/100));
@@ -82,6 +85,7 @@
 								$offset = $paid > 0 ? " offset $paid ": "";
 								if($row['status'] == 2):
 									$next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$row['id']."'  order by date(date_due) asc limit 1 $offset ")->fetch_assoc()['date_due'];
+									$next1 = strtotime($next);
 								endif;
 								$sum_paid = 0;
 								while($p = $payments->fetch_assoc()){
@@ -95,15 +99,35 @@
 						 		<p><?php echo "CV#-"."<b>".$row['borrower_id']."</b>" ?></p>
 						 	<td>
 						 		<p><b><?php echo $row['name'] ?></b></p>
-						 	</td>
-						 	<td>
+							</td>
+							<td class="text-center">
+							<?php if($row['year_service'] == 1): ?>
+						 			<b><span>1-4 Years</span></b>
+						 		<?php elseif($row['year_service'] == 2): ?>
+						 			<b><span>5-9 Years</span></b>
+					 			<?php elseif($row['year_service'] == 3): ?>
+						 			<b><span>10 Years & Above</span></b>
+						 		<?php endif; ?>
+							</td>
+							<td>
 						 		<p><b><?php echo $plan_arr[$row['plan_id']]['plan'] ?></b></p>
 						 	</td>
 						 	<td>
 						 		<?php if($row['status'] == 2 ): ?>
 						 		<p><small><b><?php echo date('M d, Y',strtotime($next)); ?></b></small></p>
-						 		<p><small>Penalty :<b><?php echo $add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; ?></b></small></p>
-								<button class="btn btn-sm btn-primary view_schedule" data-id="<?php echo $row['id']?>">View Schedule</button>
+								 <?php 
+								$date2 = new DateTime(date("F d, Y"));
+								$bimonthly = $date2->format('d');
+								if($bimonthly < 17){
+									echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
+									echo "<p>Interest: <b>", number_format($this_month,2), "</b></p>";
+
+								}else{
+									echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
+								}
+								?>
+						 		<p><small>Penalty :<b><?php echo $add = (date('Ymd',strtotime("+ 1 month", $next1)) < date("Ymd")) ?  $penalty : 0; ?></b></small></p>
+								<!-- <button class="btn btn-sm btn-primary view_schedule" data-id="<?php# echo $row['id']?>">View Schedule</button> -->
 						 		<?php elseif($row['status'] == 3): ?>
 						 			<b>Loan Fully Paid</b>
 					 			<?php else: ?>
@@ -116,7 +140,7 @@
 						 		<?php elseif($row['status'] == 1): ?>
 						 			<span class="badge badge-info">Approved</span>
 					 			<?php elseif($row['status'] == 2): ?>
-						 			<span class="badge badge-primary">Released</span>
+						 			<span class="badge badge-primary">For Payment</span>
 					 			<?php elseif($row['status'] == 3): ?>
 						 			<span class="badge badge-success">Completed</span>
 					 			<?php elseif($row['status'] == 4): ?>
@@ -169,9 +193,10 @@
       //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
       //This tells datatables what column to filter on when a user selects a value from the dropdown.
       //It's important that the text used here (Category) is the same for used in the header of the column to filter
+
       var planIndex = 0;
       $("#filterTable th").each(function (i) {
-        if ($($(this)).html() == "Loan Details") {
+        if ($($(this)).html() == "Plan") {
           planIndex = i; return false;
         }
       });
@@ -188,11 +213,16 @@
         }
       );
 
+      //Set the change event for the Category Filter dropdown to redraw the datatable each time
+      //a user selects a new filter.
+      $("#planFilter").change(function (e) {
+        table.draw();
+      });
 
-      var statusIndex = 0;
+	  var statusIndex = 0;
       $("#filterTable th").each(function (i) {
         if ($($(this)).html() == "Status") {
-          planIndex = i; return false;
+			statusIndex = i; return false;
         }
       });
 
@@ -200,7 +230,7 @@
       $.fn.dataTable.ext.search.push(
         function (settings, data, dataIndex) {
           var selectedItem = $('#statusFilter').val()
-          var status = data[planIndex];
+          var status = data[statusIndex];
           if (selectedItem === "" || status.includes(selectedItem)) {
             return true;
           }
@@ -210,9 +240,6 @@
 
       //Set the change event for the Category Filter dropdown to redraw the datatable each time
       //a user selects a new filter.
-      $("#planFilter").change(function (e) {
-        table.draw();
-      });
       $("#statusFilter").change(function (e) {
         table.draw();
       });
@@ -238,21 +265,21 @@
 	$('.delete_loan').click(function(){
 		_conf("Are you sure to delete this data?","delete_loan",[$(this).attr('data-id')])
 	})
-function delete_loan($id){
-		start_load()
-		$.ajax({
-			url:'ajax.php?action=delete_loan',
-			method:'POST',
-			data:{id:$id},
-			success:function(resp){
-				if(resp==1){
-					alert_toast("Loan successfully deleted",'success')
-					setTimeout(function(){
-						location.reload()
-					},1500)
+	function delete_loan($id){
+			start_load()
+			$.ajax({
+				url:'ajax.php?action=delete_loan',
+				method:'POST',
+				data:{id:$id},
+				success:function(resp){
+					if(resp==1){
+						alert_toast("Loan successfully deleted",'success')
+						setTimeout(function(){
+							location.reload()
+						},1500)
 
+					}
 				}
-			}
-		})
-	}
+			})
+		}
 </script>

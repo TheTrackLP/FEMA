@@ -78,9 +78,9 @@ $plus = $amount_borrowed + 1000;
 					$date2 = new DateTime(date("F d, Y"));
 					$bimonthly = $date2->format('d');
 					if($bimonthly <= 16){
-						echo "<p>Interest this Bimonthly: <b>", number_format($five,2), "</b></p>";
-					}else{
 						echo "<p>Interest this Bimonthly: <b>", number_format($this_month,2), "</b></p>";
+					}else{
+						echo "<p>Interest this Bimonthly: <b>", number_format($five,2), "</b></p>";
 					}
 					
 					?>
@@ -112,7 +112,7 @@ $plus = $amount_borrowed + 1000;
 					<strong><?php
 					$date1 = new DateTime(date("F d, Y" ,strtotime($row['date_due'])));
 					$fifth = $date1->format('d');
-					if($fifth <= 16){
+					if($fifth < 17){
 						//echo "&#8369; ".number_format($amount * $interest_percentage/100 + $five,2);
 						$plus -= 1000;
 						$with_total = $wtih_interest * $plus;

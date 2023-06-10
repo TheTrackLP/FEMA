@@ -64,7 +64,7 @@
 				<div class="card">
 					<div class="card-body">
 						<table class="table table-bordered table-hover">
-							<thead class="thead-dark">
+							<thead class="table-info">
 								<tr>
 									<th class="text-center">#</th>
 									<th class="text-center">Plan</th>
