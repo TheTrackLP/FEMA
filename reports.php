@@ -158,20 +158,20 @@
 						<?php for($j = 0; $j < count($plans); $j++){
 						?>
                         <td class="text-center">
-							<?php echo $totals[$j]['paid'] == 0 ? '' : $totals[$j]['paid'] ?>
+							<?php echo $totals[$j]['paid'] == 0 ? '' : number_format($totals[$j]['paid'],2) ?>
 						</td>
                         <td class="text-center">
-							<?php echo $totals[$j]['interest'] == 0 ? '' : $totals[$j]['interest']?>
+							<?php echo $totals[$j]['interest'] == 0 ? '' : number_format($totals[$j]['interest'], 2)?>
 						</td>
 						<?php }?>
 						<td class="text-center">
-							<?php echo $Totalcap[0] ?>
+							<?php echo number_format($Totalcap[0],2) ?>
                         </td>
 						<td class="text-center">
-						<?php echo $Totalcap[1] ?>
+						<?php echo number_format($Totalcap[1],2) ?>
                         </td>
 						<td class="text-center">
-							<?php echo $Totalcap[2] ?>
+							<?php echo number_format($Totalcap[2],2) ?>
 						</td>
                     </tr>
 					<?php endif; ?>
