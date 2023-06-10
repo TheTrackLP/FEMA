@@ -64,12 +64,14 @@
 						array_push($payments, $payment);
 					  }	
 					$totals = [];
+					$Totalcap = [0,0,0];
 					for($i = 0; $i < 6; $i++){
 						$arr = array('paid' => 0,'interest'=> 0);
 						array_push($totals, $arr);
 					}
 					$i = 1;
-					if($qry->num_rows > 0):
+					$hasdata = $qry->num_rows > 0;
+					if($hasdata):
 						foreach($borrowers as $borrower){
 							$borrower['data'] = [];//[1=>array('paid' => 0,'interest'=> 0), 2=>array('paid' => 0,'interest'=> 0), 3=>array('paid' => 0,'interest'=> 0), 4=>array('paid' => 0,'interest'=> 0), 5=>array('paid' => 0,'interest'=> 0), 6=>array('paid' => 0,'interest'=> 0)];
 							for($j = 0; $j < 6; $j++){
@@ -99,7 +101,11 @@
 								for($t = 0; $t < 6; $t++){
 									$totals[$t]['paid'] += $borrower['data'][$t]['paid'];
 									$totals[$t]['interest'] += $borrower['data'][$t]['interest'];
+									
 								}
+								$Totalcap[0] += $borrower['Tcapital'];
+								$Totalcap[1] += $borrower['Tpenalty'];
+								$Totalcap[2] += $borrower['total'];
 							?>
 			        <tr>
 			        	<td class="text-center"><?php echo $i++ ?></td>
@@ -137,7 +143,8 @@
                     	endif;
                     ?>
 			        </tbody>
-					<tfooter>
+					<?php if($hasdata): ?>
+					<tfoot>
 						<tr>
 			        	<td class="text-center"></td>
                         <td>
@@ -153,16 +160,19 @@
 						</td>
 						<?php }?>
 						<td class="text-center">
-							<?php echo number_format($borrower['Tcapital'],2) ?>
+							<?php echo $Totalcap[0] ?>
                         </td>
 						<td class="text-center">
-						<?php echo number_format($borrower['Tpenalty'],2) ?>
+						<?php echo $Totalcap[1] ?>
                         </td>
 						<td class="text-center">
-							<?php echo number_format($borrower['total'],2) ?>
+							<?php echo $Totalcap[2] ?>
 						</td>
-						</tr>
-					</tfooter>
+                    </tr>
+					<?php endif; ?>
+						
+					</tfoot>
+
                 </table>
                 <hr>
                 <div class="col-md-12 mb-4">
