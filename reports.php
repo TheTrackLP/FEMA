@@ -48,7 +48,7 @@
 					</thead>
 					<tbody>
 			          <?php
-                      $i = 1;
+
                       $plan = $conn->query("SELECT *,concat(plan_loan) as plan FROM loan_plan where id in (SELECT plan_id from loan_list) ");
                       while($row=$plan->fetch_assoc()){
                       	$plan_arr[$row['id']] = $row;
@@ -63,10 +63,20 @@
 					while($payment = $qry->fetch_array()){
 						array_push($payments, $payment);
 					  }	
+					$totals = [];
+					for($i = 0; $i < 6; $i++){
+						$arr = array('paid' => 0,'interest'=> 0);
+						array_push($totals, $arr);
+					}
+					$i = 1;
 					if($qry->num_rows > 0):
-						  foreach($borrowers as $borrower){
-							$borrower['data'] = [1=>array('paid' => 0,'interest'=> 0), 2=>array('paid' => 0,'interest'=> 0), 3=>array('paid' => 0,'interest'=> 0), 4=>array('paid' => 0,'interest'=> 0), 5=>array('paid' => 0,'interest'=> 0), 6=>array('paid' => 0,'interest'=> 0)];
-                      		$borrower['isIncluded'] = false;
+						foreach($borrowers as $borrower){
+							$borrower['data'] = [];//[1=>array('paid' => 0,'interest'=> 0), 2=>array('paid' => 0,'interest'=> 0), 3=>array('paid' => 0,'interest'=> 0), 4=>array('paid' => 0,'interest'=> 0), 5=>array('paid' => 0,'interest'=> 0), 6=>array('paid' => 0,'interest'=> 0)];
+							for($j = 0; $j < 6; $j++){
+								$arr = array('paid' => 0,'interest'=> 0);
+								array_push($borrower['data'], $arr);
+							}
+							$borrower['isIncluded'] = false;
 							$borrower['total'] = 0;
 							$borrower['Tcapital'] = 0;
 							$borrower['Tpenalty'] = 0;
@@ -74,25 +84,29 @@
 								$another = [];
 								if($borrower['id'] == $pm['borrower_id']){
 									$borrower['isIncluded'] = true;
-									for($t = 1 ; $t <= 6; $t++){
-										if($t == $pm['plan_id']){
+									for($t = 0; $t < 6; $t++){
+										if($t+1 == $pm['plan_id']){
 											$borrower['data'][$t]['paid'] += $pm['paid'];
 											$borrower['data'][$t]['interest'] += $pm['interest'];
 											$borrower['total'] += $pm['paid'] + $pm['interest'];
 											$borrower['Tcapital'] += $pm['capital'];
 											$borrower['Tpenalty'] += $pm['penalty_amount'];
-										}
+											}
 									}
 								}
 							}
 							if($borrower['isIncluded']){
-					 ?>
+								for($t = 0; $t < 6; $t++){
+									$totals[$t]['paid'] += $borrower['data'][$t]['paid'];
+									$totals[$t]['interest'] += $borrower['data'][$t]['interest'];
+								}
+							?>
 			        <tr>
 			        	<td class="text-center"><?php echo $i++ ?></td>
                         <td>
 						 	<p><small><b><?php echo $borrower['name'] ?></small></b></p>
                         </td>
-						<?php for($j = 1 ; $j <= 6; $j++){
+						<?php for($j = 0 ; $j < 6; $j++){
 						?>
                         <td class="text-center">
 							<?php echo $borrower['data'][$j]['paid'] ==0 ? "" : number_format($borrower['data'][$j]['paid'],2)?>
@@ -125,17 +139,17 @@
 			        </tbody>
 					<tfooter>
 						<tr>
-			        	<td class="text-center"><?php echo $i++ ?></td>
+			        	<td class="text-center"></td>
                         <td>
-						 	<p><small><b><?php echo $borrower['name'] ?></small></b></p>
+						 	<p><small><b>Total</small></b></p>
                         </td>
-						<?php for($j = 1 ; $j <= 6; $j++){
+						<?php for($j = 0; $j < 6; $j++){
 						?>
                         <td class="text-center">
-							<?php echo $borrower['data'][$j]['paid'] ==0 ? "" : number_format($borrower['data'][$j]['paid'],2)?>
+							<?php echo $totals[$j]['paid'] == 0 ? '' : $totals[$j]['paid'] ?>
 						</td>
                         <td class="text-center">
-							<?php echo $borrower['data'][$j]['interest'] == 0 ? "" :number_format($borrower['data'][$j]['interest'],2)?>
+							<?php echo $totals[$j]['interest'] == 0 ? '' : $totals[$j]['interest']?>
 						</td>
 						<?php }?>
 						<td class="text-center">
