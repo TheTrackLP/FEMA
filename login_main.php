@@ -50,9 +50,9 @@
         width: 500px;
     }
   </style>
-  <body>
+  <body scroll="no" style="overflow: hidden">
 
-    <section class="Form my-4 mx-5">
+    <section class="Form my-4 mx-5 py-5">
         <div class="container" style="height: 100%">
             <div class="content row g-0 mx-auto mt-5">
                 <div class="col-sm-12 px-5 pt-5 text-center">
