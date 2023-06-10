@@ -59,7 +59,7 @@ while($row=$plan->fetch_assoc()){
 	<hr>
 	<div class="flex">
 		<div class="w-50">
-			<p>CV #: <b><?php echo $borrower_id ?></b></p>
+			<p>OR #: <b><?php echo isset($pay_arr[$_GET['id']]) ? $pay_arr[$_GET['id']]['of_re']: '' ?></b></p>
 			<p>Borrower: <b><?php echo $name ?></b></p>
 			<p>Ref No: <b><?php echo $ref_no ?></b></p>
 		</div>
@@ -76,10 +76,11 @@ while($row=$plan->fetch_assoc()){
 	<br>
 	<table width="100%" class="wborder">
 		<tr>
-			<td width="25%" class="text-center">Principal</td>
-			<td width="25%" class='text-center'>Interest</td>
-			<td width="25%" class="text-center">Shared Capital</td>
-			<td width="25%" class="text-center">Penalty</td>
+			<td width="20%" class="text-center">Principal</td>
+			<td width="20%" class='text-center'>Interest</td>
+			<td width="20%" class="text-center">Shared Capital</td>
+			<td width="20%" class="text-center">Penalty</td>
+			<td width="20%" class="text-center">Total</td>
 		</tr>
 		<td class="text-center">
 			<p><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['paid'],2): ''?></p>
@@ -92,6 +93,9 @@ while($row=$plan->fetch_assoc()){
 		</td>
 		<td class="text-center">
 			<p><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['penalty_amount'],2): ''?></p>
+		</td>
+		<td>
+			
 		</td>
 					
 			</table>
