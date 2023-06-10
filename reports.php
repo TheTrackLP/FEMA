@@ -123,6 +123,32 @@
                     	endif;
                     ?>
 			        </tbody>
+					<tfooter>
+						<tr>
+			        	<td class="text-center"><?php echo $i++ ?></td>
+                        <td>
+						 	<p><small><b><?php echo $borrower['name'] ?></small></b></p>
+                        </td>
+						<?php for($j = 1 ; $j <= 6; $j++){
+						?>
+                        <td class="text-center">
+							<?php echo $borrower['data'][$j]['paid'] ==0 ? "" : number_format($borrower['data'][$j]['paid'],2)?>
+						</td>
+                        <td class="text-center">
+							<?php echo $borrower['data'][$j]['interest'] == 0 ? "" :number_format($borrower['data'][$j]['interest'],2)?>
+						</td>
+						<?php }?>
+						<td class="text-center">
+							<?php echo number_format($borrower['Tcapital'],2) ?>
+                        </td>
+						<td class="text-center">
+						<?php echo number_format($borrower['Tpenalty'],2) ?>
+                        </td>
+						<td class="text-center">
+							<?php echo number_format($borrower['total'],2) ?>
+						</td>
+						</tr>
+					</tfooter>
                 </table>
                 <hr>
                 <div class="col-md-12 mb-4">

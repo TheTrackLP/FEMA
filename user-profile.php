@@ -45,7 +45,7 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <span class="font-weight-bold"><?php echo $name ?></span>
                 <span class="text-black-50"></span><span><?php echo $email ?></span>
-                <span class="text-black-50"></span><span>Shared Capital: <b><?php echo $shared_capital ?></b></span>
+                <span class="text-black-50"></span><span>Shared Capital: <b><?php echo number_format($shared_capital, 2) ?></b></span>
                 <a href="ajax.php?action=logout2" class="btn btn-danger mt-3">LOGOUT <i class="fa fa-power-off"></i></a>
             </div>
         </div>
@@ -108,7 +108,6 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
                                         <td>
                                             <p><b><?php echo $plan_arr[$row['plan_id']]['plan'] ?></b></p>
                                         <p>Remaining Amount: <b><?php echo number_format($row['amount'],2) ?></b></p>
-                                        <p>Reference No. <b><?php echo $row['ref_no'] ?></b></p>
                                         </td>
                                         <td>
                                             <?php if($row['status'] == 2 ): ?>
