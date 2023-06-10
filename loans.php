@@ -6,7 +6,7 @@
 			<div class="card-header">
 				<div class="card-title">
 					<b>Loan List</b>
-					<?php if($_SESSION['login_position'] == "Admin" || $_SESSION['login_position'] == "Bookkeeper"):?>
+					<?php if($_SESSION['login_position'] == "Admin"):?>
 						<button class="btn btn-primary col-md-2 float-right" type="button" id="new_application"><i class="fa fa-plus"></i> Create New Application</button>
 					<?php endif; ?>
 				</div>
