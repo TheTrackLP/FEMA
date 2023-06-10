@@ -52,8 +52,9 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 	</div>
 	<div class="col-md-2">
 		<div class="form-group">
-			<label for="">CV #:</label>
-			<input name="borrower_id" class="form-control" required="" value="<?php echo isset($borrower_id) ? $borrower_id : (isset($meta['borrower_id']) ? $meta['borrower_id'] : '') ?>" readonly>
+			<label for="">OR #:</label>
+			<input name="of_re" class="form-control" required="" value="<?php echo isset($of_re) ? $of_re : '' ?>" >
+			<input type="hidden" name="borrower_id" class="form-control" required="" value="<?php echo isset($borrower_id) ? $borrower_id : (isset($meta['borrower_id']) ? $meta['borrower_id'] : '') ?>" >
 		</div>
 	</div>
 </div>

@@ -85,6 +85,7 @@
 								$offset = $paid > 0 ? " offset $paid ": "";
 								if($row['status'] == 2):
 									$next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$row['id']."'  order by date(date_due) asc limit 1 $offset ")->fetch_assoc()['date_due'];
+									$next1 = strtotime($next);
 								endif;
 								$sum_paid = 0;
 								while($p = $payments->fetch_assoc()){
@@ -117,16 +118,16 @@
 								 <?php 
 								$date2 = new DateTime(date("F d, Y"));
 								$bimonthly = $date2->format('d');
-								if($bimonthly <= 16){
+								if($bimonthly < 17){
 									echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
 									echo "<p>Interest: <b>", number_format($this_month,2), "</b></p>";
 
 								}else{
-									echo "<p>Interest this Bimonthly: <b>", number_format($five,2), "</b></p>";
+									echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
 								}
 								?>
-						 		<p><small>Penalty :<b><?php echo $add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; ?></b></small></p>
-								<!-- <button class="btn btn-sm btn-primary view_schedule" data-id="<?php #echo $row['id']?>">View Schedule</button> -->
+						 		<p><small>Penalty :<b><?php echo $add = (date('Ymd',strtotime("+ 1 month", $next1)) < date("Ymd")) ?  $penalty : 0; ?></b></small></p>
+								<!-- <button class="btn btn-sm btn-primary view_schedule" data-id="<?php# echo $row['id']?>">View Schedule</button> -->
 						 		<?php elseif($row['status'] == 3): ?>
 						 			<b>Loan Fully Paid</b>
 					 			<?php else: ?>

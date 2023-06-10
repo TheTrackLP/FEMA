@@ -230,6 +230,7 @@ Class Action {
 		extract($_POST);
 			$data = " loan_id = $loan_id ";
 			$data .= " , borrower_id = '$borrower_id' ";
+			$data .= " , of_re = '$of_re' ";
 			$data .= " , paid = '$paid' ";
 			$data .= " , plan_id = '$plan_id' ";
 			$data .= " , interest = '$interest' ";

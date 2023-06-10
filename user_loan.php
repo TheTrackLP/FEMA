@@ -14,7 +14,7 @@ $rand = rand(1,99999999);
 		<div class="row">
 			<div class="col-md-6">
 				<label>Shared Capital</label>
-				<input type="number" name="shared_capital" placeholder="Enter Borrowers Capital" class="form-control" value="<?php echo isset($shared_capital) ? $shared_capital : ''?>" readonly>
+				<input type="number" name="shared_capital" placeholder="Enter Borrowers Capital" class="form-control" value="<?php echo isset($shared_capital) ? $shared_capital : ''?>">
 			</div>
 		</div>
 
@@ -70,19 +70,19 @@ $rand = rand(1,99999999);
 			textarea[i].disabled = bDisabled; 
 		}
 		var select = document.getElementsByTagName("select");
-		for (var i = 0; i < select.length; i ++){
+		for (var i = 0; i < select.length; i++){
 			select[i].disabled = bDisabled;
 		}
 		var input = document.getElementsByTagName("input");
-		for (var i = 0; i < input.length; i ++){
+		for (var i = 0; i < input.length; i++){
 			input[i].disabled = bDisabled;
 		}
 		var button = document.getElementsByTagName("button");
-		for (var i = 0; i < button.length; i ++){
+		for (var i = 0; i < button.length; i++){
 			button[i].disabled = bDisabled;
 		}
 		var select = document.getElementsByTagName("select");
-		for (var i = 0; i = select.length; i ++){
+		for (var i = 0; i = select.length; i++){
 			select[i].disabled = bDisabled;
 		}
 	}

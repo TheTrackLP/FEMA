@@ -1,7 +1,7 @@
 <?php 
 include('db_connect.php');
 if(isset($_GET['id'])){
-$user = $conn->query("SELECT * FROM borrowers where id =".$_GET['id']);
+$user = $conn->query("SELECT *,concat(lastname, ', ', firstname, ' ', middlename) as name FROM borrowers where id =".$_GET['id']);
 foreach($user->fetch_array() as $k =>$v){
 	$meta[$k] = $v;
 }
@@ -13,7 +13,7 @@ foreach($user->fetch_array() as $k =>$v){
 		<input type="hidden" name="id" value="<?php echo isset($meta['id']) ? $meta['id']: '' ?>">
 		<div class="form-group">
 			<label for="firstname">Name</label>
-			<input type="text" name="firstname" id="firstname" class="form-control" value="<?php echo isset($meta['firstname']) ? $meta['firstname']: '' ?>" readonly>
+			<input type="text" name="firstname" id="firstname" class="form-control" value="<?php echo isset($meta['name']) ? $meta['name']: '' ?>" readonly>
 		</div>
 		<div class="form-group">
 			<label for="email">Email</label>

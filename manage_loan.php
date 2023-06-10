@@ -186,8 +186,8 @@ if(isset($_GET['id'])){
 		<div id="row-field">
 			<div class="row ">
 				<div class="col-md-12 text-center">
-					<button class="btn btn-primary btn-md float-left" >Save</button>&nbsp;
-					<a class="btn btn-primary btn-md float-left" href="javascript:toggleFormElements(false);">Edit</a>
+					<button class="btn btn-primary btn-md float-left" >Save</button>
+					<a class="btn btn-primary btn-md float-left" style="margin-left: 10px;" href="javascript:toggleFormElements(false);">Edit</a>
 					<button class="btn btn-danger btn-md float-right" type="button" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>

@@ -42,8 +42,8 @@ a.btn-out{
 				<a href="index.php?page=home" class="nav-item nav-home button-hover"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
 				<a href="index.php?page=borrowers" class="nav-item nav-borrowers button-hover"><span class='icon-field'><i class="fa fa-bars"></i></span> Borrowers</a>
 				<a href="index.php?page=loans" class="nav-item nav-loans button-hover"><span class='icon-field'><i class="fa fa-file-invoice-dollar"></i></span> Loan</a>
-				<a href="index.php?page=plan" class="nav-item nav-plan button-hover"><span class='icon-field'><i class="fa fa-list-alt"></i></span> Loan Plans</a>
 				<a href="index.php?page=payments" class="nav-item nav-payments button-hover"><span class='icon-field'><i class="fa fa-money-bill"></i></span> Payments</a>
+				<a href="index.php?page=plan" class="nav-item nav-plan button-hover"><span class='icon-field'><i class="fa fa-list-alt"></i></span> Loan Plans</a>
 				<a href="index.php?page=reports" class="nav-item nav-reports button-hover"><span class="icon-field"><i class="fa fa-list-ul"></i></span> Reports </a>
 				<a href="index.php?page=staffs_members" class="nav-item nav-staffs_members button-hover"><span class='icon-field'><i class="fa fa-users"></i></span> Staffs/Members</a>
 				<a href="index.php?page=department" class="nav-item nav-department button-hover"><span class='icon-field'><i class="fa fa-building"></i></span> Departments</a>
