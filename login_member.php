@@ -55,13 +55,16 @@ if(isset($_SESSION['user_id'])){
     span {
         color: rgb(212, 155, 11);
     }
+    section {
+        height:80vh;
+    }
   </style>
-  <body>
+  <body scroll="no" style="overflow: hidden">
 
-    <section class="Form my-4 mx-5 ">
+    <section class="Form my-4 mx-5 p-5">
         <div class="container" style="height: 100%">
             <div class="row g-0">
-                <div class="col-lg-7">
+                <div class="col-lg-7 p-0">
                     <img class="img-fluid" src="assets/img/bg_fcu.jpg" alt="" style="height:100%">
                 </div>
                 <div class="col-lg-5 px-5 pt-5 text-center">
