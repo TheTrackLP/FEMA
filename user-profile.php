@@ -51,7 +51,7 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Account Details</h4>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-12 py-5">
                     <div class="card">
                         <div class="card-body">
                             <table class="table table-bordered" id="filterTable">
