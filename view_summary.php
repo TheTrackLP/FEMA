@@ -35,7 +35,7 @@
 <script>
 	$('#print').click(function(){
 		start_load()
-		var nw = window.open('rsummary.php?loan_id=<?php echo $_GET['loan_id'] ?>&id=<?php echo $_GET['id'] ?>',"_blank","width=900,height=600")
+		var nw = window.open('report_summary.php?loan_id=<?php echo $_GET['loan_id'] ?>&id=<?php echo $_GET['id'] ?>',"_blank","width=900,height=600")
 		setTimeout(function(){
 			nw.print()
 			setTimeout(function(){

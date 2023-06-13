@@ -46,6 +46,11 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
                 <span class="font-weight-bold"><?php echo $name ?></span>
                 <span class="text-black-50"></span><span><?php echo $email ?></span>
                 <span class="text-black-50"></span><span>Shared Capital: <b><?php echo number_format($shared_capital, 2) ?></b></span>
+                <?php if($stat == "New"): ?>
+                    <h4><span class="badge badge-danger ">Status: <b><?php echo $stat ?></b></span></h4>
+                <?php elseif($stat == "Existing"): ?>
+                    <h4><span class="badge badge-success ">Status: <b><?php echo $stat ?></b></span></h4>
+                <?php endif; ?>
                 <a href="ajax.php?action=logout2" class="btn btn-danger mt-3">LOGOUT <i class="fa fa-power-off"></i></a>
             </div>
         </div>
@@ -117,8 +122,9 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
                                             <?php
                                             $date1 = new DateTime(date("F d, Y" ,strtotime($next)));
                                             $fifth = $date1->format('d');
-                                            if($fifth > 16){
-                                                echo "<p>Amount: <b>", number_format($row['amount'] * $plan_arr[$row['plan_id']]['interest_percentage']/100 + $five,2), "</b></p>";
+                                            if($fifth <= 16){
+                                                echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
+                                                echo "<p>Interest: <b>", number_format($row['amount'] * $plan_arr[$row['plan_id']]['interest_percentage']/100,2), "</b></p>";
                                                 if($add){
                                                     echo "<p>Penalty: <span style='color: red;'><b>",$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; "</b></span></p>";
                                                 }

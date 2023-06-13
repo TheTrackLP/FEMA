@@ -38,7 +38,7 @@
 								}
 							?>
 							<th class="text-center align-middle" rowspan="2">Paid-In</th>
-							<th class="text-center align-middle" rowspan="2">Other Recievable</th>
+							<th class="text-center align-middle" rowspan="2">Penalty</th>
 							<th class="text-center align-middle" rowspan="2">Total</th>
 						</tr>
 						<tr>
@@ -95,7 +95,7 @@
 										{
 											$borrower['data'][$t]['paid'] += $pm['paid'];
 											$borrower['data'][$t]['interest'] += $pm['interest'];
-											$borrower['total'] += $pm['paid'] + $pm['interest'];
+											$borrower['total'] += $pm['paid'] + $pm['interest'] + $pm['capital'];
 											$borrower['Tcapital'] += $pm['capital'];
 											$borrower['Tpenalty'] += $pm['penalty_amount'];
 										}

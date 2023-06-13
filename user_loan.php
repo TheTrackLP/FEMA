@@ -42,7 +42,7 @@ $rand = rand(1,99999999);
 			<div class="col-md-6">
 				<label class="control-label">Loan Plan</label>
 				<?php
-				$plan = $conn->query("SELECT * FROM loan_plan order by `plan_loan` desc ");
+				$plan = $conn->query("SELECT * FROM loan_plan order by `plan_loan` asc ");
 				?>
 				<select name="plan_id" id="plan_id" class="custom-select browser-default select2" disabled>
 					<option value=""></option>

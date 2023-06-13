@@ -11,10 +11,6 @@ $pay_arr = array();
 while($row=$payments->fetch_array()){
 	$pay_arr[$row['id']] = $row;
 }
-$plan = $conn->query("SELECT *,concat(plan_loan) as plan FROM loan_plan where id in (SELECT plan_id from loan_list) ");
-while($row=$plan->fetch_assoc()){
-	$plan_arr[$row['id']] = $row;
-}
 	?>
 <style>
     .container-fluid {
@@ -63,16 +59,34 @@ while($row=$plan->fetch_assoc()){
 			<p>Borrower: <b><?php echo $name ?></b></p>
 			<p>Ref No: <b><?php echo $ref_no ?></b></p>
 		</div>
-		<?php if($_GET['id'] > 0): ?>
+		<?php if($_GET['id'] > 0): 
+		$plans = $pay_arr[$_GET['id']]['plan_id'];
+		if($plans == 1){
+			$plans = "APPLIANCE LOAN";
+		}elseif($plans == 2){
+			$plans = "LONG TERM LOAN";
+		}elseif($plans == 3){
+			$plans = "SHORT TERM LOAN";
+		}elseif($plans == 4){
+			$plans = "RICE LOAN";
+		}elseif($plans == 5){
+			$plans = "EDUCATIONAL LOAN";
+		}elseif($plans == 6){
+			$plans = "SPECIAL EMERGENCY LOAN";
+		}
+		?>
 		<div class="w-50">
 			<p>Payment Date: <b><?php echo isset($pay_arr[$_GET['id']]) ? date("M d,Y",strtotime($pay_arr[$_GET['id']]['date_created'])) : '' ?></b></p>
-			<p>Plan: <b><?php echo isset($pay_arr[$_GET['id']]) ? $pay_arr[$_GET['id']]['plan_id']: '' ?></b></p>
+			<p>Plan: <b><?php echo $plans ?></b></p>
 		</div>
 		<?php endif; ?>
 	</div>
 	<hr>
 	<p><b>Payment Summary</b></p>
 	<hr>
+	<?php 
+	$totals =$pay_arr[$_GET['id']]['paid'] + $pay_arr[$_GET['id']]['interest'] + $pay_arr[$_GET['id']]['capital'] + $pay_arr[$_GET['id']]['penalty_amount'];
+	?>
 	<br>
 	<table width="100%" class="wborder">
 		<tr>
@@ -94,8 +108,8 @@ while($row=$plan->fetch_assoc()){
 		<td class="text-center">
 			<p><?php echo isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['penalty_amount'],2): ''?></p>
 		</td>
-		<td>
-			
+		<td class="text-center">
+			<p><?php echo number_format($totals, 2) ?></p>
 		</td>
 					
 			</table>

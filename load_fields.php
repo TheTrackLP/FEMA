@@ -32,72 +32,75 @@ $ppaid = $payments->num_rows;
 $offset = $ppaid > 0 ? " offset $ppaid ": "";
 $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['loan_id']."'  order by date(date_due) asc limit 1 $offset ")->fetch_assoc()['date_due'];
 
+
 ?>
 
 <div class="col-lg-12">
 <hr>
-<div class="row">
-	<div class="col-md-4">
-		<div class="form-group">
-			<label for="">Borrower</label>
-			<input name="borrower" class="form-control" required="" value="<?php echo isset($borrower) ? $borrower : (isset($meta['name']) ? $meta['name'] : '') ?>" readonly>
+<form name="register" onsubmit="return checking()">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="">Borrower</label>
+				<input name="borrower" class="form-control" required="" value="<?php echo isset($borrower) ? $borrower : (isset($meta['name']) ? $meta['name'] : '') ?>" readonly>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="">Loan Plan</label>
+				<input type="hidden" name="plan_id" value="<?php echo $meta['plan_id'] ?>">
+				<input name="loan_plan" class="form-control" required="" value="<?php echo isset($loan_plan) ? $loan_plan : (isset($plan_arr['plan_loan']) ? $plan_arr['plan_loan'] : '') ?>" readonly>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="form-group">
+				<label for="">OR #:</label>
+				<input type="number" name="of_re" id="of_re" class="form-control" required="" value="<?php echo isset($of_re) ? $of_re : '' ?>" required>
+				<input type="hidden" name="borrower_id" class="form-control" required="" value="<?php echo isset($borrower_id) ? $borrower_id : (isset($meta['borrower_id']) ? $meta['borrower_id'] : '') ?>" >
+			</div>
 		</div>
 	</div>
-	<div class="col-md-6">
-		<div class="form-group">
-			<label for="">Loan Plan</label>
-			<input type="hidden" name="plan_id" value="<?php echo $meta['plan_id'] ?>">
-			<input name="loan_plan" class="form-control" required="" value="<?php echo isset($loan_plan) ? $loan_plan : (isset($plan_arr['plan_loan']) ? $plan_arr['plan_loan'] : '') ?>" readonly>
+	<div class="row">
+		<div class="col-md-4">
+			<label>Remaining Balance:</label>
+			<input name="balance" class="form-control" required="" value="<?php echo isset($balance) ? $balance : (isset($meta['amount']) ? $meta['amount'] : '') ?>" readonly>
+		</div>
+		<div class="col-md-4">
+			<label>Capital Share:</label>
+			<input name="capital" class="form-control" required="" value="<?php echo isset($capital) ? $capital : (isset($meta['shared_capital']) ? $meta['shared_capital'] : '') ?>"readonly>
 		</div>
 	</div>
-	<div class="col-md-2">
-		<div class="form-group">
-			<label for="">OR #:</label>
-			<input name="of_re" class="form-control" required="" value="<?php echo isset($of_re) ? $of_re : '' ?>" >
-			<input type="hidden" name="borrower_id" class="form-control" required="" value="<?php echo isset($borrower_id) ? $borrower_id : (isset($meta['borrower_id']) ? $meta['borrower_id'] : '') ?>" >
+	<hr>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="">Principal</label>
+				<input type="number" name="paid" id="paid" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($paid) ? $paid : '' ?>">
+				<label for="">Interest</label>
+				<input type="number" name="interest" id="interest" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($interest) ? $interest : '' ?>" required>
+			</div>
+		</div>
+		<div class="cole-md-4">
+			<label for="">Paid-in Capital</label>
+			<input type="number" name="capital" id="capital" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($capital) ? $capital : '' ?>">
+			<label for="">Penalty</label>
+			<input type="number" name="penalty_amount" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($penalty_amount) ? $penalty_amount : '' ?>">
+			<input type="hidden" name="loan_id" value="<?php echo $_POST['loan_id'] ?>">
+			<!-- <input type="hidden" name="penalty_amount" value="<?php #echo $add ?>"> -->
+			<input type="hidden" name="overdue" value="<?php echo $add > 0 ? 1 : 0 ?>">
+		</div>
+		<div class="col-md-4">
+			<?php 
+			$date1 = new DateTime(date("F d, Y" ,strtotime($next)));
+			$fifth = $date1->format('d');
+			if($fifth < 17){
+				echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
+				echo "<p>Interest: <b>", number_format($with_interest,2), "</b></p>";			 
+			}else{
+				echo "<p>Amount: <b>",number_format($five,2),"</b></p>";
+			}
+			?>
+			<p><small>Penalty :<b><?php echo $add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; ?></b></small></p>
 		</div>
 	</div>
-</div>
-<div class="row">
-	<div class="col-md-4">
-		<label>Remaining Balance:</label>
-		<input name="balance" class="form-control" required="" value="<?php echo isset($balance) ? $balance : (isset($meta['amount']) ? $meta['amount'] : '') ?>" readonly>
-	</div>
-	<div class="col-md-4">
-		<label>Capital Share:</label>
-		<input name="capital" class="form-control" required="" value="<?php echo isset($capital) ? $capital : (isset($meta['shared_capital']) ? $meta['shared_capital'] : '') ?>" readonly>
-	</div>
-</div>
-<hr>
-<div class="row">
-	<div class="col-md-4">
-		<div class="form-group">
-			<label for="">Principal</label>
-			<input type="number" name="paid" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($paid) ? $paid : '' ?>">
-			<label for="">Interest</label>
-			<input type="number" name="interest" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($interest) ? $interest : '' ?>">
-		</div>
-	</div>
-	<div class="cole-md-4">
-		<label for="">Paid-in Capital</label>
-		<input type="number" name="capital" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($capital) ? $capital : '' ?>">
-		<label for="">Penalty</label>
-		<input type="number" name="sampleInterest" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($sampleInterest) ? $sampleInterest : '' ?>">
-		<input type="hidden" name="loan_id" value="<?php echo $_POST['loan_id'] ?>">
-		<input type="hidden" name="penalty_amount" value="<?php echo $add ?>">
-		<input type="hidden" name="overdue" value="<?php echo $add > 0 ? 1 : 0 ?>">
-	</div>
-	<div class="col-md-4">
-		<?php 
-		 $date1 = new DateTime(date("F d, Y" ,strtotime($next)));
-		 $fifth = $date1->format('d');
-		 if($fifth < 17){
-			 echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
-			 echo "<p>Interest: <b>", number_format($with_interest,2), "</b></p>";			 
-		 }else{
-			 echo "<p>Amount: <b>",number_format($five,2),"</b></p>";
-		 }
-		?>
-		<p><small>Penalty :<b><?php echo $add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0; ?></b></small></p>
-	</div>
-</div>
+</form>
