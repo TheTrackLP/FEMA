@@ -76,8 +76,9 @@
       <div class="modal-body">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id='submit' onclick="$('#uni_modal form').submit()">Save</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-success btn-md" name="check" href="javascript:toggleFormElements(false);">Confirm</a>
+        <button type="button" class="btn btn-primary" id='submit' onclick="$('#uni_modal form').submit()" disabled>Save</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" disabled>Cancel</button>
       </div>
       </div>
     </div>
@@ -188,5 +189,11 @@ window._conf = function($msg='',$func='',$params = []){
     placeholder:"Please select here",
     width: "100%"
   })
+  function toggleFormElements(bDisabled) {
+		var button = document.getElementsByTagName("button");
+		for (var i = 0; i < button.length; i++) {
+			button[i].disabled = bDisabled; 
+		}
+  }
 </script> 
 </html>

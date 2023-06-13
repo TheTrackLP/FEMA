@@ -63,7 +63,9 @@
 							<th scope="col" class="text-center">Plan</th>
 							<th scope="col" class="text-center">Next Payment Details</th>
 							<th scope="col" class="text-center">Status</th>
+							<?php if($_SESSION['login_position'] == "Admin" || $_SESSION['login_position'] == "bookkeeper"):?>
 							<th scope="col" class="text-center">Action</th>
+							<?php endif; ?>
 						</tr>
 					</thead>
 					<tbody>
@@ -93,7 +95,6 @@
 								}
 						 ?>
 						 <tr>
-						 	
 						 	<td class="text-center"><?php echo $i++ ?></td>
 						 	<td class="text-center">
 						 		<p><?php echo "CV#-"."<b>".$row['borrower_id']."</b>" ?></p>
@@ -116,18 +117,17 @@
 						 		<?php if($row['status'] == 2 ): ?>
 						 		<p><small><b><?php echo date('M d, Y',strtotime($next)); ?></b></small></p>
 								 <?php 
-								$date2 = new DateTime(date("F d, Y"));
+								$date2 = new DateTime(date("F d, Y" ,strtotime($next)));
 								$bimonthly = $date2->format('d');
-								if($bimonthly < 17){
+								if($bimonthly <= 16){
 									echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
 									echo "<p>Interest: <b>", number_format($this_month,2), "</b></p>";
-
 								}else{
 									echo "<p>Principal: <b>", number_format($five,2), "</b></p>";
 								}
 								?>
 						 		<p><small>Penalty :<b><?php echo $add = (date('Ymd',strtotime("+ 1 month", $next1)) < date("Ymd")) ?  $penalty : 0; ?></b></small></p>
-								<!-- <button class="btn btn-sm btn-primary view_schedule" data-id="<?php# echo $row['id']?>">View Schedule</button> -->
+								<!-- <button class="btn btn-sm btn-primary view_schedule" data-id="<?php #echo $row['id']?>">View Schedule</button> -->
 						 		<?php elseif($row['status'] == 3): ?>
 						 			<b>Loan Fully Paid</b>
 					 			<?php else: ?>
@@ -147,13 +147,15 @@
 						 			<span class="badge badge-danger">Denied</span>
 						 		<?php endif; ?>
 						 	</td>
+							 <?php if($_SESSION['login_position'] == "Admin" || $_SESSION['login_position'] == "bookkeeper"):?>
 						 	<td class="text-center">
 									<button class="btn btn-outline-success btn-sm view_summary" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-print"></i></button>
 									<?php if($row['status'] == 0 || $row['status'] == 1 || $row['status'] == 2 || $row['status'] == 4): ?>
 						 			<button class="btn btn-outline-primary btn-sm edit_loan" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-eye"></i></button>
 						 		<?php endif; ?>						 			
 						 		<button class="btn btn-outline-danger btn-sm delete_loan" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash"></i></button>
-						 	</td>
+							</td>
+							<?php endif; ?>
 
 						 </tr>
 
