@@ -30,12 +30,13 @@
     .btn-1 {
         border: none;
         outline: none;
-        height: 50px;
+        height: 100px;
         width: 100%;
         background-color: black;
         color: white;
         border-radius: 4px;
         font-weight: bold;
+        font-size: 25px;
 
     }
     .btn-1:hover {
@@ -47,7 +48,8 @@
         color: rgb(212, 155, 11);
     }
     .content {
-        width: 500px;
+        width: 700px;
+        height: 700px;      
     }
   </style>
   <body scroll="no" style="overflow: hidden">
@@ -56,8 +58,8 @@
         <div class="container" style="height: 100%">
             <div class="content row g-0 mx-auto mt-5">
                 <div class="col-sm-12 px-5 pt-5 text-center">
-                    <h1 class="fw-bold py-3 mt-5 text-start">FEMA</h1>
-                    <h2 class="fw-bolder"> <span>LOG IN</span> AS ? </h2>
+                    <h1 class="fw-bold display-3 py-3 mt-1 mb-5 text-start">FEMA</h1>
+                    <h2 class="fw-bolder display-4"> <span>LOG IN</span> AS ? </h2>
                     <form action="" class="mt-5">
                         <div class="form-row">
                             <div class="col-sm-12 mx-auto">
@@ -66,7 +68,7 @@
                             <div class="col-sm-12 mx-auto">
                                 <button type="button" class="btn-1 mt-3 mb-5" onclick="location.href='login_member.php'">LOG IN AS MEMBER</button>
                             </div>
-                            <p>Don't have an account?<a href="registration.php"> Register here!</a></p>
+                            <p class="h5">Don't have an account?<a href="registration.php"> Register here!</a></p>
                         </div>
                     </form>
                 </div>
