@@ -62,7 +62,7 @@ if(isset($_SESSION['user_id'])){
   <body scroll="no" style="overflow: hidden">
 
     <section class="Form my-4 mx-5 p-5">
-        <div class="container" style="height: 100%">
+        <div class="container mt-5">
             <div class="row g-0">
                 <div class="col-lg-7 p-0">
                     <img class="img-fluid" src="assets/img/bg_fcu.jpg" alt="" style="height:100%">

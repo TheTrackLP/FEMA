@@ -55,7 +55,9 @@ if(isset($_SESSION['login_id'])){
         color: rgb(212, 155, 11);
     }
     .content {
-        width: 500px;
+        width: 700px;
+        height: 700px;
+        
     }
   </style>
 </head>
@@ -65,8 +67,8 @@ if(isset($_SESSION['login_id'])){
         <div class="container" style="height: 100%">
             <div class="content row g-0 mx-auto mt-5">
                 <div class="col-sm-12 px-5 pt-5 text-center">
-                    <h1 class="fw-bold py-3 mt-5 text-start">FEMA</h1>
-                    <h2 class="fw-bolder"> <span>ADMINISTRATOR</span> <br> LOGIN</h2>
+                    <h1 class="fw-bold py-3 mt-2 text-start display-3">FEMA</h1>
+                    <h2 class="fw-bolder display-4"> <span>ADMINISTRATOR</span> <br> LOGIN</h2>
                     <form id="login-form" class="mt-5">
                         <div class="form-row">
                             <div class="col-sm-12 mx-auto">
