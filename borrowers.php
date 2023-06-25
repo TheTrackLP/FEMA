@@ -13,8 +13,8 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<p><b>Office/Department:</b></p>
-							<?php $department = $conn->query("SELECT * from departments");?>
-							<select id="deptFilter" class="form-control">
+							<?php $department = $conn->query("SELECT * FROM `departments` ORDER BY `departments`.`department` ASC");?>
+							<select id="deptFilter" class="custom-select browser-default select2">
 								<option value="">Show All Office Department</option>
 								<?php while($row = $department->fetch_assoc()): ?>
 									<option value="<?php echo $row['department'] ?>"><?php echo $row['department'] ?></option>

@@ -58,7 +58,7 @@ if(isset($_GET['id'])){
 
                         <div class="input-field">
                             <label>Mobile Number</label>
-                            <input type="text" class="form-control" name="contact_no" placeholder="Enter Mobile Number" required>
+                            <input type="number" class="form-control" name="contact_no" placeholder="Enter Mobile Number" required>
                         </div>
 
                         <div class="input-field">
@@ -86,9 +86,9 @@ if(isset($_GET['id'])){
                         <div class="input-field">
                             <label>Office/Department</label>
                             <?php
-                            $department = $conn->query("SELECT * from departments");
+                            $department = $conn->query("SELECT * FROM `departments` ORDER BY `departments`.`department` ASC");
                             ?>
-                            <select class="form-control" name="department">
+                            <select class="browser-default custom-select-type" name="department">
                                 <option value="" disabled selected>Show All Office Department</option>
                                 <?php while($row = $department->fetch_assoc()): ?>
                                     <option value="<?php echo $row['department'] ?>"><?php echo $row['department'] ?></option>
@@ -102,7 +102,7 @@ if(isset($_GET['id'])){
                                 <option value="1">1-4 Years</option>
                                 <option value="2">5-9 Years</option>
                                 <option value="3">10 Years & Above</option>
-                                </select>
+                            </select>
                         </div>
                     </div>
 
@@ -143,13 +143,10 @@ if(isset($_GET['id'])){
                             <input type="number" placeholder="Enter ZIP number" name="zip" required>
                         </div>
                       <div class="input-field">
-                            <select id="" class="form-control" name="stat" required>
-                                <option selected>New</option>
-                            </select>
+                          <label>Date</label>
+                          <input type="text" name="date_created" value="<?php echo date('Y-m-d'), isset($_POST['date_created']) ? $_POST['date_created'] : ''?>" readonly>
+                          <input type="hidden" value="New" name="stat" required>
                         </div>
-                        <div class="input-field">
-                            <input type="text" name="date_created" value="<?php echo date('Y-m-d'), isset($_POST['date_created']) ? $_POST['date_created'] : ''?>" readonly>
-                    </div>
                 </div>
                 <span class="title">Create new Account</span>
 
@@ -165,7 +162,7 @@ if(isset($_GET['id'])){
                         </div>
 
                         <div class="input-field">
-                            <label>Password</label>
+                            <label>Confirm Password</label>
                             <input type="password" name="confirm_password" placeholder="Confirm Password" name="city" required>
                         </div>
                     </div>
@@ -208,7 +205,7 @@ if(isset($_GET['id'])){
         $confirm_pass = $_POST['confirm_password'];
 
         if($password === $confirm_pass){
-            $qry = mysqli_query($conn, "SELECT email,contact_no FROM borrowers WHERE email = '$email' OR contact_no = '$contact_no'");
+            $qry = mysqli_query($conn, "SELECT email,contact_no FROM borrowers WHERE email = '$email'");
             $result = mysqli_fetch_array($qry);
             if($result>0){
                 echo "<script>alert('This email or Contact Number already associated with another account!.');</script>";

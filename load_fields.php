@@ -37,21 +37,24 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 
 <div class="col-lg-12">
 <hr>
-<form name="register" onsubmit="return checking()">
+<form name="register">
 	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group">
-				<label for="">Borrower</label>
-				<input name="borrower" class="form-control" required="" value="<?php echo isset($borrower) ? $borrower : (isset($meta['name']) ? $meta['name'] : '') ?>" readonly>
+				<label>Remaining Balance:</label>
+				<input name="balance" class="form-control" required="" value="<?php echo isset($balance) ? $balance : (isset($meta['amount']) ? $meta['amount'] : '') ?>" readonly>
 			</div>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="form-group">
-				<label for="">Loan Plan</label>
+				<label for="">Capital Share</label>
 				<input type="hidden" name="plan_id" value="<?php echo $meta['plan_id'] ?>">
-				<input name="loan_plan" class="form-control" required="" value="<?php echo isset($loan_plan) ? $loan_plan : (isset($plan_arr['plan_loan']) ? $plan_arr['plan_loan'] : '') ?>" readonly>
+				<input name="capital" class="form-control" required="" value="<?php echo isset($capital) ? $capital : (isset($meta['shared_capital']) ? $meta['shared_capital'] : '') ?>"readonly>
 			</div>
 		</div>
+	</div>
+	<hr>
+	<div class="row">
 		<div class="col-md-2">
 			<div class="form-group">
 				<label for="">OR #:</label>
@@ -60,17 +63,6 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-4">
-			<label>Remaining Balance:</label>
-			<input name="balance" class="form-control" required="" value="<?php echo isset($balance) ? $balance : (isset($meta['amount']) ? $meta['amount'] : '') ?>" readonly>
-		</div>
-		<div class="col-md-4">
-			<label>Capital Share:</label>
-			<input name="capital" class="form-control" required="" value="<?php echo isset($capital) ? $capital : (isset($meta['shared_capital']) ? $meta['shared_capital'] : '') ?>"readonly>
-		</div>
-	</div>
-	<hr>
 	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group">

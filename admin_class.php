@@ -141,6 +141,7 @@ Class Action {
 		$data .= ", shared_capital = '$shared_capital' ";
 		$data .= ", year_service = '$year_service' ";
 		$data .= ", stat = '$stat' ";
+		$data .= ", date_updated = '".date("Y-m-d")."' ";
 		
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO borrowers set ".$data);

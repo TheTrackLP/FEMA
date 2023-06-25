@@ -31,15 +31,6 @@
 	</div>
 			<div class="card-body">
 				<table class="table table-bordered" id="loan-list">
-					<colgroup>
-						<col width="5%">
-						<col width="18.5%">
-						<col width="26.5%">
-						<col width="19.5%">
-						<col width="8.5%">
-						<col width="12.5%">
-						<col width="8.5%">
-					</colgroup>
 					<thead class="table-info">
 						<tr>
 							<th class="text-center">#</th>
@@ -48,7 +39,9 @@
 							<th class="text-center">Amount</th>
 							<th class="text-center">Penalty</th>
 							<th class="text-center">Date</th>
+							<?php if($_SESSION['login_position'] == "Cashier" || $_SESSION['login_position'] == "Posting_clerk"){?>
 							<th class="text-center">Action</th>
+							<?php }?>
 						</tr>
 					</thead>
 					<tbody>
@@ -87,12 +80,12 @@
 						 	<td>
 						 		<?php echo date("M d, Y", strtotime($row['date_created']))?>
 						 	</td>
+							<?php if($_SESSION['login_position'] == "Cashier" || $_SESSION['login_position'] == "Posting_clerk"):?>
 						 	<td class="text-center">
-								 <?php if($_SESSION['login_position'] == "Cashier" || $_SESSION['login_position'] == "Posting_clerk"):?>
 									<button class="btn btn-sm btn-outline-success view_payment" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-print"></i></button>	
 									<button class="btn btn-sm btn-outline-success view_summary" type="button" data-id="<?php echo $row['id'] ?>" data-loan_id="<?php echo $row['loan_id'] ?>"><i class="fa fa-file"></i></button>	
-								<?php endif;?>
-						 	</td>
+								</td>
+							<?php endif;?>
 						 </tr>
 						<?php endwhile; ?>
 					</tbody>

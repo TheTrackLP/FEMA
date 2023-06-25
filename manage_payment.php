@@ -30,7 +30,7 @@ if(isset($_GET['id'])){
 							<?php 
 							while($row=$loan->fetch_assoc()):
 							?>
-							<option value="<?php echo $row['id'] ?>" <?php echo isset($loan_id) && $loan_id == $row['id'] ? "selected" : '' ?>><?php echo $row['name'].', '.$plan_arr[$row['plan_id']]['plan'] ?></option>
+							<option value="<?php echo $row['id'] ?>" <?php echo isset($loan_id) && $loan_id == $row['id'] ? "selected" : '' ?>><?php echo $row['name'].' | | | '.$plan_arr[$row['plan_id']]['plan'] ?></option>
 							<?php endwhile; ?>
 						</select>
 						
