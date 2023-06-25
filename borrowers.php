@@ -124,16 +124,8 @@
         "searching": true
       });
 
-      //Get a reference to the new datatable
       var table = $('#borrower-list').DataTable();
 
-      //Take the category filter drop down and append it to the datatables_filter div. 
-      //You can use this same idea to move the filter anywhere withing the datatable that you want.
-      //$("#filterTable_filter.dataTables_filter").append($("#planFilter"));
-      
-      //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
-      //This tells datatables what column to filter on when a user selects a value from the dropdown.
-      //It's important that the text used here (Category) is the same for used in the header of the column to filte
 	  var statusIndex = 0;
       $("#borrower-list th").each(function (i) {
         if ($($(this)).html() == "Status") {
@@ -141,7 +133,6 @@
         }
       });
 
-      //Use the built in datatables API to filter the existing rows by the Category column
       $.fn.dataTable.ext.search.push(
         function (settings, data, dataIndex) {
           var selectedItem = $('#statusFilter').val()
@@ -153,8 +144,6 @@
         }
       );
 
-      //Set the change event for the Category Filter dropdown to redraw the datatable each time
-      //a user selects a new filter.
       $("#statusFilter").change(function (e) {
         table.draw();
       });
@@ -166,7 +155,6 @@
         }
       });
 
-      //Use the built in datatables API to filter the existing rows by the Category column
       $.fn.dataTable.ext.search.push(
         function (settings, data, dataIndex) {
           var selectedItem = $('#deptFilter').val()
@@ -178,8 +166,6 @@
         }
       );
 
-      //Set the change event for the Category Filter dropdown to redraw the datatable each time
-      //a user selects a new filter.
       $("#deptFilter").change(function (e) {
         table.draw();
       });
@@ -199,21 +185,21 @@
 	$('.delete_borrower').click(function(){
 		_conf("Are you sure to delete this borrower?","delete_borrower",[$(this).attr('data-id')])
 	})
-function delete_borrower($id){
-		start_load()
-		$.ajax({
-			url:'ajax.php?action=delete_borrower',
-			method:'POST',
-			data:{id:$id},
-			success:function(resp){
-				if(resp==1){
-					alert_toast("borrower successfully deleted",'success')
-					setTimeout(function(){
-						location.reload()
-					},1500)
+	function delete_borrower($id){
+			start_load()
+			$.ajax({
+				url:'ajax.php?action=delete_borrower',
+				method:'POST',
+				data:{id:$id},
+				success:function(resp){
+					if(resp==1){
+						alert_toast("borrower successfully deleted",'success')
+						setTimeout(function(){
+							location.reload()
+						},1500)
 
+					}
 				}
-			}
-		})
-	}
+			})
+		}
 </script>

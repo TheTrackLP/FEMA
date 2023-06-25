@@ -62,17 +62,17 @@ while($row=$payments->fetch_array()){
 		<?php if($_GET['id'] > 0): 
 		$plans = $pay_arr[$_GET['id']]['plan_id'];
 		if($plans == 1){
-			$plans = "APPLIANCE LOAN";
+			$plans = "Appliance";
 		}elseif($plans == 2){
-			$plans = "LONG TERM LOAN";
+			$plans = "Long Term ";
 		}elseif($plans == 3){
-			$plans = "SHORT TERM LOAN";
+			$plans = "Short TERM";
 		}elseif($plans == 4){
-			$plans = "RICE LOAN";
+			$plans = "Rice";
 		}elseif($plans == 5){
-			$plans = "EDUCATIONAL LOAN";
+			$plans = "Educational";
 		}elseif($plans == 6){
-			$plans = "SPECIAL EMERGENCY LOAN";
+			$plans = "Special Emergency";
 		}
 		?>
 		<div class="w-50">
@@ -111,10 +111,8 @@ while($row=$payments->fetch_array()){
 		<td class="text-center">
 			<p><?php echo number_format($totals, 2) ?></p>
 		</td>
-					
-			</table>
-			<br><br>
+	</table>
+	<br><br>
 	<p><?php echo $_SESSION['login_name'] ?></p>
 	<p><?php echo $_SESSION['login_position'] ?></p>
-
 </div>

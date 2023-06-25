@@ -165,11 +165,6 @@ $qry = $conn->query("SELECT *,concat(lastname, ', ', firstname,' ',middlename) a
                     </div>    
                 </div>    
             </div>
-                <!--
-                <div class="mt-5 text-center">
-                    <button class="btn btn-primary profile-button" style="float: left;" type="button">Save Profile</button>
-                </div>
-                --->
             </div>
         </div>
     </div>

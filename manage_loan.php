@@ -152,20 +152,6 @@ if(isset($_GET['id'])){
 			<?php if($status == 0 || $status == 1 || $status == 3 || $status == 4): ?>
 		<div class="row">
 			<div class="form-group col-md-9">
-				<!--<label class="control-label">&nbsp;</label>
-				<select class="custom-select browser-default" name="status" disabled>
-					<option value="0" selected disabled <?php //echo $status == 0 ? "selected" : '' ?>>For Approval</option>
-					<option value="1" <?php //echo $status == 1 ? "selected" : '' ?>>Approved</option>
-					<?php //if($status !='4' ): ?>
-					<option value="2" <?php //echo $status == 2 ? "selected" : '' ?>>Released</option>
-					<?php //endif ?>
-					<?php //if($status =='2' ): ?>
-					<option value="3" <?php //echo $status == 3 ? "selected" : '' ?>>Complete</option>
-					<?php //endif ?>
-					<?php //if($status !='2' ): ?>
-					<option value="4" <?php //echo $status == 4 ? "selected" : '' ?>>Denied</option>
-					<?php //endif ?>
-				</select>-->
 				<label class="container">
 					<input type="radio" name="status" value="1">Approved
 					<span class="checkmark"></span>

@@ -78,7 +78,6 @@ $next = $conn->query("SELECT * FROM loan_schedules where loan_id = '".$_POST['lo
 			<label for="">Penalty</label>
 			<input type="number" name="penalty_amount" step="any" min="" class="form-control text-right" required="" value="<?php echo isset($penalty_amount) ? $penalty_amount : '' ?>">
 			<input type="hidden" name="loan_id" value="<?php echo $_POST['loan_id'] ?>">
-			<!-- <input type="hidden" name="penalty_amount" value="<?php #echo $add ?>"> -->
 			<input type="hidden" name="overdue" value="<?php echo $add > 0 ? 1 : 0 ?>">
 		</div>
 		<div class="col-md-4">

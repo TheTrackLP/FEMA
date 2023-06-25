@@ -32,13 +32,13 @@ foreach($user->fetch_array() as $k =>$v){
 </div>
 <script>
 	function myFunction() {
-  var x = document.getElementById("password");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
-  }
-}
+		var x = document.getElementById("password");
+		if (x.type === "password") {
+			x.type = "text";
+		} else {
+		    x.type = "password";
+  		}
+	}
 
 	$('#manage-user').submit(function(e){
 		e.preventDefault();

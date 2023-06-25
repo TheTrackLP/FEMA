@@ -113,15 +113,7 @@
         "searching": true
       });
 
-      //Get a reference to the new datatable
       var table = $('#loan-list').DataTable();
-
-      //Take the category filter drop down and append it to the datatables_filter div. 
-      //You can use this same idea to move the filter anywhere withing the datatable that you want.
-      
-      //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
-      //This tells datatables what column to filter on when a user selects a value from the dropdown.
-      //It's important that the text used here (Category) is the same for used in the header of the column to filter
       var planIndex = 0;
       $("#loan-list th").each(function (i) {
         if ($($(this)).html() == "Borrowers Details") {
@@ -129,7 +121,6 @@
         }
       });
 
-      //Use the built in datatables API to filter the existing rows by the Category column
       $.fn.dataTable.ext.search.push(
         function (settings, data, dataIndex) {
           var selectedItem = $('#planFilter').val()
@@ -141,8 +132,6 @@
         }
       );
 
-      //Set the change event for the Category Filter dropdown to redraw the datatable each time
-      //a user selects a new filter.
       $("#planFilter").change(function (e) {
         table.draw();
       });
@@ -161,24 +150,4 @@
 	$('.edit_payment').click(function(){
 		uni_modal("Edit Payment","manage_payment.php?id="+$(this).attr('data-id'),'mid-large')
 	})
-	$('.delete_payment').click(function(){
-		_conf("Are you sure to delete this data?","delete_payment",[$(this).attr('data-id')])
-	})
-	function delete_payment($id){
-			start_load()
-			$.ajax({
-				url:'ajax.php?action=delete_payment',
-				method:'POST',
-				data:{id:$id},
-				success:function(resp){
-					if(resp==1){
-						alert_toast("Payment successfully deleted",'success')
-						setTimeout(function(){
-							location.reload()
-						},1500)
-
-					}
-				}
-			})
-		}
 </script>

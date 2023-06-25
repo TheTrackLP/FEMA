@@ -11,7 +11,6 @@ if(isset($_GET['id'])){
 ?>
 
 <!DOCTYPE html>
-<!--=== Coding by CodingLab | www.codinglabweb.com === -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,8 +22,6 @@ if(isset($_GET['id'])){
      
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <!--<title>Responsive Regisration Form </title>--> 
-
 </head>
 <body>
     <div class="container">

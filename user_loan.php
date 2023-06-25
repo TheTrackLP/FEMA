@@ -124,13 +124,8 @@ $rand = rand(1,99999999);
         $random = $_POST['random'];
         $id = $_POST['id'];
 
-
         $qry = mysqli_query($conn, "SELECT * FROM borrowers WHERE stat = 'New'");
         $result = mysqli_fetch_array($qry);
-        //if($result>0){
-        	//echo "<script>alert('The Admin didn't approve yor membership yet. Please try again later or contact the Admin.');</script>";
-        //}
-        //else{
 
         $query=mysqli_query($conn, "INSERT INTO loan_list (`ref_no`, `borrower_id`, `purpose`, `shared_cap`, `yservice`, `amount`, `amount_borrowed`, `plan_id`, `status`, `date_released`, `date_created`) VALUES ('$random', '$id', '$purpose', '$shared_capital', '$yservice', '$amount', '$amount', '$plan', '0', '0000-00-00 00:00:00', current_timestamp())");
 		$query2=mysqli_query($conn, "UPDATE borrowers SET `shared_capital` = $shared_capital WHERE id = $id");
@@ -140,6 +135,5 @@ $rand = rand(1,99999999);
         	echo "<script>alert('Something Went Wrong. Please try again.');</script>";
         }
     }
-    //}
 	ob_end_flush();
 ?>

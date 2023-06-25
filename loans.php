@@ -44,16 +44,6 @@
 	</div>
 			<div class="card-body">
 				<table class="table table-bordered" id="filterTable">
-					<colgroup>
-						<col width="5%">
-						<col width="7%">
-						<col width="18%">
-						<col width="11%">
-						<col width="18%">
-						<col width="15%">
-						<col width="8%">
-						<col width="12%">
-					</colgroup>
 					<thead class="table-info">
 						<tr>
 							<th scope="col" class="text-center">#</th>
@@ -127,7 +117,6 @@
 								}
 								?>
 						 		<p><small>Penalty :<b><?php echo $add = (date('Ymd',strtotime("+ 1 month", $next1)) < date("Ymd")) ?  $penalty : 0; ?></b></small></p>
-								<!-- <button class="btn btn-sm btn-primary view_schedule" data-id="<?php #echo $row['id']?>">View Schedule</button> -->
 						 		<?php elseif($row['status'] == 3): ?>
 						 			<b>Loan Fully Paid</b>
 					 			<?php else: ?>
@@ -185,16 +174,7 @@
         "searching": true
       });
 
-      //Get a reference to the new datatable
       var table = $('#filterTable').DataTable();
-
-      //Take the category filter drop down and append it to the datatables_filter div. 
-      //You can use this same idea to move the filter anywhere withing the datatable that you want.
-      //$("#filterTable_filter.dataTables_filter").append($("#planFilter"));
-      
-      //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
-      //This tells datatables what column to filter on when a user selects a value from the dropdown.
-      //It's important that the text used here (Category) is the same for used in the header of the column to filter
 
       var planIndex = 0;
       $("#filterTable th").each(function (i) {
@@ -203,7 +183,6 @@
         }
       });
 
-      //Use the built in datatables API to filter the existing rows by the Category column
       $.fn.dataTable.ext.search.push(
         function (settings, data, dataIndex) {
           var selectedItem = $('#planFilter').val()
@@ -215,8 +194,6 @@
         }
       );
 
-      //Set the change event for the Category Filter dropdown to redraw the datatable each time
-      //a user selects a new filter.
       $("#planFilter").change(function (e) {
         table.draw();
       });
@@ -228,7 +205,6 @@
         }
       });
 
-      //Use the built in datatables API to filter the existing rows by the Category column
       $.fn.dataTable.ext.search.push(
         function (settings, data, dataIndex) {
           var selectedItem = $('#statusFilter').val()
@@ -240,8 +216,6 @@
         }
       );
 
-      //Set the change event for the Category Filter dropdown to redraw the datatable each time
-      //a user selects a new filter.
       $("#statusFilter").change(function (e) {
         table.draw();
       });

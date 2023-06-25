@@ -65,14 +65,6 @@ while($row=$plan->fetch_assoc()){
 			<p>Borrower: <b><?php echo $name ?></b></p>
 			<p>Ref No: <b><?php echo $ref_no ?></b></p>
 		</div>
-		<?php if($_GET['id'] > 0): ?>
-		<div class="w-50">
-			<!-- <p>Payment Date: <b><?php #echo isset($pay_arr[$_GET['id']]) ? date("M d,Y",strtotime($pay_arr[$_GET['id']]['date_created'])) : '' ?></b></p>
-			<p>Paid Amount: <b><?php # isset($pay_arr[$_GET['id']]) ? number_format($pay_arr[$_GET['id']]['paid'],2): '' ?></b></p>
-			<p>Plan: <b><?php #echo isset($pay_arr[$_GET['id']]) ? $pay_arr[$_GET['id']]['plan_id']: '' ?></b></p> -->
-
-		</div>
-		<?php endif; ?>
 	</div>
 	<hr>
 	<p><b>Payment Summary</b></p>
