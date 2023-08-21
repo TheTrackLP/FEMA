@@ -34,7 +34,7 @@
 					<thead class="table-info">
 						<tr>
 							<th class="text-center">#</th>
-							<th class="text-center">Reference and CV #</th>
+							<th class="text-center">Reference and OR #</th>
 							<th class="text-center">Borrowers Details</th>
 							<th class="text-center">Amount</th>
 							<th class="text-center">Penalty</th>
